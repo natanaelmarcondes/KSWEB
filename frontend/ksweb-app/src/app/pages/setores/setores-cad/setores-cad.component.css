@@ -1,0 +1,139 @@
+.setores-cad-page {
+  color: #111827;
+  display: grid;
+  gap: 14px;
+}
+
+.page-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.page-header h1 {
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.page-header span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+.form-panel {
+  background: #ffffff;
+  border: 1px solid #cfd6df;
+  display: grid;
+  gap: 14px;
+  padding: 16px 18px 18px;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.form-panel:hover {
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
+}
+
+.panel-header {
+  align-items: end;
+  border-bottom: 1px solid #d6dbe3;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+
+.panel-header h2 {
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.panel-header p {
+  color: #4b5563;
+  font-size: 12px;
+  margin: 5px 0 0;
+}
+
+.form-grid {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(260px, 520px) auto;
+}
+
+label {
+  display: grid;
+  gap: 4px;
+}
+
+label span {
+  color: #4b5563;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+input {
+  background: #ffffff;
+  border: 1px solid #b8c1cc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #263241;
+  font-family: inherit;
+  font-size: 12px;
+  height: 29px;
+  min-width: 0;
+  padding: 0 8px;
+  width: 100%;
+}
+
+input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #dbeafe;
+  outline: none;
+}
+
+.form-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  min-height: 29px;
+  white-space: nowrap;
+}
+
+.alert {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 12px 14px;
+}
+
+.state {
+  color: #64748b;
+  font-size: 13px;
+  padding: 18px 12px !important;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions,
+  .page-header,
+  .panel-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

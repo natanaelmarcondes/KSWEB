@@ -1,0 +1,18 @@
+<label class="ks-input-label" [for]="inputId">{{ label }}</label>
+<input
+  class="ks-input"
+  [id]="inputId"
+  [type]="type"
+  [value]="value"
+  [placeholder]="placeholder"
+  [autocomplete]="autocomplete"
+  [disabled]="disabled"
+  [attr.maxlength]="maxlength ?? null"
+  [attr.aria-invalid]="erro ? 'true' : 'false'"
+  [attr.aria-describedby]="erro ? inputId + '-erro' : null"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+/>
+@if (erro) {
+  <span class="ks-input-error" [id]="inputId + '-erro'">{{ erro }}</span>
+}

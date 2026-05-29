@@ -1,0 +1,172 @@
+<section class="status-page">
+  <header class="status-page-header">
+    <div class="status-page-title">
+      <div>
+        <h1>Status</h1>
+      </div>
+    </div>
+
+    <div class="status-header-actions">
+      <app-ks-button tipo="primary" tamanho="small" largura="140px" (acao)="novo()">
+        Novo
+      </app-ks-button>
+    </div>
+  </header>
+
+  @if (erro) {
+    <div class="status-alert">{{ erro }}</div>
+  }
+
+  <section class="status-panel">
+    <div class="status-filter-grid">
+      <label class="status-field">
+        <span>Texto</span>
+
+        <input
+          type="search"
+          [(ngModel)]="filtro.termo"
+          placeholder="Codigo, nome, descricao ou status interno"
+          (keyup.enter)="pesquisar()"
+        />
+      </label>
+    </div>
+
+    <div class="status-filter-actions">
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">
+        Limpar
+      </app-ks-button>
+
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">
+        Atualizar
+      </app-ks-button>
+
+      <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">
+        Pesquisar
+      </app-ks-button>
+    </div>
+  </section>
+
+  <section class="status-panel">
+    <div class="status-panel-header">
+      <div>
+        <h2>Resultado</h2>
+        <p>{{ intervalo }}</p>
+      </div>
+
+      <label class="status-page-size">
+        <span>Linhas</span>
+
+        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </label>
+    </div>
+
+    @if (carregando) {
+      <div class="status-state">Carregando status...</div>
+    } @else {
+      <div class="status-table-wrapper">
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Nome do status</th>
+              <th class="text-center">Pendente</th>
+              <th class="text-center">Para relogio</th>
+              <th class="text-center">Excluido</th>
+              <th>Nome interno</th>
+              <th>Descricao</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of items; track item.statusId) {
+              <tr>
+                <td class="status-codigo">
+                  {{ item.statusId }}
+                </td>
+
+                <td class="status-nome" [title]="item.statusName || '-'">
+                  {{ item.statusName || '-' }}
+                </td>
+
+                <td class="text-center">
+                  <span class="status-badge" [class]="booleanClasse(item.isPending)">
+                    {{ booleanTexto(item.isPending) }}
+                  </span>
+                </td>
+
+                <td class="text-center">
+                  <span class="status-badge" [class]="booleanClasse(item.statusStopClock)">
+                    {{ booleanTexto(item.statusStopClock) }}
+                  </span>
+                </td>
+
+                <td class="text-center">
+                  <span class="status-badge" [class]="booleanClasse(item.isDeleted)">
+                    {{ booleanTexto(item.isDeleted) }}
+                  </span>
+                </td>
+
+                <td class="status-interno" [title]="item.internalName || '-'">
+                  {{ item.internalName || '-' }}
+                </td>
+
+                <td class="status-descricao" [title]="item.statusDescription || '-'">
+                  {{ item.statusDescription || '-' }}
+                </td>
+
+                <td class="status-acoes">
+                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(item)">
+                    Editar
+                  </app-ks-button>
+
+                  <app-ks-button
+                    tamanho="small"
+                    tipo="danger"
+                    [disabled]="excluindoId === item.statusId"
+                    (acao)="excluir(item)"
+                  >
+                    {{ excluindoId === item.statusId ? 'Excluindo...' : 'Excluir' }}
+                  </app-ks-button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="8" class="status-empty">
+                  Nenhum status encontrado.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="status-pagination">
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
+          [disabled]="filtro.page <= 1"
+          (acao)="paginaAnterior()"
+        >
+          Anterior
+        </app-ks-button>
+
+        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
+
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
+          [disabled]="filtro.page >= totalPaginas"
+          (acao)="proximaPagina()"
+        >
+          Proxima
+        </app-ks-button>
+      </div>
+    }
+  </section>
+</section>

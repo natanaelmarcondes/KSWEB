@@ -1,0 +1,13 @@
+.ks-card {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  padding: 18px;
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+
+.ks-card:hover {
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
+}

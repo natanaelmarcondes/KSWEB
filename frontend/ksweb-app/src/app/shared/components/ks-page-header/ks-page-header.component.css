@@ -1,0 +1,33 @@
+.ks-page-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.ks-page-header h2 {
+  color: #111827;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ks-page-header p {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+
+.ks-page-header-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 800px) {
+  .ks-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

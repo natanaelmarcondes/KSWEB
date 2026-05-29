@@ -1,0 +1,109 @@
+﻿using Dapper;
+using KSWeb.Api.Data;
+using KSWeb.Api.Models;
+
+namespace KSWeb.Api.Services;
+
+public sealed class AuthService
+{
+    private const int ShortSessionSeconds = 8 * 60 * 60;
+    private const int PersistentSessionSeconds = 30 * 24 * 60 * 60;
+
+    private readonly DbConnectionFactory _connectionFactory;
+
+    public AuthService(DbConnectionFactory connectionFactory)
+    {
+        _connectionFactory = connectionFactory;
+    }
+
+    public async Task<AuthResponse?> LoginAsync(LoginRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Senha))
+        {
+            return null;
+        }
+
+        using var connection = _connectionFactory.CreateConnection();
+
+        var usuario = await connection.QuerySingleOrDefaultAsync<UsuarioLoginRow>(
+            """
+            SELECT
+                u.usr_codigo AS UsrCodigo,
+                u.USER_ID AS UserId,
+                u.usr_nome AS Nome,
+                u.usr_email AS Email,
+                u.usr_nivel AS Nivel,
+                u.usr_senha_hash AS SenhaHash,
+                s.set_nome AS Setor
+            FROM usuarios u
+            JOIN setores s ON s.set_codigo = u.set_codigo
+            WHERE u.usr_email = @email;
+            """,
+            new { email = request.Email.Trim() });
+
+        if (usuario is null || string.IsNullOrWhiteSpace(usuario.SenhaHash))
+        {
+            return null;
+        }
+
+        bool senhaValida;
+        try
+        {
+            senhaValida = BCrypt.Net.BCrypt.Verify(request.Senha, usuario.SenhaHash);
+        }
+        catch
+        {
+            return null;
+        }
+
+        if (!senhaValida)
+        {
+            return null;
+        }
+
+        var queues = await LoadQueuesAsync(connection, usuario.UserId);
+        int expiresIn = request.ManterConectado ? PersistentSessionSeconds : ShortSessionSeconds;
+        var authUsuario = ToAuthUsuario(usuario, queues);
+
+        return new AuthResponse(authUsuario, request.ManterConectado, expiresIn);
+    }
+
+    private async Task<IReadOnlyList<string>> LoadQueuesAsync(System.Data.IDbConnection connection, long userId)
+    {
+        var queues = await connection.QueryAsync<string>(
+            """
+            SELECT qd.QUEUENAME
+            FROM queue_technician qt
+            JOIN queuedefinition qd ON qd.QUEUEID = qt.QUEUEID
+            WHERE qt.TECHNICIANID = @userId
+            ORDER BY qd.QUEUENAME;
+            """,
+            new { userId });
+
+        return queues.AsList();
+    }
+
+    private static AuthUsuario ToAuthUsuario(UsuarioLoginRow usuario, IReadOnlyList<string> queues)
+    {
+        return new AuthUsuario(
+            usuario.UsrCodigo,
+            usuario.UserId,
+            usuario.Nome,
+            usuario.Email,
+            usuario.Nivel,
+            usuario.Setor,
+            queues);
+    }
+
+    private sealed class UsuarioLoginRow
+    {
+        public int UsrCodigo { get; init; }
+        public long UserId { get; init; }
+        public string Nome { get; init; } = string.Empty;
+        public string Email { get; init; } = string.Empty;
+        public string Nivel { get; init; } = string.Empty;
+        public string SenhaHash { get; init; } = string.Empty;
+        public string Setor { get; init; } = string.Empty;
+    }
+}
+

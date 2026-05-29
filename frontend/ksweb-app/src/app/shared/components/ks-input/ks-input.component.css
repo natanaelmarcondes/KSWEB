@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ks-input-label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ks-input {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  color: #111827;
+  font: inherit;
+  min-height: 40px;
+  outline: none;
+  padding: 0 11px;
+}
+
+.ks-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ks-input[aria-invalid='true'] {
+  border-color: #dc2626;
+}
+
+.ks-input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.ks-input-error {
+  color: #991b1b;
+  font-size: 12px;
+  font-weight: 600;
+}

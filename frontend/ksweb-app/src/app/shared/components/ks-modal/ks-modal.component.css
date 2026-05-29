@@ -1,0 +1,36 @@
+.ks-modal-backdrop {
+  align-items: center;
+  background: rgba(15, 23, 42, 0.56);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 1000;
+}
+
+.ks-modal {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.34);
+  max-width: 560px;
+  width: 100%;
+}
+
+.ks-modal header {
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 18px;
+}
+
+.ks-modal h3 {
+  color: #111827;
+  font-size: 18px;
+  margin: 0;
+}
+
+.ks-modal-body {
+  padding: 18px;
+}

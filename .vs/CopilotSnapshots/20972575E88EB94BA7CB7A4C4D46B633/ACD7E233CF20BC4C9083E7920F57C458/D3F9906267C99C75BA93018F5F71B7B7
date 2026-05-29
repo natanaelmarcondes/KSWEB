@@ -1,0 +1,21 @@
+﻿namespace KSWeb.Api.Models;
+
+public sealed record LoginRequest(
+    string Email,
+    string Senha,
+    bool ManterConectado);
+
+public sealed record AuthResponse(
+    AuthUsuario Usuario,
+    bool ManterConectado,
+    int ExpiresIn);
+
+public sealed record AuthUsuario(
+    int UsrCodigo,
+    long UserId,
+    string Nome,
+    string Email,
+    string Nivel,
+    string Setor,
+    IReadOnlyList<string> Queues);
+

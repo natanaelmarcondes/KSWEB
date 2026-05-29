@@ -1,0 +1,19 @@
+<label class="ks-select-label" [for]="inputId">{{ label }}</label>
+<select
+  class="ks-select"
+  [id]="inputId"
+  [value]="value"
+  [disabled]="disabled"
+  [attr.aria-invalid]="erro ? 'true' : 'false'"
+  [attr.aria-describedby]="erro ? inputId + '-erro' : null"
+  (change)="onChangeValue($event)"
+  (blur)="onBlur()"
+>
+  <option value="">{{ placeholder }}</option>
+  @for (option of options; track option.value) {
+    <option [value]="option.value">{{ option.label }}</option>
+  }
+</select>
+@if (erro) {
+  <span class="ks-select-error" [id]="inputId + '-erro'">{{ erro }}</span>
+}

@@ -1,0 +1,122 @@
+<section class="daily-cad-page">
+  <header class="page-header">
+    <div>
+      <h1>{{ titulo }}</h1>
+
+      @if (daily) {
+        <span>Usuário: {{ daily.dailyUsuario || '-' }} | Data: {{ formatarData(daily.dailyData) }}</span>
+      }
+    </div>
+
+    <app-ks-button tamanho="small" tipo="secondary" (acao)="voltar()">Voltar</app-ks-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  @if (carregando) {
+    <div class="form-panel state">Carregando daily...</div>
+  } @else {
+    <form class="form-panel" (ngSubmit)="salvarRegistro()">
+      <div class="panel-header">
+        <div>
+          <h2>{{ modoEdicao ? 'Editar item' : 'Adicionar item' }}</h2>
+          <p>Itens da daily</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          <span>Data</span>
+          <input type="date" [(ngModel)]="form.regData" name="regData" required />
+        </label>
+
+        <label>
+          <span>O.S.</span>
+          <input type="number" [(ngModel)]="form.osId" name="osId" />
+        </label>
+
+        <label>
+          <span>Cliente</span>
+          <input type="text" [(ngModel)]="form.regCliente" name="regCliente" maxlength="160" required />
+        </label>
+
+        <label class="descricao-field">
+          <span>Descrição</span>
+          <input type="text" [(ngModel)]="form.regDescricao" name="regDescricao" required />
+        </label>
+
+        <label>
+          <span>Status</span>
+          <input type="text" [(ngModel)]="form.regStatus" name="regStatus" maxlength="80" required />
+        </label>
+
+        <div class="form-actions">
+          @if (modoEdicao) {
+            <app-ks-button tamanho="small" tipo="secondary" (acao)="cancelarEdicao()">Cancelar edição</app-ks-button>
+          }
+
+          <app-ks-button tamanho="small" tipo="primary" [disabled]="salvando" (acao)="salvarRegistro()">
+            {{ salvando ? 'Salvando...' : (modoEdicao ? 'Alterar item' : 'Adicionar item') }}
+          </app-ks-button>
+        </div>
+      </div>
+    </form>
+
+    <section class="table-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Registros</h2>
+          <p>{{ registros.length }} item(ns)</p>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="registros-table">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>O.S.</th>
+              <th>Cliente</th>
+              <th>Descrição</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (registro of registros; track registro.regId) {
+              <tr>
+                <td>{{ formatarData(registro.regData) }}</td>
+                <td>{{ registro.osId || '-' }}</td>
+                <td>{{ registro.regCliente || '-' }}</td>
+                <td class="descricao-cell" [title]="registro.regDescricao || '-'">
+                  {{ registro.regDescricao || '-' }}
+                </td>
+                <td>
+                  <span class="status-badge">{{ registro.regStatus || '-' }}</span>
+                </td>
+                <td class="acoes">
+                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editarRegistro(registro)">Editar</app-ks-button>
+                  <app-ks-button
+                    tamanho="small"
+                    tipo="danger"
+                    [disabled]="excluindoId === registro.regId"
+                    (acao)="excluirRegistro(registro)"
+                  >
+                    {{ excluindoId === registro.regId ? 'Excluindo...' : 'Excluir' }}
+                  </app-ks-button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty">Nenhum item cadastrado.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</section>

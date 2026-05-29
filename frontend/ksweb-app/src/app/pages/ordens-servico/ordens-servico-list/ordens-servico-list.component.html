@@ -1,1 +1,186 @@
-<p>ordens-servico-list works!</p>
+<section class="ordens-page">
+  <header class="page-header">
+    <div>
+      <h1>Ordens de servico</h1>
+      <span>Listagem operacional de O.S com filtros por status, pessoa e conteudo</span>
+    </div>
+
+    <app-ks-button tipo="primary" (acao)="novo()">Novo</app-ks-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  <div class="filters-panel">
+    <div class="filters-grid">
+      <label>
+        <span>Numero</span>
+        <input type="search" [(ngModel)]="filtro.numero" placeholder="O.S" (keyup.enter)="pesquisar()" />
+      </label>
+
+      <label>
+        <span>Texto</span>
+        <input type="search" [(ngModel)]="filtro.texto" placeholder="Titulo da O.S" (keyup.enter)="pesquisar()" />
+      </label>
+
+      <label class="multiselect-field">
+        <span>Status</span>
+        <div class="multiselect" [class.open]="statusDropdownAberto">
+          <button type="button" class="multiselect-trigger" (click)="alternarStatusDropdown($event)">
+            <span>{{ statusSelecionadosResumo }}</span>
+            <span class="multiselect-arrow">v</span>
+          </button>
+
+          @if (statusDropdownAberto) {
+            <div class="multiselect-menu" (click)="$event.stopPropagation()">
+              @for (status of statusOptions; track status.statusId) {
+                <label class="multiselect-option">
+                  <input
+                    type="checkbox"
+                    [checked]="statusSelecionado(status.statusName)"
+                    (change)="alternarStatus(status.statusName)"
+                  />
+                  <span>{{ status.statusName }}</span>
+                </label>
+              } @empty {
+                <div class="multiselect-empty">Nenhum status disponivel.</div>
+              }
+            </div>
+          }
+        </div>
+      </label>
+      
+      <label>
+        <span>Filtrar por</span>
+        <select [(ngModel)]="filtro.filtrarPor" (change)="aoSelecionarFiltroPor()">
+          <option value="solicitante">Solicitante</option>
+          <option value="criadoPor">Criado por</option>
+          <option value="responsavel">Responsável</option>
+        </select>
+      </label>
+
+      <label class="autocomplete-field">
+        <span>Pessoa</span>
+        <div class="autocomplete">
+          <input
+            type="search"
+            [(ngModel)]="filtro.filtroUsuarioNome"
+            placeholder="Nome do usuario"
+            autocomplete="off"
+            (focus)="abrirPessoaDropdown()"
+            (input)="aoDigitarPessoa()"
+            (keyup.enter)="pesquisar()"
+          />
+
+          @if (pessoaDropdownAberto) {
+            <div class="autocomplete-menu">
+              @for (usuario of usuariosFiltrados; track usuario.value) {
+                <button type="button" class="autocomplete-option" (click)="selecionarPessoa(usuario)">
+                  {{ usuario.label }}
+                </button>
+              } @empty {
+                <div class="autocomplete-empty">Nenhum usuario encontrado.</div>
+              }
+            </div>
+          }
+        </div>
+      </label>
+    </div>
+
+    <div class="filters-actions">
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+      <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    </div>
+  </div>
+
+  <div class="table-panel">
+    <div class="panel-header">
+      <div>
+        <h2>Resultado</h2>
+        <p>{{ intervalo }}</p>
+      </div>
+
+      <div class="page-size">
+        <span>Linhas</span>
+        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="state">Carregando ordens de servico...</div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="ordens-table">
+          <thead>
+            <tr>
+              <th>O.S</th>
+              <th>Título</th>
+              <th>Solicitante</th>
+              <th>Criado por</th>
+              <th>Responsável</th>
+              <th>Setor</th>
+              <th>Status</th>
+              <th>Criada em</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (ordem of items; track ordem.numeroOs) {
+              <tr
+                [class.nao-lida]="ordem.lida === false"
+                (click)="abrir(ordem)"
+                tabindex="0"
+                (keyup.enter)="abrir(ordem)"
+              >
+                <td class="os-numero">{{ ordem.numeroOs }}</td>
+                <td class="os-titulo">
+                  <button type="button" (click)="abrir(ordem); $event.stopPropagation()">
+                    {{ ordem.titulo }}
+                  </button>
+                </td>
+                <td>{{ ordem.solicitante }}</td>
+                <td>{{ ordem.criadoPor }}</td>
+                <td>{{ ordem.responsavel }}</td>
+                <td>{{ ordem.setor }}</td>
+                <td>
+                  <span class="status" [class]="statusClasse(ordem.statusNome)">
+                    {{ ordem.statusNome || 'SEM STATUS' }}
+                  </span>
+                </td>
+                <td class="os-data">{{ formatarData(ordem.criadoEmMs) }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="8" class="empty">Nenhuma O.S encontrada.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
+          Anterior
+        </app-ks-button>
+
+        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
+
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
+          [disabled]="filtro.page >= totalPaginas"
+          (acao)="proximaPagina()"
+        >
+          Proxima
+        </app-ks-button>
+      </div>
+    }
+  </div>
+</section>
+

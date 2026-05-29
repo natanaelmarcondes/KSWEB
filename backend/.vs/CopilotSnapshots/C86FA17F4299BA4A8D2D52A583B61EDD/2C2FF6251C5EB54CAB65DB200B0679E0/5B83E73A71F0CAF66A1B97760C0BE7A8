@@ -1,0 +1,81 @@
+﻿using Dapper;
+using KSWeb.Api.Data;
+using KSWeb.Api.Models;
+
+namespace KSWeb.Api.Services;
+
+public sealed class SetoresService
+{
+    private readonly DbConnectionFactory _connectionFactory;
+
+    public SetoresService(DbConnectionFactory connectionFactory)
+    {
+        _connectionFactory = connectionFactory;
+    }
+
+    public async Task<IReadOnlyList<SetorResponse>> ListarAsync()
+    {
+        using var connection = _connectionFactory.CreateConnection();
+
+        var setores = await connection.QueryAsync<SetorResponse>(
+            """
+            SELECT
+                QUEUEID AS QueueId,
+                QUEUENAME AS QueueName
+            FROM queuedefinition
+            ORDER BY QUEUENAME;
+            """);
+
+        return setores.AsList();
+    }
+
+    public async Task<SetorResponse> CriarAsync(string queueName)
+    {
+        using var connection = _connectionFactory.CreateConnection();
+
+        queueName = (queueName ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(queueName))
+        {
+            throw new ArgumentException("QueueName é obrigatório.", nameof(queueName));
+        }
+
+        long queueId = await connection.ExecuteScalarAsync<long>(
+            """
+            INSERT INTO queuedefinition (QUEUENAME)
+            VALUES (@queueName);
+
+            SELECT LAST_INSERT_ID();
+            """,
+            new { queueName });
+
+        return new SetorResponse
+        {
+            QueueId = queueId,
+            QueueName = queueName
+        };
+    }
+
+    public async Task AtualizarAsync(long queueId, string queueName)
+    {
+        using var connection = _connectionFactory.CreateConnection();
+
+        queueName = (queueName ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(queueName))
+        {
+            throw new ArgumentException("QueueName é obrigatório.", nameof(queueName));
+        }
+
+        int rows = await connection.ExecuteAsync(
+            """
+            UPDATE queuedefinition
+            SET QUEUENAME = @queueName
+            WHERE QUEUEID = @queueId;
+            """,
+            new { queueId, queueName });
+
+        if (rows == 0)
+        {
+            throw new KeyNotFoundException($"Setor não encontrado. QueueId={queueId}");
+        }
+    }
+}

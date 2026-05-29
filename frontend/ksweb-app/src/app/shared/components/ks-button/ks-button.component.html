@@ -1,0 +1,14 @@
+<button
+  type="button"
+  class="ks-button"
+  [class.primary]="tipo === 'primary'"
+  [class.secondary]="tipo === 'secondary'"
+  [class.danger]="tipo === 'danger'"
+  [class.success]="tipo === 'success'"
+  [class.small]="tamanho === 'small'"
+  [style.min-width]="largura"
+  [disabled]="disabled"
+  (click)="onClick()"
+>
+  <ng-content />
+</button>
