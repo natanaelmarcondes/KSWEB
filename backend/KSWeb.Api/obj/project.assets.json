@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net10.0": {
       "Dapper/2.1.79": {
@@ -584,11 +584,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\KSWEB\\backend\\KSWeb.api\\KSWeb.Api.csproj",
+      "projectUniqueName": "H:\\KSWeb\\backend\\KSWeb.Api\\KSWeb.Api.csproj",
       "projectName": "KSWeb.Api",
-      "projectPath": "H:\\KSWEB\\backend\\KSWeb.api\\KSWeb.Api.csproj",
+      "projectPath": "H:\\KSWeb\\backend\\KSWeb.Api\\KSWeb.Api.csproj",
       "packagesPath": "C:\\Users\\natanael\\.nuget\\packages\\",
-      "outputPath": "H:\\KSWEB\\backend\\KSWeb.api\\obj\\",
+      "outputPath": "H:\\KSWeb\\backend\\KSWeb.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -608,7 +608,6 @@
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -627,7 +626,6 @@
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Dapper": {

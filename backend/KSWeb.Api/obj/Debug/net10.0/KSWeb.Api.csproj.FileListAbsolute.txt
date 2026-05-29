@@ -36,3 +36,4 @@ H:\KSWEB\backend\KSWeb.api\obj\Debug\net10.0\refint\KSWeb.Api.dll
 H:\KSWEB\backend\KSWeb.api\obj\Debug\net10.0\KSWeb.Api.pdb
 H:\KSWEB\backend\KSWeb.api\obj\Debug\net10.0\KSWeb.Api.genruntimeconfig.cache
 H:\KSWEB\backend\KSWeb.api\obj\Debug\net10.0\ref\KSWeb.Api.dll
+H:\KSWeb\backend\KSWeb.Api\obj\Debug\net10.0\KSWeb.Api.sourcelink.json
