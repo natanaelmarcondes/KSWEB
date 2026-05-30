@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Fundo abstrato operacional KSWeb">
+  <rect width="1600" height="1000" fill="#0f172a"/>
+  <path fill="#134e4a" d="M0 730c184-72 312-65 505-18 225 54 362 45 567-66 205-111 356-142 528-88v442H0Z"/>
+  <path fill="#0f766e" opacity=".72" d="M0 802c188-85 332-75 542-18 235 63 413 43 610-60 166-87 300-115 448-80v356H0Z"/>
+  <g fill="none" stroke="#f8fafc" stroke-opacity=".12" stroke-width="2">
+    <path d="M120 165h350v190H120zM565 160h420v245H565zM1080 150h330v180h-330z"/>
+    <path d="M166 220h258M166 272h176M610 222h328M610 282h242M1128 210h226M1128 266h142"/>
+  </g>
+  <g fill="#ffffff" opacity=".12">
+    <circle cx="264" cy="546" r="5"/>
+    <circle cx="348" cy="506" r="5"/>
+    <circle cx="432" cy="570" r="5"/>
+    <circle cx="972" cy="534" r="5"/>
+    <circle cx="1088" cy="484" r="5"/>
+    <circle cx="1200" cy="548" r="5"/>
+  </g>
+</svg>

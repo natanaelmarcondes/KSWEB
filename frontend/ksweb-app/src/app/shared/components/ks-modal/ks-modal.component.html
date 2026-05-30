@@ -1,0 +1,11 @@
+<div class="ks-modal-backdrop" *ngIf="aberto">
+  <section class="ks-modal" role="dialog" aria-modal="true">
+    <header>
+      <h3>{{ titulo }}</h3>
+      <app-ks-button tipo="secondary" tamanho="small" (acao)="fechado.emit()">Fechar</app-ks-button>
+    </header>
+    <div class="ks-modal-body">
+      <ng-content />
+    </div>
+  </section>
+</div>

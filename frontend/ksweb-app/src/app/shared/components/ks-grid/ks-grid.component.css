@@ -1,0 +1,11 @@
+.ks-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: var(--ks-grid-columns);
+}
+
+@media (max-width: 900px) {
+  .ks-grid {
+    grid-template-columns: 1fr;
+  }
+}

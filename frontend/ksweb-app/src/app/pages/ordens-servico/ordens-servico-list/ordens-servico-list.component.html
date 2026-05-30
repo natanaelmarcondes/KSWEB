@@ -1,1 +1,165 @@
-<p>ordens-servico-list works!</p>
+<section class="ordens-page">
+  <header class="page-header">
+    <div>
+      <h1>Ordens de servico</h1>
+      <span>Listagem operacional de O.S com filtros por status, pessoa e conteudo</span>
+    </div>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  <div class="filters-panel">
+    <div class="filters-grid">
+      <label>
+        <span>Numero</span>
+        <input type="search" [(ngModel)]="filtro.numero" placeholder="O.S" (keyup.enter)="pesquisar()" />
+      </label>
+
+      <label>
+        <span>Texto</span>
+        <input type="search" [(ngModel)]="filtro.texto" placeholder="Titulo ou descricao" (keyup.enter)="pesquisar()" />
+      </label>
+
+      <label>
+        <span>Status</span>
+        <select [(ngModel)]="filtro.statusId">
+          <option value="">Padrao</option>
+          @for (status of statusOptions; track status.statusId) {
+            <option [value]="status.statusId">{{ status.statusName }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Pessoa</span>
+        <input
+          type="search"
+          [(ngModel)]="filtro.filtroUsuarioNome"
+          placeholder="Nome do usuario"
+          (keyup.enter)="pesquisar()"
+          list="usuarios-os"
+        />
+        <datalist id="usuarios-os">
+          @for (usuario of usuarioOptions; track usuario.userId) {
+            <option [value]="usuario.firstName"></option>
+          }
+        </datalist>
+      </label>
+
+      <label>
+        <span>Vinculo</span>
+        <select [(ngModel)]="filtro.filtroPessoa">
+          <option value="qualquer">Qualquer</option>
+          <option value="cliente">Cliente</option>
+          <option value="responsavel">Responsavel atual</option>
+          <option value="criado">Quem criou</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Por usuario</span>
+        <select [(ngModel)]="filtro.usuarioId">
+          <option value="">Todos</option>
+          @for (usuario of usuarioOptions; track usuario.userId) {
+            <option [value]="usuario.userId">{{ usuario.firstName }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <div class="filters-actions">
+      <label class="check-control">
+        <input type="checkbox" [(ngModel)]="filtro.listarTudo" />
+        <span>Listar tudo</span>
+      </label>
+
+      <app-button size="small" variant="secondary" (pressed)="limparFiltros()">Limpar</app-button>
+      <app-button size="small" (pressed)="pesquisar()">Pesquisar</app-button>
+    </div>
+  </div>
+
+  <div class="table-panel">
+    <div class="panel-header">
+      <div>
+        <h2>Resultado</h2>
+        <p>{{ intervalo }}</p>
+      </div>
+
+      <div class="page-size">
+        <span>Linhas</span>
+        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="state">Carregando ordens de servico...</div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="ordens-table">
+          <thead>
+            <tr>
+              <th>O.S</th>
+              <th>Titulo</th>
+              <th>Cliente</th>
+              <th>Abertura</th>
+              <th>Responsavel</th>
+              <th>Status</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (ordem of items; track ordem.osCodigo) {
+              <tr (click)="abrir(ordem)" tabindex="0" (keyup.enter)="abrir(ordem)">
+                <td class="os-numero">{{ ordem.osCodigo }}</td>
+                <td class="os-titulo">
+                  <button type="button" (click)="abrir(ordem); $event.stopPropagation()">
+                    {{ ordem.osTitulo }}
+                  </button>
+                </td>
+                <td>{{ ordem.cliente }}</td>
+                <td>{{ ordem.usuarioAbertura }}</td>
+                <td>{{ ordem.usuarioResponsavel }}</td>
+                <td>
+                  <span class="status" [class]="statusClasse(ordem.status)">
+                    {{ ordem.status || 'SEM STATUS' }}
+                  </span>
+                </td>
+                <td class="os-data">{{ formatarData(ordem.osData) }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7" class="empty">Nenhuma O.S encontrada.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <app-button size="small" variant="secondary" [disabled]="filtro.page <= 1" (pressed)="paginaAnterior()">
+          Anterior
+        </app-button>
+
+        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
+
+        <app-button
+          size="small"
+          variant="secondary"
+          [disabled]="filtro.page >= totalPaginas"
+          (pressed)="proximaPagina()"
+        >
+          Proxima
+        </app-button>
+      </div>
+    }
+  </div>
+</section>
+

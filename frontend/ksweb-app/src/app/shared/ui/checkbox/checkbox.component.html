@@ -1,0 +1,12 @@
+<label [for]="inputId">
+  <input
+    [id]="inputId"
+    type="checkbox"
+    [checked]="checked"
+    [disabled]="disabled"
+    (change)="handleChange($event)"
+    (blur)="handleBlur()"
+  />
+  <span aria-hidden="true"></span>
+  <strong>{{ label }}</strong>
+</label>

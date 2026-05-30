@@ -1,1 +1,76 @@
-<p>usuarios-cad works!</p>
+<section class="usuario-form-page">
+  <header class="page-header">
+    <div>
+      <h1>{{ titulo }}</h1>
+      <span>Cadastro integrado com usuarios e ServiceDesk</span>
+    </div>
+
+    <app-button variant="secondary" (pressed)="voltar()">Voltar</app-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert error">{{ erro }}</div>
+  }
+
+  @if (mensagem) {
+    <div class="alert success">{{ mensagem }}</div>
+  }
+
+  <form class="form-panel" [formGroup]="form" (ngSubmit)="salvar()">
+    @if (carregando) {
+      <div class="state">Carregando usuario...</div>
+    } @else {
+      <div class="form-grid">
+        <label>
+          <span>Nome</span>
+          <input type="text" formControlName="nome" autocomplete="name" />
+        </label>
+
+        <label>
+          <span>E-mail</span>
+          <input type="email" formControlName="email" autocomplete="email" />
+        </label>
+
+        <label>
+          <span>Nivel</span>
+          <select formControlName="usrNivel">
+            @for (nivel of niveis; track nivel.value) {
+              <option [value]="nivel.value">{{ nivel.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Setor/Fila</span>
+          <select formControlName="queueId">
+            <option value="">Selecione</option>
+            @for (fila of filas; track fila.queueId) {
+              <option [value]="fila.queueId">{{ fila.queueName }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      @if (editando && usuario) {
+        <div class="meta-panel">
+          <span>usr_codigo: {{ usuario.usrCodigo }}</span>
+          <span>USER_ID: {{ usuario.userId }}</span>
+          <span>set_codigo: {{ usuario.setCodigo }}</span>
+        </div>
+      }
+
+      <div class="actions">
+        @if (editando) {
+          <app-button type="button" variant="danger" [disabled]="salvando" (pressed)="resetarSenha()">
+            Resetar senha
+          </app-button>
+        }
+
+        <app-button type="submit" [disabled]="salvando">
+          {{ salvando ? 'Salvando...' : 'Salvar' }}
+        </app-button>
+      </div>
+    }
+  </form>
+</section>
+

@@ -1,1 +1,16 @@
-<p>ordens-servico-cad works!</p>
+<section class="ordem-view-page">
+  <header class="page-header">
+    <div>
+      <h1>O.S {{ codigo }}</h1>
+      <span>Visualizacao da ordem de servico</span>
+    </div>
+
+    <app-button variant="secondary" (pressed)="voltar()">Voltar</app-button>
+  </header>
+
+  <div class="view-panel">
+    <h2>Visualizacao em preparacao</h2>
+    <p>A rota da O.S ja esta conectada. O proximo passo e carregar os detalhes da ordem {{ codigo }}.</p>
+  </div>
+</section>
+

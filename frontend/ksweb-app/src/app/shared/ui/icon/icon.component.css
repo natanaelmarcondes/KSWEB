@@ -1,0 +1,22 @@
+:host {
+  display: inline-flex;
+  height: 1em;
+  line-height: 1;
+  width: 1em;
+}
+
+svg {
+  display: block;
+  fill: none;
+  height: 100%;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  width: 100%;
+}
+
+circle {
+  fill: currentColor;
+  stroke: none;
+}

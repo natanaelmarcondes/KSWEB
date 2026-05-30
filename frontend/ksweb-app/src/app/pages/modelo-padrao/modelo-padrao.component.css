@@ -1,0 +1,244 @@
+:host {
+  background: #f4f6f9;
+  display: block;
+  min-height: calc(100vh - 60px);
+  padding: 14px;
+}
+
+.modelo-page {
+  color: #111827;
+  width: 100%;
+}
+
+.modelo-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.modelo-title {
+  align-items: center;
+  display: flex;
+  gap: 9px;
+}
+
+.modelo-title-icon,
+.table-title-icon {
+  align-items: center;
+  color: #2b3543;
+  display: inline-flex;
+  font-size: 14px;
+  height: 22px;
+  justify-content: center;
+  line-height: 1;
+  width: 22px;
+}
+
+.modelo-header h1 {
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.modelo-header span {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+:host ::ng-deep app-ks-card {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.modelo-card-content {
+  padding: 16px 18px 18px;
+}
+
+.panel-header,
+.table-header {
+  align-items: flex-start;
+  border-bottom: 1px solid #d6dbe3;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+}
+
+.panel-header h2,
+.table-title h2 {
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.panel-header p {
+  color: #4b5563;
+  font-size: 12px;
+  margin: 5px 0 0;
+}
+
+.form-grid {
+  margin: 0;
+}
+
+.checkbox-group {
+  align-items: end;
+  display: flex;
+  min-height: 66px;
+}
+
+.checkbox-group label {
+  align-items: center;
+  color: #374151;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 8px;
+}
+
+.checkbox-group input {
+  height: 16px;
+  width: 16px;
+}
+
+.mensagem {
+  color: #1976d2;
+  font-weight: bold;
+  margin: 12px 0 0;
+}
+
+.table-card-content {
+  padding-top: 14px;
+}
+
+.table-title {
+  align-items: center;
+  display: flex;
+  gap: 9px;
+}
+
+.modelo-table-wrapper {
+  background: #ffffff;
+  border: 1px solid #cfd6df;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.modelo-table {
+  background: #ffffff;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 1020px;
+  width: 100%;
+}
+
+.modelo-table thead th {
+  background: linear-gradient(180deg, #eef2f7 0%, #e2e8f0 100%);
+  border-bottom: 1px solid #b9c2cf;
+  border-right: 1px solid #d8dee7;
+  color: #1f2937;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.35px;
+  padding: 8px 9px;
+  position: sticky;
+  text-align: left;
+  text-transform: uppercase;
+  top: 0;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.modelo-table thead th:last-child {
+  border-right: none;
+}
+
+.modelo-table tbody td {
+  border-bottom: 1px solid #e4e8ee;
+  border-right: 1px solid #edf0f4;
+  color: #263241;
+  height: 31px;
+  padding: 7px 9px;
+  vertical-align: middle;
+}
+
+.modelo-table tbody td:last-child {
+  border-right: none;
+}
+
+.modelo-table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.modelo-table tbody tr:hover {
+  background: #f5f8fc;
+}
+
+.modelo-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cliente-codigo {
+  color: #0f376f;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cliente-nome {
+  min-width: 230px;
+  font-weight: 600;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.acoes {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.modelo-empty,
+.modelo-loading {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 18px 12px !important;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  :host {
+    padding: 10px;
+  }
+
+  .modelo-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .modelo-card-content {
+    padding: 14px;
+  }
+
+  .panel-header,
+  .table-header {
+    flex-direction: column;
+  }
+
+  .modelo-table {
+    min-width: 950px;
+  }
+}

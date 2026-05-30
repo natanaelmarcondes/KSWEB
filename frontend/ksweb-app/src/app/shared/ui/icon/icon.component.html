@@ -1,0 +1,49 @@
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  @switch (name) {
+    @case ('refresh') {
+      <path d="M20 11a8 8 0 0 0-14.7-4.4L4 8" />
+      <path d="M4 4v4h4" />
+      <path d="M4 13a8 8 0 0 0 14.7 4.4L20 16" />
+      <path d="M20 20v-4h-4" />
+    }
+    @case ('alert') {
+      <path d="M12 3 2.8 19a1.8 1.8 0 0 0 1.6 2h15.2a1.8 1.8 0 0 0 1.6-2Z" />
+      <path d="M12 9v5" />
+      <path d="M12 17h.01" />
+    }
+    @case ('hourglass') {
+      <path d="M6 3h12" />
+      <path d="M6 21h12" />
+      <path d="M7 3c0 5 10 5 10 9s-10 4-10 9" />
+      <path d="M17 3c0 5-10 5-10 9s10 4 10 9" />
+    }
+    @case ('clipboard') {
+      <path d="M9 4h6a2 2 0 0 1 2 2v1H7V6a2 2 0 0 1 2-2Z" />
+      <path d="M7 6H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2" />
+      <path d="M8 13h8" />
+      <path d="M8 17h5" />
+    }
+    @case ('folder-open') {
+      <path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v2" />
+      <path d="M3 11h18l-2 8H5Z" />
+    }
+    @case ('check-circle') {
+      <path d="M21 11.2V12a9 9 0 1 1-5.3-8.2" />
+      <path d="m9 11 3 3L22 4" />
+    }
+    @case ('clock') {
+      <path d="M12 21a9 9 0 1 0-9-9" />
+      <path d="M12 7v5l3 2" />
+      <path d="M3 12H1" />
+      <path d="M4.2 16.5 2.5 18" />
+    }
+    @case ('circle') {
+      <circle cx="12" cy="12" r="5" />
+    }
+    @case ('logout') {
+      <path d="M10 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2" />
+      <path d="M15 17l5-5-5-5" />
+      <path d="M20 12H9" />
+    }
+  }
+</svg>

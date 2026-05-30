@@ -1,0 +1,107 @@
+<div class="dashboard-page">
+  <div class="dashboard-header">
+    <div class="dashboard-title">
+      <span class="dashboard-title-icon">▣</span>
+
+      <div>
+        <h1>O.S por status</h1>
+        <span>Resumo de {{ nomeUsuario }}</span>
+      </div>
+    </div>
+
+    <app-ks-button tipo="primary" (acao)="abrirMinhasOs()">Ver minhas O.S</app-ks-button>
+  </div>
+
+  @if (erro) {
+    <div class="dashboard-alert">{{ erro }}</div>
+  }
+
+  <app-ks-card>
+    <div class="dashboard-card-content">
+      <div class="status-panel-header">
+        <div>
+          <h2>Status atuais</h2>
+          <p>Clique em um status para abrir a listagem filtrada</p>
+        </div>
+      </div>
+
+      @if (carregando) {
+        <div class="dashboard-loading">Carregando indicadores...</div>
+      } @else {
+        <div class="status-grid">
+          @for (item of statusResumo; track item.status) {
+            <button
+              type="button"
+              class="status-card"
+              [class.status-closed]="item.classe === 'status-closed'"
+              [class.status-open]="item.classe === 'status-open'"
+              [class.status-programacao]="item.classe === 'status-programacao'"
+              [class.status-descontinuado]="item.classe === 'status-descontinuado'"
+              (click)="abrirPorStatus(item.status)"
+            >
+              <span class="status-title">{{ item.titulo }}</span>
+              <strong>{{ item.total }}</strong>
+            </button>
+          } @empty {
+            <div class="dashboard-empty">Nenhum status encontrado.</div>
+          }
+        </div>
+      }
+    </div>
+  </app-ks-card>
+
+  <app-ks-card>
+    <div class="dashboard-card-content recent-card-content">
+      <div class="recent-header">
+        <div class="recent-title">
+          <span class="recent-title-icon">◷</span>
+          <h2>Últimas O.S visitadas</h2>
+        </div>
+      </div>
+
+      <div class="recent-table-wrapper">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th>O.S</th>
+              <th>Título</th>
+              <th>Data Visualização</th>
+              <th class="recent-text-center">Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (os of ultimasOsVisitadas; track os.numero) {
+              <tr>
+                <td class="recent-numero">{{ os.numero }}</td>
+
+                <td class="recent-titulo">
+                  <button type="button" class="recent-link" (click)="abrirOs(os.numero)">
+                    {{ os.titulo }}
+                  </button>
+                </td>
+
+                <td class="recent-data">{{ os.dataVisualizacao }}</td>
+
+                <td class="recent-acoes">
+                  <button
+                    type="button"
+                    class="recent-action-btn visualizar"
+                    title="Visualizar"
+                    (click)="abrirOs(os.numero)"
+                  >
+                    ⊙
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="recent-empty">Nenhuma O.S. visitada.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </app-ks-card>
+</div>

@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+label {
+  align-items: center;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+}
+
+span {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  display: inline-flex;
+  height: 17px;
+  justify-content: center;
+  width: 17px;
+}
+
+input:checked + span {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+input:checked + span::after {
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  content: '';
+  height: 8px;
+  transform: rotate(45deg) translate(-1px, -1px);
+  width: 4px;
+}
+
+input:focus + span {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+input:disabled ~ strong,
+input:disabled + span {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+strong {
+  font: inherit;
+}

@@ -1,1 +1,102 @@
-<p>usuarios-list works!</p>
+<section class="usuarios-page">
+  <header class="page-header">
+    <div>
+      <h1>Usuarios</h1>
+      <span>Clientes e tecnicos cadastrados no KSWeb</span>
+    </div>
+
+    <app-button (pressed)="novo()">Novo usuario</app-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  <div class="table-panel">
+    <div class="panel-header">
+      <div>
+        <h2>Lista de usuarios</h2>
+        <p>{{ intervalo }}</p>
+      </div>
+
+      <div class="toolbar">
+        <label>
+          <span>Buscar</span>
+          <input
+            type="search"
+            [(ngModel)]="termo"
+            placeholder="Nome do usuario"
+            (keyup.enter)="pesquisar()"
+          />
+        </label>
+
+        <div class="page-size">
+          <span>Linhas</span>
+          <select [(ngModel)]="pageSize" (change)="alterarPageSize()">
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="25">25</option>
+            <option [ngValue]="50">50</option>
+            <option [ngValue]="100">100</option>
+          </select>
+        </div>
+
+        <app-button size="small" variant="secondary" (pressed)="pesquisar()">Filtrar</app-button>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="state">Carregando usuarios...</div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="usuarios-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Nivel</th>
+              <th>Setor/Fila</th>
+              <th class="number">USER_ID</th>
+              <th class="actions">Acoes</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (usuario of usuariosPaginados; track usuario.usrCodigo + '-' + usuario.queueId) {
+              <tr>
+                <td class="usuario-nome">
+                  <strong>{{ usuario.nome }}</strong>
+                  <span>#{{ usuario.usrCodigo }}</span>
+                </td>
+                <td class="usuario-email">{{ usuario.email }}</td>
+                <td>
+                  <span class="nivel">{{ usuario.nivel }}</span>
+                </td>
+                <td class="usuario-setor">{{ usuario.setor || '-' }}</td>
+                <td class="number">{{ usuario.userId }}</td>
+                <td class="actions">
+                  <app-button size="small" variant="secondary" (pressed)="editar(usuario)">Editar</app-button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty">Nenhum usuario encontrado.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <app-button size="small" variant="secondary" [disabled]="page <= 1" (pressed)="paginaAnterior()">
+          Anterior
+        </app-button>
+
+        <span>Pagina {{ page }} de {{ totalPaginas }}</span>
+
+        <app-button size="small" variant="secondary" [disabled]="page >= totalPaginas" (pressed)="proximaPagina()">
+          Proxima
+        </app-button>
+      </div>
+    }
+  </div>
+</section>

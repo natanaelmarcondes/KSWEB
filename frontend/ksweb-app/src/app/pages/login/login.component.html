@@ -1,0 +1,56 @@
+<main class="login-page">
+  <div class="login-shell">
+    <section class="login-brand">
+      <div class="brand-box">
+        <div class="brand-logo" aria-label="KeySolution">KS</div>
+        <div class="brand-title">KeySolution</div>
+        <div class="brand-subtitle">Keysystems Informatica</div>
+      </div>
+
+      <div class="brand-footer">
+        <span>Sistema de gestao tecnica</span>
+        <strong>Ambiente seguro</strong>
+      </div>
+    </section>
+
+    <section class="login-card" aria-label="Login KSWeb">
+      <div class="login-header">
+        <div class="login-icon">KS</div>
+
+        <div>
+          <h1>Acessar sistema</h1>
+          <p>Informe seus dados para continuar.</p>
+        </div>
+      </div>
+
+      @if (erro()) {
+        <div class="login-alert" role="alert">{{ erro() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="entrar()" class="login-form" autocomplete="off">
+        <app-text-field
+          label="E-mail"
+          type="email"
+          autocomplete="username"
+          placeholder="seuemail@keysystems.com.br"
+          formControlName="email"
+          [error]="form.controls.email.touched && form.controls.email.invalid ? 'Informe um email valido.' : ''"
+        />
+
+        <app-text-field
+          label="Senha"
+          type="password"
+          autocomplete="current-password"
+          formControlName="senha"
+          [error]="form.controls.senha.touched && form.controls.senha.invalid ? 'Informe sua senha.' : ''"
+        />
+
+        <app-checkbox label="Lembrar usuario" formControlName="manterConectado" />
+
+        <app-button type="submit" [disabled]="carregando()">
+          {{ carregando() ? 'Entrando...' : 'Entrar' }}
+        </app-button>
+      </form>
+    </section>
+  </div>
+</main>

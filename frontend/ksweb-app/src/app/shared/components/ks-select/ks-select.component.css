@@ -1,0 +1,46 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ks-select-label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ks-select {
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, #6b7280 50%) right 16px center / 7px 7px no-repeat,
+    linear-gradient(135deg, #6b7280 50%, transparent 50%) right 11px center / 7px 7px no-repeat,
+    #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  color: #111827;
+  font: inherit;
+  min-height: 40px;
+  outline: none;
+  padding: 0 38px 0 11px;
+}
+
+.ks-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ks-select[aria-invalid='true'] {
+  border-color: #dc2626;
+}
+
+.ks-select:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.ks-select-error {
+  color: #991b1b;
+  font-size: 12px;
+  font-weight: 600;
+}

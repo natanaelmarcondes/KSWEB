@@ -1,0 +1,31 @@
+.ks-table-wrap {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.ks-table {
+  border-collapse: collapse;
+  min-width: 900px;
+  width: 100%;
+}
+
+.ks-table ::ng-deep th,
+.ks-table ::ng-deep td {
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 14px;
+  padding: 10px;
+  text-align: left;
+}
+
+.ks-table ::ng-deep th {
+  background: #f9fafb;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ks-table ::ng-deep tr:hover td {
+  background: #f9fafb;
+}

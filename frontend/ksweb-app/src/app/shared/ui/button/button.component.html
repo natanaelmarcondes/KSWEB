@@ -1,0 +1,14 @@
+<button
+  [type]="type"
+  [class.secondary]="variant === 'secondary'"
+  [class.ghost]="variant === 'ghost'"
+  [class.danger]="variant === 'danger'"
+  [class.small]="size === 'small'"
+  [disabled]="disabled"
+  (click)="pressed.emit()"
+>
+  @if (icon) {
+    <app-icon [name]="icon" />
+  }
+  <ng-content />
+</button>

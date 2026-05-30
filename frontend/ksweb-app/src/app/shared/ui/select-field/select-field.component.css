@@ -1,0 +1,45 @@
+:host {
+  display: grid;
+  gap: 7px;
+}
+
+label {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+select {
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, #64748b 50%) right 15px center / 7px 7px no-repeat,
+    linear-gradient(135deg, #64748b 50%, transparent 50%) right 10px center / 7px 7px no-repeat,
+    #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #0f172a;
+  font: inherit;
+  min-height: 44px;
+  padding: 0 36px 0 12px;
+  width: 100%;
+}
+
+select:focus {
+  border-color: #0b5ca8;
+  box-shadow: 0 0 0 3px rgba(11, 92, 168, 0.14);
+  outline: none;
+}
+
+select[aria-invalid='true'] {
+  border-color: #dc2626;
+}
+
+select:disabled {
+  background-color: #f8fafc;
+  cursor: not-allowed;
+}
+
+.field-error {
+  color: #b91c1c;
+  font-size: 12px;
+}

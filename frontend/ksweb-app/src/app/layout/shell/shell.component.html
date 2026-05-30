@@ -1,0 +1,34 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span>KS</span>
+      <strong>KSWeb</strong>
+    </div>
+
+    <nav aria-label="Menu principal">
+      <a routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">Dashboard</a>
+      <a routerLink="/modelo-padrao" routerLinkActive="active" ariaCurrentWhenActive="page">Modelo padrao</a>
+      <a routerLink="/usuarios" routerLinkActive="active" ariaCurrentWhenActive="page">Usuarios</a>
+      <a routerLink="/setores" routerLinkActive="active" ariaCurrentWhenActive="page">Setores</a>
+      <a routerLink="/ordens-servico" routerLinkActive="active" ariaCurrentWhenActive="page">Ordens de servico</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <div>
+        <span>Usuario logado</span>
+        <strong>{{ usuario()?.nome || 'Usuario' }}</strong>
+      </div>
+      <div>
+        <span>Nivel</span>
+        <strong>{{ usuario()?.nivel || '-' }}</strong>
+      </div>
+      <app-button variant="secondary" icon="logout" (pressed)="sair()">Sair</app-button>
+    </header>
+
+    <main class="main-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
