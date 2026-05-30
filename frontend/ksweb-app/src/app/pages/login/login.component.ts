@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth/auth.service';
@@ -36,12 +37,22 @@ export class LoginComponent {
     this.carregando.set(true);
     this.erro.set('');
 
-    this.authService.login(this.form.getRawValue()).subscribe({
+    const payload = this.form.getRawValue();
+
+    this.authService.login({ ...payload, email: payload.email.trim() }).subscribe({
       next: () => void this.router.navigate(['/dashboard']),
-      error: () => {
-        this.erro.set('Email ou senha invalido.');
+      error: (error: unknown) => {
+        this.erro.set(this.getLoginErrorMessage(error));
         this.carregando.set(false);
       },
     });
+  }
+
+  private getLoginErrorMessage(error: unknown): string {
+    if (error instanceof HttpErrorResponse && error.status !== 401) {
+      return 'Nao foi possivel conectar a API de autenticacao.';
+    }
+
+    return 'Email ou senha invalido.';
   }
 }
