@@ -58,9 +58,9 @@ public sealed class OrdensServicoConsultaService
     }
 
     private static void MontarFiltros(
-        OrdensServicoConsultaFiltro filtro,
-        StringBuilder whereSql,
-        List<MySqlParameter> parameters)
+    OrdensServicoConsultaFiltro filtro,
+    StringBuilder whereSql,
+    List<MySqlParameter> parameters)
     {
         var filtros = new List<string>();
 
@@ -68,6 +68,12 @@ public sealed class OrdensServicoConsultaService
         {
             filtros.Add("wo.WORKORDERID = @NumeroOs");
             parameters.Add(new MySqlParameter("@NumeroOs", filtro.NumeroOs.Value));
+        }
+
+        if (!string.IsNullOrWhiteSpace(filtro.Titulo))
+        {
+            filtros.Add("wo.TITLE LIKE @Titulo");
+            parameters.Add(new MySqlParameter("@Titulo", $"%{filtro.Titulo.Trim()}%"));
         }
 
         if (!string.IsNullOrWhiteSpace(filtro.Solicitante))

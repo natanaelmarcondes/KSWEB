@@ -137,6 +137,13 @@
             }
           },
           {
+            "name": "Titulo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "Solicitante",
             "in": "query",
             "schema": {

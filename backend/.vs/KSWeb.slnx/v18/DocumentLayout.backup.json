@@ -70,11 +70,12 @@
               "Title": "OrdensServicoConsultaModels.cs",
               "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
-              "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs*",
+              "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs*",
+              "ViewState": "AgIAABcAAAAAAAAAAAAqwAgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T02:00:44.51Z"
+              "WhenOpened": "2026-05-31T02:00:44.51Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -84,9 +85,10 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T01:43:44.315Z"
+              "WhenOpened": "2026-05-31T01:43:44.315Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -156,7 +158,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
-              "ViewState": "AgIAAHEBAAAAAAAAAAAiwIQBAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAiwIAAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-31T01:53:26.123Z",
               "EditorCaption": ""

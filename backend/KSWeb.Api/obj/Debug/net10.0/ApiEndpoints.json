@@ -81,6 +81,11 @@
         "IsRequired": false
       },
       {
+        "Name": "Titulo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "Solicitante",
         "Type": "System.String",
         "IsRequired": false

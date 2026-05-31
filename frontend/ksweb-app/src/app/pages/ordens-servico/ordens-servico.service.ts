@@ -34,7 +34,7 @@ export class OrdensServicoService {
     }
 
     if (filtro.texto?.trim()) {
-      params = params.set('Texto', filtro.texto.trim());
+      params = params.set('Titulo', filtro.texto.trim());
     }
 
     if (filtro.filtroUsuarioNome?.trim()) {
