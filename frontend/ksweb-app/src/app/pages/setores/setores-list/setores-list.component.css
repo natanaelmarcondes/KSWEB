@@ -27,6 +27,14 @@
   display: grid;
   gap: 14px;
   padding: 16px 18px 18px;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.filters-panel:hover,
+.table-panel:hover,
+.table-wrapper:hover {
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
 }
 
 .filters-grid {
@@ -128,6 +136,7 @@ input::placeholder {
   background: #ffffff;
   border: 1px solid #cfd6df;
   overflow-x: auto;
+  transition: border-color 0.18s, box-shadow 0.18s;
   width: 100%;
 }
 
@@ -261,8 +270,8 @@ input::placeholder {
 .status-card:hover,
 .setor-minicard:hover {
   background: #f8fafc;
-  border-color: #9fb0c5;
-  box-shadow: 0 2px 7px rgba(25, 118, 210, 0.10);
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
 }
 
 @media (max-width: 760px) {

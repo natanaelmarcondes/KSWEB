@@ -116,8 +116,8 @@
 
 .status-card:hover {
   background: #f8fafc;
-  border-color: #9fb0c5;
-  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.10);
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
 }
 
 .status-card .status-title {
@@ -200,7 +200,13 @@
   background: #ffffff;
   border: 1px solid #cfd6df;
   overflow-x: auto;
+  transition: border-color 0.18s, box-shadow 0.18s;
   width: 100%;
+}
+
+.recent-table-wrapper:hover {
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
 }
 
 .recent-table {
