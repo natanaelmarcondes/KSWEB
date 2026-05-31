@@ -22,13 +22,31 @@
         <input type="search" [(ngModel)]="filtro.texto" placeholder="Titulo ou descricao" (keyup.enter)="pesquisar()" />
       </label>
 
-      <label>
+      <label class="multiselect-field">
         <span>Status</span>
-        <select [(ngModel)]="filtro.status" (change)="aoSelecionarStatus()" multiple>
-          @for (status of statusOptions; track status.statusId) {
-            <option [ngValue]="status.statusName">{{ status.statusName }}</option>
+        <div class="multiselect" [class.open]="statusDropdownAberto">
+          <button type="button" class="multiselect-trigger" (click)="alternarStatusDropdown($event)">
+            <span>{{ statusSelecionadosResumo }}</span>
+            <span class="multiselect-arrow">v</span>
+          </button>
+
+          @if (statusDropdownAberto) {
+            <div class="multiselect-menu" (click)="$event.stopPropagation()">
+              @for (status of statusOptions; track status.statusId) {
+                <label class="multiselect-option">
+                  <input
+                    type="checkbox"
+                    [checked]="statusSelecionado(status.statusName)"
+                    (change)="alternarStatus(status.statusName)"
+                  />
+                  <span>{{ status.statusName }}</span>
+                </label>
+              } @empty {
+                <div class="multiselect-empty">Nenhum status disponivel.</div>
+              }
+            </div>
           }
-        </select>
+        </div>
       </label>
       
       <label>
@@ -40,14 +58,31 @@
         </select>
       </label>
 
-      <label>
+      <label class="autocomplete-field">
         <span>Pessoa</span>
-        <input
-          type="search"
-          [(ngModel)]="filtro.filtroUsuarioNome"
-          placeholder="Nome do usuario"
-          (keyup.enter)="pesquisar()"
-        />
+        <div class="autocomplete">
+          <input
+            type="search"
+            [(ngModel)]="filtro.filtroUsuarioNome"
+            placeholder="Nome do usuario"
+            autocomplete="off"
+            (focus)="abrirPessoaDropdown()"
+            (input)="aoDigitarPessoa()"
+            (keyup.enter)="pesquisar()"
+          />
+
+          @if (pessoaDropdownAberto) {
+            <div class="autocomplete-menu">
+              @for (usuario of usuariosFiltrados; track usuario.value) {
+                <button type="button" class="autocomplete-option" (click)="selecionarPessoa(usuario)">
+                  {{ usuario.label }}
+                </button>
+              } @empty {
+                <div class="autocomplete-empty">Nenhum usuario encontrado.</div>
+              }
+            </div>
+          }
+        </div>
       </label>
     </div>
 

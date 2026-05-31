@@ -1,5 +1,5 @@
 // ...existing code...
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -24,6 +24,8 @@ export class OrdensServicoListComponent {
   usuarioOptions: { label: string; value: string }[] = [];
   items: OrdemServicoListItem[] = [];
   statusOptions: OrdemServicoStatusOption[] = [];
+  statusDropdownAberto = false;
+  pessoaDropdownAberto = false;
   total = 0;
   carregando = true;
   erro = '';
@@ -50,14 +52,87 @@ export class OrdensServicoListComponent {
     this.carregar();
   }
 
+  @HostListener('document:click', ['$event'])
+  fecharStatusDropdown(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+
+    if (!target?.closest('.multiselect')) {
+      this.statusDropdownAberto = false;
+    }
+
+    if (!target?.closest('.autocomplete')) {
+      this.pessoaDropdownAberto = false;
+    }
+  }
+
+  get statusSelecionadosResumo(): string {
+    const totalSelecionados = this.filtro.status?.length ?? 0;
+
+    if (totalSelecionados === 0) {
+      return 'Todos os status';
+    }
+
+    if (totalSelecionados === 1) {
+      return this.filtro.status?.[0] ?? '1 status selecionado';
+    }
+
+    return `${totalSelecionados} status selecionados`;
+  }
+
+  alternarStatusDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.pessoaDropdownAberto = false;
+    this.statusDropdownAberto = !this.statusDropdownAberto;
+  }
+
+  statusSelecionado(statusName: string): boolean {
+    return this.filtro.status?.includes(statusName) ?? false;
+  }
+
+  alternarStatus(statusName: string): void {
+    const statusAtual = this.filtro.status ?? [];
+
+    this.filtro.status = statusAtual.includes(statusName)
+      ? statusAtual.filter((status) => status !== statusName)
+      : [...statusAtual, statusName];
+
+    this.aoSelecionarStatus();
+  }
+
+  get usuariosFiltrados(): { label: string; value: string }[] {
+    const termo = this.normalizarTexto(this.filtro.filtroUsuarioNome ?? '');
+    const usuarios = this.usuarioOptions;
+
+    if (!termo) {
+      return usuarios;
+    }
+
+    return usuarios
+      .filter((usuario) => this.normalizarTexto(usuario.label).includes(termo));
+  }
+
+  abrirPessoaDropdown(): void {
+    this.statusDropdownAberto = false;
+    this.pessoaDropdownAberto = true;
+  }
+
+  aoDigitarPessoa(): void {
+    this.filtro.usuarioId = '';
+    this.pessoaDropdownAberto = true;
+  }
+
+  selecionarPessoa(usuario: { label: string; value: string }): void {
+    this.filtro.filtroUsuarioNome = usuario.label;
+    this.filtro.usuarioId = usuario.value;
+    this.pessoaDropdownAberto = false;
+    this.pesquisar();
+  }
+
   carregarUsuarios(): void {
     this.ordensServicoService.getUsuarios().subscribe({
       next: (usuarios: any[]) => {
         this.usuariosApi = usuarios;
-        this.usuarioOptions = (usuarios ?? []).map((u: any) => ({
-          label: u.firstName,
-          value: String(u.userId)
-        }));
+        this.usuarioOptions = this.mapearUsuariosOptions(usuarios);
       },
       error: () => {
         this.usuariosApi = [];
@@ -134,6 +209,8 @@ export class OrdensServicoListComponent {
   }
 
   limparFiltros(): void {
+    this.statusDropdownAberto = false;
+    this.pessoaDropdownAberto = false;
     this.filtro = {
       page: 1,
       pageSize: 25,
@@ -216,14 +293,33 @@ export class OrdensServicoListComponent {
     return 'open';
   }
 
+  private normalizarTexto(valor: string | null | undefined): string {
+    return (valor ?? '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
+  private mapearUsuariosOptions(usuarios: any[] | null | undefined): { label: string; value: string }[] {
+    return (usuarios ?? [])
+      .map((usuario: any) => {
+        const label = usuario.usrNome ?? usuario.firstName ?? usuario.nome ?? usuario.name ?? '';
+        const value = usuario.userId ?? usuario.usrCodigo ?? usuario.id ?? label;
+
+        return {
+          label: String(label).trim(),
+          value: String(value),
+        };
+      })
+      .filter((usuario) => usuario.label);
+  }
+
   private carregarFiltros(): void {
     this.ordensServicoService.obterFiltros().subscribe({
       next: (response) => {
         this.statusOptions = response.status;
-        this.usuarioOptions = (response.usuarios ?? []).map((u: any) => ({
-          label: u.firstName,
-          value: String(u.userId)
-        }));
+        this.usuarioOptions = this.mapearUsuariosOptions(response.usuarios);
       },
       error: () => {
         this.statusOptions = [];
