@@ -88,20 +88,31 @@ public sealed class OrdensServicoConsultaService
             parameters.Add(new MySqlParameter("@Responsavel", $"%{filtro.Responsavel.Trim()}%"));
         }
 
-        if (!string.IsNullOrWhiteSpace(filtro.Status))
-        {
-            var status = filtro.Status.Trim();
+        var statusNormalizados = RetornarStatusNormalizados(filtro.Status);
 
-            if (long.TryParse(status, out var statusId))
+        if (statusNormalizados.Count > 0)
+        {
+            var filtrosStatus = new List<string>();
+
+            for (var i = 0; i < statusNormalizados.Count; i++)
             {
-                filtros.Add("sd.STATUSID = @StatusId");
-                parameters.Add(new MySqlParameter("@StatusId", statusId));
+                var status = statusNormalizados[i];
+
+                if (long.TryParse(status, out var statusId))
+                {
+                    var nomeParametro = $"@StatusId{i}";
+                    filtrosStatus.Add($"sd.STATUSID = {nomeParametro}");
+                    parameters.Add(new MySqlParameter(nomeParametro, statusId));
+                }
+                else
+                {
+                    var nomeParametro = $"@StatusNome{i}";
+                    filtrosStatus.Add($"sd.STATUSNAME LIKE {nomeParametro}");
+                    parameters.Add(new MySqlParameter(nomeParametro, $"%{status}%"));
+                }
             }
-            else
-            {
-                filtros.Add("sd.STATUSNAME LIKE @StatusNome");
-                parameters.Add(new MySqlParameter("@StatusNome", $"%{status}%"));
-            }
+
+            filtros.Add($"({string.Join(" OR ", filtrosStatus)})");
         }
 
         if (filtros.Count > 0)
@@ -109,6 +120,34 @@ public sealed class OrdensServicoConsultaService
             whereSql.Append(" WHERE ");
             whereSql.Append(string.Join(" AND ", filtros));
         }
+    }
+
+    private static List<string> RetornarStatusNormalizados(List<string>? status)
+    {
+        var statusNormalizados = new List<string>();
+
+        if (status == null || status.Count == 0)
+            return statusNormalizados;
+
+        foreach (var item in status)
+        {
+            if (string.IsNullOrWhiteSpace(item))
+                continue;
+
+            var partes = item
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
+
+            foreach (var parte in partes)
+            {
+                if (!statusNormalizados.Contains(parte, StringComparer.OrdinalIgnoreCase))
+                    statusNormalizados.Add(parte);
+            }
+        }
+
+        return statusNormalizados;
     }
 
     private static async Task<int> RetornarTotalAsync(

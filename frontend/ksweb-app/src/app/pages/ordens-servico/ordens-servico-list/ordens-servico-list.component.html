@@ -24,10 +24,9 @@
 
       <label>
         <span>Status</span>
-        <select [(ngModel)]="filtro.statusId" (change)="aoSelecionarStatus()">
-          <option value="">Todos</option>
+        <select [(ngModel)]="filtro.status" (change)="aoSelecionarStatus()" multiple>
           @for (status of statusOptions; track status.statusId) {
-            <option [value]="status.statusName">{{ status.statusName }}</option>
+            <option [ngValue]="status.statusName">{{ status.statusName }}</option>
           }
         </select>
       </label>

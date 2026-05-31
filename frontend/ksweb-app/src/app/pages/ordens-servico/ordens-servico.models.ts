@@ -45,7 +45,7 @@ export interface OrdemServicoFiltro {
   pageSize: number;
   numero?: string;
   texto?: string;
-  statusId?: string;
+  status?: string[];
   filtrarPor?: 'solicitante' | 'criadoPor' | 'responsavel';
   filtroUsuarioNome?: string;
   filtroPessoa?: string;

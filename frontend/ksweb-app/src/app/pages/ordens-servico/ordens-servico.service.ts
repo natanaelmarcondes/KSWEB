@@ -49,8 +49,12 @@ export class OrdensServicoService {
       }
     }
 
-    if (filtro.statusId) {
-      params = params.set('Status', filtro.statusId);
+    if (filtro.status?.length) {
+      filtro.status
+        .filter((status) => status?.trim())
+        .forEach((status) => {
+          params = params.append('Status', status.trim());
+        });
     }
     return this.http.get<OrdemServicoListResponse>(this.apiUrl, { params });
   }

@@ -6,7 +6,7 @@ public sealed class OrdensServicoConsultaFiltro
     public string? Solicitante { get; set; }
     public string? CriadoPor { get; set; }
     public string? Responsavel { get; set; }
-    public string? Status { get; set; }
+    public List<string> Status { get; set; } = [];
 
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 25;

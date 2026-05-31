@@ -97,7 +97,7 @@
       },
       {
         "Name": "Status",
-        "Type": "System.String",
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
