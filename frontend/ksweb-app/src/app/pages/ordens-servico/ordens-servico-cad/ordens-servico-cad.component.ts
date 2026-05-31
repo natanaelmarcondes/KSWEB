@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 
 @Component({
   selector: 'app-ordens-servico-cad',
-  imports: [ButtonComponent],
+  imports: [KsButtonComponent],
   templateUrl: './ordens-servico-cad.component.html',
   styleUrl: './ordens-servico-cad.component.css',
 })

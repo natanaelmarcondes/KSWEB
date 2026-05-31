@@ -4,13 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth/auth.service';
-import { ButtonComponent } from '../../shared/ui/button/button.component';
-import { CheckboxComponent } from '../../shared/ui/checkbox/checkbox.component';
-import { TextFieldComponent } from '../../shared/ui/text-field/text-field.component';
+import { KsButtonComponent } from '../../shared/components/ks-button/ks-button.component';
+import { KsInputComponent } from '../../shared/components/ks-input/ks-input.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, ButtonComponent, CheckboxComponent, TextFieldComponent],
+  imports: [ReactiveFormsModule, KsButtonComponent, KsInputComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

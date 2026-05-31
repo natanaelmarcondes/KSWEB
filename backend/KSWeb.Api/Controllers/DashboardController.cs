@@ -21,6 +21,7 @@ public sealed class DashboardController : ControllerBase
     public async Task<IActionResult> Get()
     {
         int usuarioId = int.Parse(User.FindFirstValue("usr_codigo") ?? "0");
+
         long? userId = long.TryParse(User.FindFirstValue("USER_ID"), out long parsedUserId)
             ? parsedUserId
             : null;

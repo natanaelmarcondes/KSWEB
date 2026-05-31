@@ -1,4 +1,3 @@
-using KSWeb.Api.Models;
 using KSWeb.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@ namespace KSWeb.Api.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/usuarios")]
-[Route("api/clientes")]
 public sealed class UsuariosController : ControllerBase
 {
     private readonly UsuariosService _usuariosService;
@@ -18,60 +16,9 @@ public sealed class UsuariosController : ControllerBase
         _usuariosService = usuariosService;
     }
 
-    [HttpGet("filas")]
-    public async Task<IActionResult> ListarFilas()
-    {
-        return Ok(await _usuariosService.ListarFilasAsync());
-    }
-
     [HttpGet]
     public async Task<IActionResult> Listar([FromQuery] string? termo)
     {
         return Ok(await _usuariosService.ListarAsync(termo));
-    }
-
-    [HttpGet("{codigo:int}")]
-    public async Task<IActionResult> Obter(int codigo)
-    {
-        var usuario = await _usuariosService.ObterAsync(codigo);
-        return usuario is null ? NotFound(new { mensagem = "Usuario nao encontrado." }) : Ok(usuario);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Criar([FromBody] CriarUsuarioRequest request)
-    {
-        var result = await _usuariosService.CriarAsync(request);
-
-        if (!result.Criado)
-        {
-            return Conflict(new { mensagem = result.Erro });
-        }
-
-        return CreatedAtAction(nameof(Obter), new { codigo = result.Usuario!.UsrCodigo }, result.Usuario);
-    }
-
-    [HttpPut("{codigo:int}")]
-    public async Task<IActionResult> Atualizar(int codigo, [FromBody] AtualizarUsuarioRequest request)
-    {
-        var result = await _usuariosService.AtualizarAsync(codigo, request);
-
-        if (!result.Atualizado)
-        {
-            return result.Erro == "Usuario nao encontrado."
-                ? NotFound(new { mensagem = result.Erro })
-                : Conflict(new { mensagem = result.Erro });
-        }
-
-        return Ok(result.Usuario);
-    }
-
-    [HttpPost("{codigo:int}/reset-senha")]
-    public async Task<IActionResult> ResetarSenha(int codigo)
-    {
-        bool resetado = await _usuariosService.ResetarSenhaAsync(codigo);
-
-        return resetado
-            ? Ok(new ResetSenhaResponse(codigo, "123456"))
-            : NotFound(new { mensagem = "Usuario nao encontrado." });
     }
 }

@@ -28,28 +28,28 @@
       }
 
       <form [formGroup]="form" (ngSubmit)="entrar()" class="login-form" autocomplete="off">
-        <app-text-field
+        <app-ks-input
           label="E-mail"
           type="email"
           autocomplete="username"
           placeholder="seuemail@keysystems.com.br"
           formControlName="email"
-          [error]="form.controls.email.touched && form.controls.email.invalid ? 'Informe um email valido.' : ''"
+          [erro]="form.controls.email.touched && form.controls.email.invalid ? 'Informe um email valido.' : ''"
         />
 
-        <app-text-field
+        <app-ks-input
           label="Senha"
           type="password"
           autocomplete="current-password"
           formControlName="senha"
-          [error]="form.controls.senha.touched && form.controls.senha.invalid ? 'Informe sua senha.' : ''"
+          [erro]="form.controls.senha.touched && form.controls.senha.invalid ? 'Informe sua senha.' : ''"
         />
 
         <app-checkbox label="Lembrar usuario" formControlName="manterConectado" />
 
-        <app-button type="submit" [disabled]="carregando()">
+        <app-ks-button tipo="primary" (acao)="entrar()" [disabled]="carregando()">
           {{ carregando() ? 'Entrando...' : 'Entrar' }}
-        </app-button>
+        </app-ks-button>
       </form>
     </section>
   </div>

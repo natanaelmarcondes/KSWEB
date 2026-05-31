@@ -34,8 +34,11 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<DbConnectionFactory>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<OrdensServicoConsultaService>();
+builder.Services.AddScoped<SetoresService>();
 builder.Services.AddScoped<UsuariosService>();
-builder.Services.AddScoped<OrdensServicoService>();
+builder.Services.AddScoped<StatusService>();
+builder.Services.AddScoped<OrdensServicoConsultaService>();
 
 IConfigurationSection jwtSection = builder.Configuration.GetSection("Jwt");
 string jwtKey = jwtSection["Key"] ?? throw new InvalidOperationException("Jwt:Key nao configurado.");

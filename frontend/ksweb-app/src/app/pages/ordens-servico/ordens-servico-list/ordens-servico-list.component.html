@@ -24,13 +24,33 @@
 
       <label>
         <span>Status</span>
-        <select [(ngModel)]="filtro.statusId">
-          <option value="">Padrao</option>
+        <select [(ngModel)]="filtro.statusId" (change)="aoSelecionarStatus()">
+          <option value="">Todos</option>
           @for (status of statusOptions; track status.statusId) {
-            <option [value]="status.statusId">{{ status.statusName }}</option>
+            <option [value]="status.statusName">{{ status.statusName }}</option>
           }
         </select>
       </label>
+
+      <div style="display: flex; align-items: end; gap: 8px;">
+        <label>
+          <span>Filtrar por:</span>
+          <select [(ngModel)]="filtroUsuarioTipo">
+            <option value="Solicitante">Solicitante</option>
+            <option value="Responsável">Responsável</option>
+            <option value="Cliente">Cliente</option>
+          </select>
+        </label>
+        <label>
+          <span>&nbsp;</span>
+          <select [(ngModel)]="filtro.filtroUsuarioNome" (change)="aoSelecionarUsuarioFiltro()">
+            <option value="">Selecione ou digite</option>
+            @for (usuario of usuariosApi; track usuario.id) {
+              <option [value]="usuario.nome">{{ usuario.nome }}</option>
+            }
+          </select>
+        </label>
+      </div>
 
       <label>
         <span>Pessoa</span>
@@ -75,8 +95,8 @@
         <span>Listar tudo</span>
       </label>
 
-      <app-button size="small" variant="secondary" (pressed)="limparFiltros()">Limpar</app-button>
-      <app-button size="small" (pressed)="pesquisar()">Pesquisar</app-button>
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+      <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">Pesquisar</app-ks-button>
     </div>
   </div>
 
@@ -106,33 +126,33 @@
           <thead>
             <tr>
               <th>O.S</th>
-              <th>Titulo</th>
-              <th>Cliente</th>
-              <th>Abertura</th>
-              <th>Responsavel</th>
+              <th>Título</th>
+              <th>Solicitante</th>
+              <th>Responsável</th>
+              <th>Setor</th>
               <th>Status</th>
-              <th>Data</th>
+              <th>Criada em</th>
             </tr>
           </thead>
 
           <tbody>
-            @for (ordem of items; track ordem.osCodigo) {
+            @for (ordem of items; track ordem.numeroOs) {
               <tr (click)="abrir(ordem)" tabindex="0" (keyup.enter)="abrir(ordem)">
-                <td class="os-numero">{{ ordem.osCodigo }}</td>
+                <td class="os-numero">{{ ordem.numeroOs }}</td>
                 <td class="os-titulo">
                   <button type="button" (click)="abrir(ordem); $event.stopPropagation()">
-                    {{ ordem.osTitulo }}
+                    {{ ordem.titulo }}
                   </button>
                 </td>
-                <td>{{ ordem.cliente }}</td>
-                <td>{{ ordem.usuarioAbertura }}</td>
-                <td>{{ ordem.usuarioResponsavel }}</td>
+                <td>{{ ordem.solicitante }}</td>
+                <td>{{ ordem.responsavel }}</td>
+                <td>{{ ordem.setor }}</td>
                 <td>
-                  <span class="status" [class]="statusClasse(ordem.status)">
-                    {{ ordem.status || 'SEM STATUS' }}
+                  <span class="status" [class]="statusClasse(ordem.statusNome)">
+                    {{ ordem.statusNome || 'SEM STATUS' }}
                   </span>
                 </td>
-                <td class="os-data">{{ formatarData(ordem.osData) }}</td>
+                <td class="os-data">{{ formatarData(ordem.criadoEmMs) }}</td>
               </tr>
             } @empty {
               <tr>
@@ -144,20 +164,20 @@
       </div>
 
       <div class="pagination">
-        <app-button size="small" variant="secondary" [disabled]="filtro.page <= 1" (pressed)="paginaAnterior()">
+        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
           Anterior
-        </app-button>
+        </app-ks-button>
 
         <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
 
-        <app-button
-          size="small"
-          variant="secondary"
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
           [disabled]="filtro.page >= totalPaginas"
-          (pressed)="proximaPagina()"
+          (acao)="proximaPagina()"
         >
           Proxima
-        </app-button>
+        </app-ks-button>
       </div>
     }
   </div>

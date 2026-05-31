@@ -1,34 +1,198 @@
-<div class="app-shell">
+<div class="app-shell" [class.mobile-menu-open]="menuMobileAberto()">
   <aside class="sidebar">
-    <div class="brand">
-      <span>KS</span>
-      <strong>KSWeb</strong>
+    <div class="sidebar-top">
+      <div class="brand">
+        <div class="brand-mark">KS</div>
+
+        <div class="brand-text">
+          <strong>KSWeb</strong>
+          <span>KeySolution</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="sidebar-close"
+        aria-label="Fechar menu"
+        (click)="fecharMenuMobile()"
+      >
+        ×
+      </button>
     </div>
 
-    <nav aria-label="Menu principal">
-      <a routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">Dashboard</a>
-      <a routerLink="/modelo-padrao" routerLinkActive="active" ariaCurrentWhenActive="page">Modelo padrao</a>
-      <a routerLink="/usuarios" routerLinkActive="active" ariaCurrentWhenActive="page">Usuarios</a>
-      <a routerLink="/setores" routerLinkActive="active" ariaCurrentWhenActive="page">Setores</a>
-      <a routerLink="/ordens-servico" routerLinkActive="active" ariaCurrentWhenActive="page">Ordens de servico</a>
+    <div style="padding: 0 1rem 1rem 1rem;">
+      <label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">FILTRAR POR</label>
+      <app-ks-select
+        [options]="usuariosOptions"
+        [label]="'Usuário'"
+        [placeholder]="'Selecione um usuário'"
+        [(ngModel)]="usuarioSelecionado"
+        (ngModelChange)="onUsuarioSelecionado($event)"
+        style="width: 100%;"
+      ></app-ks-select>
+    </div>
+    <nav class="sidebar-nav" aria-label="Menu principal">
+      <div class="menu-label">Navegação</div>
+
+      <div class="menu-section">
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page"
+          class="menu-link root-link"
+          (click)="fecharMenuMobile()"
+        >
+          <span>Início</span>
+        </a>
+      </div>
+
+      <div class="menu-section">
+        <button
+          type="button"
+          class="menu-parent"
+          [class.active]="menuAtivo('operacional')"
+          [class.open]="submenuAberto() === 'operacional'"
+          (click)="alternarSubmenu('operacional')"
+        >
+          <span>Operacional</span>
+          <span class="chevron"></span>
+        </button>
+
+        <div class="submenu" [class.open]="submenuAberto() === 'operacional'">
+          <a
+            routerLink="/ordens-servico"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            class="submenu-link"
+            (click)="fecharMenuMobile()"
+          >
+            Ordens de serviço
+          </a>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <button
+          type="button"
+          class="menu-parent"
+          [class.active]="menuAtivo('cadastros')"
+          [class.open]="submenuAberto() === 'cadastros'"
+          (click)="alternarSubmenu('cadastros')"
+        >
+          <span>Cadastros</span>
+          <span class="chevron"></span>
+        </button>
+
+        <div class="submenu" [class.open]="submenuAberto() === 'cadastros'">
+          <a
+            routerLink="/usuarios"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            class="submenu-link"
+            (click)="fecharMenuMobile()"
+          >
+            Usuários
+          </a>
+
+          <a
+            routerLink="/setores"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            class="submenu-link"
+            (click)="fecharMenuMobile()"
+          >
+            Setores
+          </a>
+
+          <a
+            routerLink="/status"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            class="submenu-link"
+            (click)="fecharMenuMobile()"
+          >
+            Status
+          </a>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <button
+          type="button"
+          class="menu-parent"
+          [class.active]="menuAtivo('sistema')"
+          [class.open]="submenuAberto() === 'sistema'"
+          (click)="alternarSubmenu('sistema')"
+        >
+          <span>Sistema</span>
+          <span class="chevron"></span>
+        </button>
+
+        <div class="submenu" [class.open]="submenuAberto() === 'sistema'">
+          <a
+            routerLink="/modelo-padrao"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            class="submenu-link"
+            (click)="fecharMenuMobile()"
+          >
+            Modelo padrão
+          </a>
+        </div>
+      </div>
     </nav>
+
+    <div class="sidebar-bottom">
+      <span>Ambiente</span>
+      <strong>Produção</strong>
+    </div>
   </aside>
+
+  <button
+    type="button"
+    class="mobile-backdrop"
+    aria-label="Fechar menu"
+    (click)="fecharMenuMobile()"
+  ></button>
 
   <div class="content">
     <header class="topbar">
-      <div>
-        <span>Usuario logado</span>
-        <strong>{{ usuario()?.nome || 'Usuario' }}</strong>
+      <div class="topbar-left">
+        <button
+          type="button"
+          class="mobile-menu-button"
+          aria-label="Abrir menu"
+          (click)="abrirMenuMobile()"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div>
+          <strong>KeySolution</strong>
+          <span>Sistema de gestão operacional</span>
+        </div>
       </div>
-      <div>
-        <span>Nivel</span>
-        <strong>{{ usuario()?.nivel || '-' }}</strong>
+
+      <div class="topbar-right">
+        <div class="topbar-user-block">
+          <span>Usuário</span>
+          <strong>{{ usuario()?.nome || 'Usuário' }}</strong>
+        </div>
+
+        <div class="topbar-user-block">
+          <span>Nível</span>
+          <strong>{{ usuario()?.nivel || '-' }}</strong>
+        </div>
+
+        <app-ks-button tipo="secondary" (acao)="sair()">Sair</app-ks-button>
       </div>
-      <app-button variant="secondary" icon="logout" (pressed)="sair()">Sair</app-button>
     </header>
 
     <main class="main-content">
-      <router-outlet />
+      <router-outlet></router-outlet>
     </main>
   </div>
 </div>

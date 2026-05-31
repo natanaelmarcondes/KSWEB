@@ -7,7 +7,11 @@ public sealed record DashboardResumo(
     int TotalSemResolucao,
     IReadOnlyList<DashboardStatusItem> Status);
 
-public sealed record DashboardStatusItem(
-    long StatusId,
-    string Status,
-    int Total);
+public sealed class DashboardStatusItem
+{
+    public long StatusId { get; set; }
+
+    public string Status { get; set; } = string.Empty;
+
+    public long Total { get; set; }
+}

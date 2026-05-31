@@ -150,11 +150,11 @@
 }
 
 .status-programacao::before {
-  background: #d7a846;
+  background: #fffb00;
 }
 
 .status-descontinuado::before {
-  background: #b91c1c;
+  background: #ff0000;
 }
 
 .recent-card-content {
@@ -274,7 +274,7 @@
 
 .recent-numero {
   color: #0f376f;
-  font-weight: 700;
+  font-weight:600;
   white-space: nowrap;
 }
 
@@ -306,7 +306,7 @@
 
 .recent-data {
   color: #374151;
-  font-weight: 600;
+  font-weight: 400;
   white-space: nowrap;
 }
 

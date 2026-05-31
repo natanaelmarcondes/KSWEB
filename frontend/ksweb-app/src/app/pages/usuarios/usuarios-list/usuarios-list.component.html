@@ -2,45 +2,51 @@
   <header class="page-header">
     <div>
       <h1>Usuarios</h1>
-      <span>Clientes e tecnicos cadastrados no KSWeb</span>
+      <span>Listagem operacional de usuarios, tecnicos e filas do ServiceDesk</span>
     </div>
 
-    <app-button (pressed)="novo()">Novo usuario</app-button>
+    <app-ks-button tamanho="small" tipo="primary" (acao)="novo()">Novo usuario</app-ks-button>
   </header>
 
   @if (erro) {
     <div class="alert">{{ erro }}</div>
   }
 
+  <div class="filters-panel">
+    <div class="filters-grid">
+      <label>
+        <span>Texto</span>
+        <input
+          type="search"
+          [(ngModel)]="filtro.termo"
+          placeholder="Nome, e-mail, nivel, setor ou codigo"
+          (keyup.enter)="pesquisar()"
+        />
+      </label>
+    </div>
+
+    <div class="filters-actions">
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
+      <app-ks-button tamanho="small" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    </div>
+  </div>
+
   <div class="table-panel">
     <div class="panel-header">
       <div>
-        <h2>Lista de usuarios</h2>
+        <h2>Resultado</h2>
         <p>{{ intervalo }}</p>
       </div>
 
-      <div class="toolbar">
-        <label>
-          <span>Buscar</span>
-          <input
-            type="search"
-            [(ngModel)]="termo"
-            placeholder="Nome do usuario"
-            (keyup.enter)="pesquisar()"
-          />
-        </label>
-
-        <div class="page-size">
-          <span>Linhas</span>
-          <select [(ngModel)]="pageSize" (change)="alterarPageSize()">
-            <option [ngValue]="10">10</option>
-            <option [ngValue]="25">25</option>
-            <option [ngValue]="50">50</option>
-            <option [ngValue]="100">100</option>
-          </select>
-        </div>
-
-        <app-button size="small" variant="secondary" (pressed)="pesquisar()">Filtrar</app-button>
+      <div class="page-size">
+        <span>Linhas</span>
+        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
       </div>
     </div>
 
@@ -51,35 +57,60 @@
         <table class="usuarios-table">
           <thead>
             <tr>
+              <th>Codigo</th>
               <th>Nome</th>
               <th>E-mail</th>
               <th>Nivel</th>
               <th>Setor/Fila</th>
-              <th class="number">USER_ID</th>
-              <th class="actions">Acoes</th>
+              <th>Queue ID</th>
+              <th>USER ID</th>
+              <th>Acoes</th>
             </tr>
           </thead>
 
           <tbody>
-            @for (usuario of usuariosPaginados; track usuario.usrCodigo + '-' + usuario.queueId) {
+            @for (usuario of items; track usuario.userId + '-' + usuario.queueId + '-' + usuario.usrCodigo) {
               <tr>
-                <td class="usuario-nome">
-                  <strong>{{ usuario.nome }}</strong>
-                  <span>#{{ usuario.usrCodigo }}</span>
+                <td class="usuario-codigo">
+                  @if (usuario.usrCodigo) {
+                    {{ usuario.usrCodigo }}
+                  } @else {
+                    -
+                  }
                 </td>
-                <td class="usuario-email">{{ usuario.email }}</td>
+
+                <td class="usuario-nome">{{ usuario.usrNome || '-' }}</td>
+                <td class="usuario-email">{{ usuario.usrEmail || '-' }}</td>
+
                 <td>
-                  <span class="nivel">{{ usuario.nivel }}</span>
+                  <span class="nivel" [class]="nivelClasse(usuario.usrNivel)">
+                    {{ usuario.usrNivel || '-' }}
+                  </span>
                 </td>
+
                 <td class="usuario-setor">{{ usuario.setor || '-' }}</td>
-                <td class="number">{{ usuario.userId }}</td>
-                <td class="actions">
-                  <app-button size="small" variant="secondary" (pressed)="editar(usuario)">Editar</app-button>
+
+                <td class="usuario-queue">
+                  @if (usuario.queueId) {
+                    {{ usuario.queueId }}
+                  } @else {
+                    -
+                  }
+                </td>
+
+                <td class="usuario-user-id">{{ usuario.userId }}</td>
+
+                <td class="acoes">
+                  @if (usuario.usrCodigo) {
+                    <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(usuario)">Editar</app-ks-button>
+                  } @else {
+                    <span class="sem-cadastro">Sem cadastro</span>
+                  }
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="6" class="empty">Nenhum usuario encontrado.</td>
+                <td colspan="8" class="empty">Nenhum usuario encontrado.</td>
               </tr>
             }
           </tbody>
@@ -87,15 +118,20 @@
       </div>
 
       <div class="pagination">
-        <app-button size="small" variant="secondary" [disabled]="page <= 1" (pressed)="paginaAnterior()">
+        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
           Anterior
-        </app-button>
+        </app-ks-button>
 
-        <span>Pagina {{ page }} de {{ totalPaginas }}</span>
+        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
 
-        <app-button size="small" variant="secondary" [disabled]="page >= totalPaginas" (pressed)="proximaPagina()">
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
+          [disabled]="filtro.page >= totalPaginas"
+          (acao)="proximaPagina()"
+        >
           Proxima
-        </app-button>
+        </app-ks-button>
       </div>
     }
   </div>

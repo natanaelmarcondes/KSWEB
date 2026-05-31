@@ -1,8 +1,9 @@
+// ...existing code...
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 import {
   OrdemServicoFiltro,
   OrdemServicoListItem,
@@ -13,11 +14,29 @@ import { OrdensServicoService } from '../ordens-servico.service';
 
 @Component({
   selector: 'app-ordens-servico-list',
-  imports: [ButtonComponent, FormsModule],
+  imports: [KsButtonComponent, FormsModule],
   templateUrl: './ordens-servico-list.component.html',
   styleUrl: './ordens-servico-list.component.css',
 })
 export class OrdensServicoListComponent {
+    filtroUsuarioTipo: string = 'Solicitante';
+    usuariosApi: any[] = [];
+
+    carregarUsuarios(): void {
+      this.ordensServicoService.getUsuarios().subscribe({
+        next: (usuarios) => {
+          this.usuariosApi = usuarios;
+        },
+        error: () => {
+          this.usuariosApi = [];
+        },
+      });
+    }
+
+    aoSelecionarUsuarioFiltro(): void {
+      this.filtro.page = 1;
+      this.carregar();
+    }
   items: OrdemServicoListItem[] = [];
   statusOptions: OrdemServicoStatusOption[] = [];
   usuarioOptions: OrdemServicoUsuarioOption[] = [];
@@ -41,8 +60,20 @@ export class OrdensServicoListComponent {
     private readonly ordensServicoService: OrdensServicoService,
     private readonly router: Router,
   ) {
-    this.carregarFiltros();
+    this.carregarStatus();
+    this.carregarUsuarios();
     this.carregar();
+  }
+
+  carregarStatus(): void {
+    this.ordensServicoService.getStatus().subscribe({
+      next: (status) => {
+        this.statusOptions = status;
+      },
+      error: () => {
+        this.statusOptions = [];
+      },
+    });
   }
 
   get totalPaginas(): number {
@@ -79,6 +110,11 @@ export class OrdensServicoListComponent {
   }
 
   pesquisar(): void {
+    this.filtro.page = 1;
+    this.carregar();
+  }
+
+  aoSelecionarStatus(): void {
     this.filtro.page = 1;
     this.carregar();
   }
@@ -122,7 +158,7 @@ export class OrdensServicoListComponent {
   }
 
   abrir(ordem: OrdemServicoListItem): void {
-    void this.router.navigate(['/ordens-servico', ordem.osCodigo]);
+    void this.router.navigate(['/ordens-servico', ordem.numeroOs]);
   }
 
   formatarData(valor: number): string {

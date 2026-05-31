@@ -1,0 +1,25 @@
+using KSWeb.Api.Models;
+using KSWeb.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KSWeb.Api.Controllers;
+
+[ApiController]
+[Authorize]
+[Route("api/ordens-servico-consulta")]
+public sealed class OrdensServicoConsultaController : ControllerBase
+{
+    private readonly OrdensServicoConsultaService _ordensServicoConsultaService;
+
+    public OrdensServicoConsultaController(OrdensServicoConsultaService ordensServicoConsultaService)
+    {
+        _ordensServicoConsultaService = ordensServicoConsultaService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Listar([FromQuery] OrdensServicoConsultaFiltro filtro)
+    {
+        return Ok(await _ordensServicoConsultaService.ListarAsync(filtro));
+    }
+}

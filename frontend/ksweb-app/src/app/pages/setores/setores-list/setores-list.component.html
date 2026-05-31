@@ -1,1 +1,96 @@
-<p>setores-list works!</p>
+<section class="setores-page">
+  <header class="page-header">
+    <div>
+      <h1>Setores</h1>
+      <span>Listagem operacional de filas/setores cadastrados no ServiceDesk</span>
+    </div>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  <div class="filters-panel">
+    <div class="filters-grid">
+      <label>
+        <span>Texto</span>
+        <input
+          type="search"
+          [(ngModel)]="filtro.termo"
+          placeholder="Codigo ou nome do setor"
+          (keyup.enter)="pesquisar()"
+        />
+      </label>
+    </div>
+
+    <div class="filters-actions">
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
+      <app-ks-button tamanho="small" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    </div>
+  </div>
+
+  <div class="table-panel">
+    <div class="panel-header">
+      <div>
+        <h2>Resultado</h2>
+        <p>{{ intervalo }}</p>
+      </div>
+
+      <div class="page-size">
+        <span>Linhas</span>
+        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="state">Carregando setores...</div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="setores-table">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Nome do setor</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (setor of items; track setor.queueId) {
+              <tr>
+                <td class="setor-codigo">{{ setor.queueId }}</td>
+                <td class="setor-nome">{{ setor.queueName }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="empty">Nenhum setor encontrado.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
+          Anterior
+        </app-ks-button>
+
+        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
+
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
+          [disabled]="filtro.page >= totalPaginas"
+          (acao)="proximaPagina()"
+        >
+          Proxima
+        </app-ks-button>
+      </div>
+    }
+  </div>
+</section>

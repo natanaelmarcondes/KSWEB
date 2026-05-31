@@ -1,0 +1,139 @@
+﻿using System.Security.Claims;
+using KSWeb.Api.Models;
+using KSWeb.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KSWeb.Api.Controllers;
+
+[ApiController]
+[Authorize]
+[Route("api/ordens-servico")]
+public sealed class OrdensServicoController : ControllerBase
+{
+    private readonly OrdensServicoService _ordensServicoService;
+
+    public OrdensServicoController(OrdensServicoService ordensServicoService)
+    {
+        _ordensServicoService = ordensServicoService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Listar(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 25,
+        [FromQuery] long? numero = null,
+        [FromQuery] string? texto = null,
+        [FromQuery] string? statusIds = null,
+        [FromQuery] string? filtroUsuarioNome = null,
+        [FromQuery] string? filtroPessoa = null,
+        [FromQuery] bool listarTudo = false,
+        [FromQuery] long? usuarioId = null)
+    {
+        var filtro = new OrdemServicoFiltro(
+            Math.Max(1, page),
+            Math.Clamp(pageSize, 5, 100),
+            numero,
+            texto,
+            ParseIds(statusIds),
+            filtroUsuarioNome,
+            string.IsNullOrWhiteSpace(filtroPessoa) ? "qualquer" : filtroPessoa.Trim().ToLowerInvariant(),
+            listarTudo,
+            usuarioId);
+
+        var contexto = new UsuarioContexto(
+            int.TryParse(User.FindFirstValue("usr_codigo"), out int usuarioIdClaim) ? usuarioIdClaim : 0,
+            long.TryParse(User.FindFirstValue("USER_ID"), out long userIdClaim) ? userIdClaim : null,
+            IsAdmin(User.FindFirstValue(ClaimTypes.Role)));
+
+        return Ok(await _ordensServicoService.ListarAsync(filtro, contexto));
+    }
+
+    [HttpGet("filtros")]
+    public async Task<IActionResult> ObterFiltros()
+    {
+        return Ok(await _ordensServicoService.ObterFiltrosAsync());
+    }
+
+    [HttpGet("form-combos")]
+    public async Task<IActionResult> ObterCombosForm()
+    {
+        return Ok(await _ordensServicoService.ObterCombosFormAsync());
+    }
+
+    [HttpGet("grupos-atribuicao")]
+    public async Task<IActionResult> GruposAtribuicao()
+    {
+        return Ok(await _ordensServicoService.ListarGruposAtribuicaoAsync());
+    }
+
+    [HttpGet("usuarios-por-grupo")]
+    public async Task<IActionResult> UsuariosPorGrupo([FromQuery] long queueId)
+    {
+        return Ok(await _ordensServicoService.ListarUsuariosPorGrupoAsync(queueId));
+    }
+
+    [HttpGet("form/{id:long}")]
+    public async Task<IActionResult> ObterForm(long id, [FromQuery] bool view = true)
+    {
+        var ordem = await _ordensServicoService.ObterFormAsync(id, view, CriarContexto());
+        return ordem is null ? NotFound(new { mensagem = "O.S nao encontrada." }) : Ok(ordem);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Criar([FromBody] SalvarOrdemServicoRequest request)
+    {
+        long id = await _ordensServicoService.CriarAsync(request, CriarContexto());
+        return CreatedAtAction(nameof(ObterForm), new { id, view = true }, new { workorderId = id });
+    }
+
+    [HttpPut("{id:long}")]
+    public async Task<IActionResult> Atualizar(long id, [FromBody] SalvarOrdemServicoRequest request)
+    {
+        bool atualizado = await _ordensServicoService.AtualizarAsync(id, request, CriarContexto());
+        return atualizado ? NoContent() : NotFound(new { mensagem = "O.S nao encontrada." });
+    }
+
+    [HttpPost("{id:long}/resolucao")]
+    public async Task<IActionResult> SalvarResolucao(long id, [FromBody] SalvarResolucaoRequest request)
+    {
+        bool salvo = await _ordensServicoService.SalvarResolucaoAsync(id, request, CriarContexto());
+        return salvo ? NoContent() : NotFound(new { mensagem = "O.S nao encontrada." });
+    }
+
+    [HttpPost("{id:long}/alterar-status-atribuir")]
+    public async Task<IActionResult> AlterarStatusAtribuir(long id, [FromBody] AlterarStatusAtribuirRequest request)
+    {
+        bool salvo = await _ordensServicoService.AlterarStatusAtribuirAsync(id, request, CriarContexto());
+        return salvo ? NoContent() : NotFound(new { mensagem = "O.S nao encontrada." });
+    }
+
+    private static IReadOnlyList<long> ParseIds(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return [];
+        }
+
+        return raw
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(value => long.TryParse(value, out long id) ? id : 0)
+            .Where(id => id > 0)
+            .Distinct()
+            .ToArray();
+    }
+
+    private static bool IsAdmin(string? nivel)
+    {
+        return !string.IsNullOrWhiteSpace(nivel)
+            && nivel.Contains("ADMIN", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private UsuarioContexto CriarContexto()
+    {
+        return new UsuarioContexto(
+            int.TryParse(User.FindFirstValue("usr_codigo"), out int usuarioIdClaim) ? usuarioIdClaim : 0,
+            long.TryParse(User.FindFirstValue("USER_ID"), out long userIdClaim) ? userIdClaim : null,
+            IsAdmin(User.FindFirstValue(ClaimTypes.Role)));
+    }
+}
