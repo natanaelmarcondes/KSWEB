@@ -8,7 +8,6 @@ import {
   OrdemServicoFiltro,
   OrdemServicoListItem,
   OrdemServicoStatusOption,
-  OrdemServicoUsuarioOption,
 } from '../ordens-servico.models';
 import { OrdensServicoService } from '../ordens-servico.service';
 
@@ -18,28 +17,13 @@ import { OrdensServicoService } from '../ordens-servico.service';
   templateUrl: './ordens-servico-list.component.html',
   styleUrl: './ordens-servico-list.component.css',
 })
+
 export class OrdensServicoListComponent {
-    filtroUsuarioTipo: string = 'Solicitante';
-    usuariosApi: any[] = [];
-
-    carregarUsuarios(): void {
-      this.ordensServicoService.getUsuarios().subscribe({
-        next: (usuarios) => {
-          this.usuariosApi = usuarios;
-        },
-        error: () => {
-          this.usuariosApi = [];
-        },
-      });
-    }
-
-    aoSelecionarUsuarioFiltro(): void {
-      this.filtro.page = 1;
-      this.carregar();
-    }
+  filtroUsuarioTipo: string = 'Solicitante';
+  usuariosApi: any[] = [];
+  usuarioOptions: { label: string; value: string }[] = [];
   items: OrdemServicoListItem[] = [];
   statusOptions: OrdemServicoStatusOption[] = [];
-  usuarioOptions: OrdemServicoUsuarioOption[] = [];
   total = 0;
   carregando = true;
   erro = '';
@@ -50,6 +34,7 @@ export class OrdensServicoListComponent {
     numero: '',
     texto: '',
     statusId: '',
+    filtrarPor: 'solicitante',
     filtroUsuarioNome: '',
     filtroPessoa: 'qualquer',
     listarTudo: false,
@@ -62,6 +47,27 @@ export class OrdensServicoListComponent {
   ) {
     this.carregarStatus();
     this.carregarUsuarios();
+    this.carregar();
+  }
+
+  carregarUsuarios(): void {
+    this.ordensServicoService.getUsuarios().subscribe({
+      next: (usuarios: any[]) => {
+        this.usuariosApi = usuarios;
+        this.usuarioOptions = (usuarios ?? []).map((u: any) => ({
+          label: u.firstName,
+          value: String(u.userId)
+        }));
+      },
+      error: () => {
+        this.usuariosApi = [];
+        this.usuarioOptions = [];
+      },
+    });
+  }
+
+  aoSelecionarUsuarioFiltro(): void {
+    this.filtro.page = 1;
     this.carregar();
   }
 
@@ -119,6 +125,14 @@ export class OrdensServicoListComponent {
     this.carregar();
   }
 
+  aoSelecionarFiltroPor(): void {
+    this.filtro.page = 1;
+
+    if (this.filtro.filtroUsuarioNome?.trim()) {
+      this.carregar();
+    }
+  }
+
   limparFiltros(): void {
     this.filtro = {
       page: 1,
@@ -126,6 +140,7 @@ export class OrdensServicoListComponent {
       numero: '',
       texto: '',
       statusId: '',
+      filtrarPor: 'solicitante',
       filtroUsuarioNome: '',
       filtroPessoa: 'qualquer',
       listarTudo: false,
@@ -205,7 +220,10 @@ export class OrdensServicoListComponent {
     this.ordensServicoService.obterFiltros().subscribe({
       next: (response) => {
         this.statusOptions = response.status;
-        this.usuarioOptions = response.usuarios;
+        this.usuarioOptions = (response.usuarios ?? []).map((u: any) => ({
+          label: u.firstName,
+          value: String(u.userId)
+        }));
       },
       error: () => {
         this.statusOptions = [];

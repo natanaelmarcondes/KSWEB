@@ -20,17 +20,6 @@
       </button>
     </div>
 
-    <div style="padding: 0 1rem 1rem 1rem;">
-      <label style="font-weight: bold; display: block; margin-bottom: 0.5rem;">FILTRAR POR</label>
-      <app-ks-select
-        [options]="usuariosOptions"
-        [label]="'Usuário'"
-        [placeholder]="'Selecione um usuário'"
-        [(ngModel)]="usuarioSelecionado"
-        (ngModelChange)="onUsuarioSelecionado($event)"
-        style="width: 100%;"
-      ></app-ks-select>
-    </div>
     <nav class="sidebar-nav" aria-label="Menu principal">
       <div class="menu-label">Navegação</div>
 

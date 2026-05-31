@@ -31,26 +31,15 @@
           }
         </select>
       </label>
-
-      <div style="display: flex; align-items: end; gap: 8px;">
-        <label>
-          <span>Filtrar por:</span>
-          <select [(ngModel)]="filtroUsuarioTipo">
-            <option value="Solicitante">Solicitante</option>
-            <option value="Responsável">Responsável</option>
-            <option value="Cliente">Cliente</option>
-          </select>
-        </label>
-        <label>
-          <span>&nbsp;</span>
-          <select [(ngModel)]="filtro.filtroUsuarioNome" (change)="aoSelecionarUsuarioFiltro()">
-            <option value="">Selecione ou digite</option>
-            @for (usuario of usuariosApi; track usuario.id) {
-              <option [value]="usuario.nome">{{ usuario.nome }}</option>
-            }
-          </select>
-        </label>
-      </div>
+      
+      <label>
+        <span>Filtrar por</span>
+        <select [(ngModel)]="filtro.filtrarPor" (change)="aoSelecionarFiltroPor()">
+          <option value="solicitante">Solicitante</option>
+          <option value="criadoPor">Criado por</option>
+          <option value="responsavel">Responsável</option>
+        </select>
+      </label>
 
       <label>
         <span>Pessoa</span>
@@ -59,42 +48,11 @@
           [(ngModel)]="filtro.filtroUsuarioNome"
           placeholder="Nome do usuario"
           (keyup.enter)="pesquisar()"
-          list="usuarios-os"
         />
-        <datalist id="usuarios-os">
-          @for (usuario of usuarioOptions; track usuario.userId) {
-            <option [value]="usuario.firstName"></option>
-          }
-        </datalist>
-      </label>
-
-      <label>
-        <span>Vinculo</span>
-        <select [(ngModel)]="filtro.filtroPessoa">
-          <option value="qualquer">Qualquer</option>
-          <option value="cliente">Cliente</option>
-          <option value="responsavel">Responsavel atual</option>
-          <option value="criado">Quem criou</option>
-        </select>
-      </label>
-
-      <label>
-        <span>Por usuario</span>
-        <select [(ngModel)]="filtro.usuarioId">
-          <option value="">Todos</option>
-          @for (usuario of usuarioOptions; track usuario.userId) {
-            <option [value]="usuario.userId">{{ usuario.firstName }}</option>
-          }
-        </select>
       </label>
     </div>
 
     <div class="filters-actions">
-      <label class="check-control">
-        <input type="checkbox" [(ngModel)]="filtro.listarTudo" />
-        <span>Listar tudo</span>
-      </label>
-
       <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
       <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">Pesquisar</app-ks-button>
     </div>
@@ -128,6 +86,7 @@
               <th>O.S</th>
               <th>Título</th>
               <th>Solicitante</th>
+              <th>Criado por</th>
               <th>Responsável</th>
               <th>Setor</th>
               <th>Status</th>
@@ -145,6 +104,7 @@
                   </button>
                 </td>
                 <td>{{ ordem.solicitante }}</td>
+                <td>{{ ordem.criadoPor }}</td>
                 <td>{{ ordem.responsavel }}</td>
                 <td>{{ ordem.setor }}</td>
                 <td>
@@ -156,7 +116,7 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="7" class="empty">Nenhuma O.S encontrada.</td>
+                <td colspan="8" class="empty">Nenhuma O.S encontrada.</td>
               </tr>
             }
           </tbody>

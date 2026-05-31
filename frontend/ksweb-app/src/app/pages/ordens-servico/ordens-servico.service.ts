@@ -32,15 +32,23 @@ export class OrdensServicoService {
     if (filtro.numero?.trim()) {
       params = params.set('NumeroOs', filtro.numero.trim());
     }
-    if (filtro.filtroUsuarioNome?.trim()) {
-      params = params.set('Solicitante', filtro.filtroUsuarioNome.trim());
-    }
+
     if (filtro.texto?.trim()) {
-      params = params.set('CriadoPor', filtro.texto.trim());
+      params = params.set('Texto', filtro.texto.trim());
     }
-    if (filtro.usuarioId) {
-      params = params.set('Responsavel', filtro.usuarioId);
+
+    if (filtro.filtroUsuarioNome?.trim()) {
+      const nomeUsuario = filtro.filtroUsuarioNome.trim();
+
+      if (filtro.filtrarPor === 'criadoPor') {
+        params = params.set('CriadoPor', nomeUsuario);
+      } else if (filtro.filtrarPor === 'responsavel') {
+        params = params.set('Responsavel', nomeUsuario);
+      } else {
+        params = params.set('Solicitante', nomeUsuario);
+      }
     }
+
     if (filtro.statusId) {
       params = params.set('Status', filtro.statusId);
     }
