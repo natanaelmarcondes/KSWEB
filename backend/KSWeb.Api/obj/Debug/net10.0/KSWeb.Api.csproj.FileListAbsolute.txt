@@ -125,3 +125,13 @@ D:\KSWeb\backend\KSWeb.Api\obj\Debug\net10.0\refint\KSWeb.Api.dll
 D:\KSWeb\backend\KSWeb.Api\obj\Debug\net10.0\KSWeb.Api.pdb
 D:\KSWeb\backend\KSWeb.Api\obj\Debug\net10.0\KSWeb.Api.genruntimeconfig.cache
 D:\KSWeb\backend\KSWeb.Api\obj\Debug\net10.0\ref\KSWeb.Api.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\BCrypt.Net-Next.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+H:\KSWeb\backend\KSWeb.Api\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+H:\KSWeb\backend\KSWeb.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
