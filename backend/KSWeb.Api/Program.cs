@@ -39,6 +39,8 @@ builder.Services.AddScoped<SetoresService>();
 builder.Services.AddScoped<UsuariosService>();
 builder.Services.AddScoped<StatusService>();
 builder.Services.AddScoped<OrdensServicoConsultaService>();
+builder.Services.AddScoped<DailyService>();
+builder.Services.AddScoped<DailyRegistrosService>();
 
 IConfigurationSection jwtSection = builder.Configuration.GetSection("Jwt");
 string jwtKey = jwtSection["Key"] ?? throw new InvalidOperationException("Jwt:Key nao configurado.");

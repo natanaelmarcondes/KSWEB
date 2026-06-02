@@ -58,6 +58,200 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "Listar",
+    "RelativePath": "api/daily",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DailyNumero",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Usuario",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DataInicial",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "DataFinal",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "ObterPorId",
+    "RelativePath": "api/daily/{dailyId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "Excluir",
+    "RelativePath": "api/daily/{dailyId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "ListarRegistros",
+    "RelativePath": "api/daily/{dailyId}/registros",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "InserirRegistro",
+    "RelativePath": "api/daily/{dailyId}/registros",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.DailyRegistroSalvarRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "ObterRegistro",
+    "RelativePath": "api/daily/{dailyId}/registros/{regId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "regId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "AtualizarRegistro",
+    "RelativePath": "api/daily/{dailyId}/registros/{regId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "regId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.DailyRegistroSalvarRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "ExcluirRegistro",
+    "RelativePath": "api/daily/{dailyId}/registros/{regId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dailyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "regId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.DailyController",
+    "Method": "CriarNova",
+    "RelativePath": "api/daily/nova",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.DailyNovaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "KSWeb.Api.Controllers.DashboardController",
     "Method": "Get",
     "RelativePath": "api/dashboard",

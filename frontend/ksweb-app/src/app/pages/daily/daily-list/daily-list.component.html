@@ -1,0 +1,104 @@
+<section class="daily-page">
+  <header class="page-header">
+    <div>
+      <h1>Daily</h1>
+      <span>Listagem de registros daily</span>
+    </div>
+
+    <app-ks-button tamanho="small" tipo="primary" [disabled]="criando" (acao)="novo()">
+      {{ criando ? 'Criando...' : 'Nova Daily' }}
+    </app-ks-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  <div class="filters-panel">
+    <div class="filters-actions">
+      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
+      <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    </div>
+  </div>
+
+  <div class="table-panel">
+    <div class="panel-header">
+      <div>
+        <h2>Resultado</h2>
+        <p>{{ intervalo }}</p>
+      </div>
+
+      <div class="page-size">
+        <span>Linhas</span>
+        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="state">Carregando dailies...</div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="daily-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Numero</th>
+              <th>Data</th>
+              <th>Usuario</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of items; track item.dailyId) {
+              <tr (click)="editar(item)" tabindex="0" (keyup.enter)="editar(item)">
+                <td class="daily-id">{{ item.dailyId }}</td>
+                <td class="daily-numero">{{ item.dailyNumero }}</td>
+                <td>{{ formatarData(item.dailyData) }}</td>
+                <td>{{ item.dailyUsuario || '-' }}</td>
+                <td class="acoes">
+                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(item)">Editar</app-ks-button>
+                  <app-ks-button
+                    tamanho="small"
+                    tipo="danger"
+                    [disabled]="excluindoId === item.dailyId"
+                    (click)="$event.stopPropagation()"
+                    (acao)="excluir(item)"
+                  >
+                    {{ excluindoId === item.dailyId ? 'Excluindo...' : 'Excluir' }}
+                  </app-ks-button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="empty">Nenhuma daily encontrada.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
+          Anterior
+        </app-ks-button>
+
+        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
+
+        <app-ks-button
+          tamanho="small"
+          tipo="secondary"
+          [disabled]="filtro.page >= totalPaginas"
+          (acao)="proximaPagina()"
+        >
+          Proxima
+        </app-ks-button>
+      </div>
+    }
+  </div>
+</section>

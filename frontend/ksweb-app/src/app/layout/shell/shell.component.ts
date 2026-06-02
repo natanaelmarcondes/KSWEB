@@ -86,7 +86,7 @@ export class ShellComponent {
   private rotaPertenceAoMenu(menu: Exclude<SubmenuKey, null>): boolean {
     switch (menu) {
       case 'operacional':
-        return this.rotaAtual.startsWith('/ordens-servico');
+        return this.rotaAtual.startsWith('/ordens-servico') || this.rotaAtual.startsWith('/daily');
       case 'cadastros':
         return (
           this.rotaAtual.startsWith('/usuarios') ||
@@ -101,7 +101,7 @@ export class ShellComponent {
   }
 
   private abrirSubmenuPorRota(url: string): void {
-    if (url.startsWith('/ordens-servico')) {
+    if (url.startsWith('/ordens-servico') || url.startsWith('/daily')) {
       this.submenuAberto.set('operacional');
       return;
     }
