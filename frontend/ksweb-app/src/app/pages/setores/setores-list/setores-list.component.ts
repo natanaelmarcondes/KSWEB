@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
+import { SetorListItem } from '../setores.models';
 import { SetoresService } from '../setores.service';
-
-export interface SetorListItem {
-  queueId: number;
-  queueName: string;
-}
 
 export interface SetorFiltro {
   page: number;
@@ -29,6 +26,7 @@ export class SetoresListComponent {
   total = 0;
   carregando = true;
   erro = '';
+  excluindoId: number | null = null;
 
   filtro: SetorFiltro = {
     page: 1,
@@ -36,7 +34,10 @@ export class SetoresListComponent {
     termo: '',
   };
 
-  constructor(private readonly setoresService: SetoresService) {
+  constructor(
+    private readonly setoresService: SetoresService,
+    private readonly router: Router,
+  ) {
     this.carregar();
   }
 
@@ -116,6 +117,36 @@ export class SetoresListComponent {
 
   atualizar(): void {
     this.carregar();
+  }
+
+  novo(): void {
+    void this.router.navigate(['/setores/novo']);
+  }
+
+  editar(setor: SetorListItem): void {
+    void this.router.navigate(['/setores', setor.queueId]);
+  }
+
+  excluir(setor: SetorListItem): void {
+    const confirmar = window.confirm(`Excluir o setor ${setor.queueName}?`);
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.excluindoId = setor.queueId;
+    this.erro = '';
+
+    this.setoresService.excluir(setor.queueId).subscribe({
+      next: () => {
+        this.excluindoId = null;
+        this.carregar();
+      },
+      error: () => {
+        this.erro = 'Nao foi possivel excluir o setor.';
+        this.excluindoId = null;
+      },
+    });
   }
 
   private aplicarFiltroLocal(): void {

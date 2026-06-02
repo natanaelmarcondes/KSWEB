@@ -1,1 +1,50 @@
-<p>setores-cad works!</p>
+<section class="setores-cad-page">
+  <header class="page-header">
+    <div>
+      <h1>{{ titulo }}</h1>
+      @if (modoEdicao) {
+        <span>Codigo: {{ queueId }}</span>
+      }
+    </div>
+
+    <app-ks-button tamanho="small" tipo="secondary" (acao)="voltar()">Voltar</app-ks-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  @if (carregando) {
+    <div class="form-panel state">Carregando setor...</div>
+  } @else {
+    <form class="form-panel" (ngSubmit)="salvar()">
+      <div class="panel-header">
+        <div>
+          <h2>Dados do setor</h2>
+          <p>{{ modoEdicao ? 'Altere as informacoes do setor' : 'Cadastre um novo setor' }}</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          <span>Nome do setor</span>
+          <input
+            type="text"
+            [(ngModel)]="form.queueName"
+            name="queueName"
+            maxlength="160"
+            required
+            autofocus
+          />
+        </label>
+
+        <div class="form-actions">
+          <app-ks-button tamanho="small" tipo="secondary" (acao)="voltar()">Cancelar</app-ks-button>
+          <app-ks-button tamanho="small" tipo="primary" [disabled]="salvando" (acao)="salvar()">
+            {{ salvando ? 'Salvando...' : (modoEdicao ? 'Alterar setor' : 'Cadastrar setor') }}
+          </app-ks-button>
+        </div>
+      </div>
+    </form>
+  }
+</section>

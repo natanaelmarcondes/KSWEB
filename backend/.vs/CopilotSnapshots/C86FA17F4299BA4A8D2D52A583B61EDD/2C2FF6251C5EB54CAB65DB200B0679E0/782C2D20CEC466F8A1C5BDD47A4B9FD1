@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using KSWeb.Api.Data;
 using KSWeb.Api.Models;
-using System.Data;
 
 namespace KSWeb.Api.Services;
 
@@ -40,40 +39,20 @@ public sealed class SetoresService
             throw new ArgumentException("QueueName é obrigatório.", nameof(queueName));
         }
 
-        connection.Open();
-        using IDbTransaction transaction = connection.BeginTransaction();
+        long queueId = await connection.ExecuteScalarAsync<long>(
+            """
+            INSERT INTO queuedefinition (QUEUENAME)
+            VALUES (@queueName);
 
-        try
+            SELECT LAST_INSERT_ID();
+            """,
+            new { queueName });
+
+        return new SetorResponse
         {
-            long nextQueueId = await connection.ExecuteScalarAsync<long>(
-                """
-                SELECT COALESCE(MAX(QUEUEID), 0) + 1
-                FROM queuedefinition
-                FOR UPDATE;
-                """,
-                transaction: transaction);
-
-            await connection.ExecuteAsync(
-                """
-                INSERT INTO queuedefinition (QUEUEID, QUEUENAME)
-                VALUES (@nextQueueId, @queueName);
-                """,
-                new { nextQueueId, queueName },
-                transaction: transaction);
-
-            transaction.Commit();
-
-            return new SetorResponse
-            {
-                QueueId = nextQueueId,
-                QueueName = queueName
-            };
-        }
-        catch
-        {
-            transaction.Rollback();
-            throw;
-        }
+            QueueId = queueId,
+            QueueName = queueName
+        };
     }
 
     public async Task AtualizarAsync(long queueId, string queueName)
@@ -93,23 +72,6 @@ public sealed class SetoresService
             WHERE QUEUEID = @queueId;
             """,
             new { queueId, queueName });
-
-        if (rows == 0)
-        {
-            throw new KeyNotFoundException($"Setor não encontrado. QueueId={queueId}");
-        }
-    }
-
-    public async Task ExcluirAsync(long queueId)
-    {
-        using var connection = _connectionFactory.CreateConnection();
-
-        int rows = await connection.ExecuteAsync(
-            """
-            DELETE FROM queuedefinition
-            WHERE QUEUEID = @queueId;
-            """,
-            new { queueId });
 
         if (rows == 0)
         {

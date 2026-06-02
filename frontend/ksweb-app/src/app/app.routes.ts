@@ -10,6 +10,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { ModeloPadraoComponent } from './pages/modelo-padrao/modelo-padrao.component';
 import { OrdensServicoCadComponent } from './pages/ordens-servico/ordens-servico-cad/ordens-servico-cad.component';
 import { OrdensServicoListComponent } from './pages/ordens-servico/ordens-servico-list/ordens-servico-list.component';
+import { SetoresCadComponent } from './pages/setores/setores-cad/setores-cad.component';
 import { SetoresListComponent } from './pages/setores/setores-list/setores-list.component';
 import { UsuariosListComponent } from './pages/usuarios/usuarios-list/usuarios-list.component';
 import { StatusListComponent } from './pages/status/status-list/status-list.component';
@@ -29,6 +30,8 @@ export const routes: Routes = [
       { path: 'modelo-padrao', component: ModeloPadraoComponent },
       { path: 'usuarios', component: UsuariosListComponent },
       { path: 'setores', component: SetoresListComponent },
+      { path: 'setores/novo', component: SetoresCadComponent },
+      { path: 'setores/:queueId', component: SetoresCadComponent },
       { path: 'daily', component: DailyListComponent },
       { path: 'daily/:dailyId/registros', component: DailyCadComponent },
       { path: 'daily/:dailyId', component: DailyCadComponent },

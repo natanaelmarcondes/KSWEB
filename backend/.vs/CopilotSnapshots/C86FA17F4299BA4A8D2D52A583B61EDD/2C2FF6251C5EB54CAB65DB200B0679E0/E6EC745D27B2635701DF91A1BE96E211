@@ -36,11 +36,4 @@ public sealed class SetoresController : ControllerBase
         await _setoresService.AtualizarAsync(queueId, request.QueueName);
         return NoContent();
     }
-
-    [HttpDelete("{queueId:long}")]
-    public async Task<IActionResult> Excluir([FromRoute] long queueId)
-    {
-        await _setoresService.ExcluirAsync(queueId);
-        return NoContent();
-    }
 }

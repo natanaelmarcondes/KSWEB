@@ -99,21 +99,4 @@ public sealed class SetoresService
             throw new KeyNotFoundException($"Setor não encontrado. QueueId={queueId}");
         }
     }
-
-    public async Task ExcluirAsync(long queueId)
-    {
-        using var connection = _connectionFactory.CreateConnection();
-
-        int rows = await connection.ExecuteAsync(
-            """
-            DELETE FROM queuedefinition
-            WHERE QUEUEID = @queueId;
-            """,
-            new { queueId });
-
-        if (rows == 0)
-        {
-            throw new KeyNotFoundException($"Setor não encontrado. QueueId={queueId}");
-        }
-    }
 }

@@ -323,6 +323,59 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "KSWeb.Api.Controllers.SetoresController",
+    "Method": "Criar",
+    "RelativePath": "api/setores",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.SetorCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.SetoresController",
+    "Method": "Atualizar",
+    "RelativePath": "api/setores/{queueId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "queueId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.SetorUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.SetoresController",
+    "Method": "Excluir",
+    "RelativePath": "api/setores/{queueId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "queueId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "KSWeb.Api.Controllers.StatusController",
     "Method": "Listar",
     "RelativePath": "api/status",

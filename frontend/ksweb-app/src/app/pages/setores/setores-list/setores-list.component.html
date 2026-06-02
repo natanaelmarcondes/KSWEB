@@ -3,6 +3,8 @@
     <div>
       <h1>Setores</h1>
     </div>
+
+    <app-ks-button tamanho="small" tipo="primary" (acao)="novo()">Novo setor</app-ks-button>
   </header>
 
   @if (erro) {
@@ -56,6 +58,7 @@
             <tr>
               <th>Codigo</th>
               <th>Nome do setor</th>
+              <th>Acoes</th>
             </tr>
           </thead>
 
@@ -64,10 +67,21 @@
               <tr>
                 <td class="setor-codigo">{{ setor.queueId }}</td>
                 <td class="setor-nome">{{ setor.queueName }}</td>
+                <td class="acoes">
+                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(setor)">Editar</app-ks-button>
+                  <app-ks-button
+                    tamanho="small"
+                    tipo="danger"
+                    [disabled]="excluindoId === setor.queueId"
+                    (acao)="excluir(setor)"
+                  >
+                    {{ excluindoId === setor.queueId ? 'Excluindo...' : 'Excluir' }}
+                  </app-ks-button>
+                </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="2" class="empty">Nenhum setor encontrado.</td>
+                <td colspan="3" class="empty">Nenhum setor encontrado.</td>
               </tr>
             }
           </tbody>

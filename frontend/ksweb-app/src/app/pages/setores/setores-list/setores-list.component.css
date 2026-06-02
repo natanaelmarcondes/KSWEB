@@ -4,6 +4,13 @@
   gap: 14px;
 }
 
+.page-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
 .page-header h1 {
   color: #1f2937;
   font-size: 18px;
@@ -195,6 +202,11 @@ input::placeholder {
   width: 110px;
 }
 
+.setores-table th:nth-child(3),
+.setores-table td:nth-child(3) {
+  width: 170px;
+}
+
 .setor-codigo {
   color: #111827 !important;
   font-weight: 400 !important;
@@ -204,6 +216,15 @@ input::placeholder {
 .setor-nome {
   color: #111827;
   font-weight: 400;
+}
+
+.acoes {
+  min-width: 160px;
+  white-space: nowrap;
+}
+
+.acoes app-ks-button + app-ks-button {
+  margin-left: 6px;
 }
 
 .state,
@@ -280,6 +301,7 @@ input::placeholder {
   }
 
   .filters-actions,
+  .page-header,
   .panel-header,
   .pagination {
     align-items: stretch;
