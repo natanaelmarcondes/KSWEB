@@ -364,6 +364,12 @@ input::placeholder {
   background: #f5f8fc;
 }
 
+.ordens-table tbody tr.nao-lida td,
+.ordens-table tbody tr.nao-lida .os-titulo button,
+.ordens-table tbody tr.nao-lida .status {
+  font-weight: 700;
+}
+
 .ordens-table tbody tr:last-child td {
   border-bottom: none;
 }

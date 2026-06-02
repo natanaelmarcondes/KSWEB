@@ -130,7 +130,12 @@
 
           <tbody>
             @for (ordem of items; track ordem.numeroOs) {
-              <tr (click)="abrir(ordem)" tabindex="0" (keyup.enter)="abrir(ordem)">
+              <tr
+                [class.nao-lida]="ordem.lida === false"
+                (click)="abrir(ordem)"
+                tabindex="0"
+                (keyup.enter)="abrir(ordem)"
+              >
                 <td class="os-numero">{{ ordem.numeroOs }}</td>
                 <td class="os-titulo">
                   <button type="button" (click)="abrir(ordem); $event.stopPropagation()">
