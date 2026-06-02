@@ -176,10 +176,10 @@ input::placeholder {
   border-bottom: 1px solid #e4e8ee;
   border-right: 1px solid #edf0f4;
   color: #263241;
-  height: 31px;
+  height: 36px;
   max-width: 260px;
   overflow: hidden;
-  padding: 7px 9px;
+  padding: 2px 8px;
   text-overflow: ellipsis;
   vertical-align: middle;
   white-space: nowrap;

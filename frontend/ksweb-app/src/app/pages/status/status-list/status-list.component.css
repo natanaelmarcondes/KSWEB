@@ -59,8 +59,6 @@
   background: #fef2f2;
   border: 1px solid #fecaca;
   color: #991b1b;
-  font-size: 13px;
-  font-weight: 600;
   padding: 12px 14px;
 }
 
@@ -107,10 +105,9 @@
 /* FILTROS */
 
 .status-filter-grid {
-  align-items: end;
   display: grid;
   gap: 12px;
-  grid-template-columns: minmax(280px, 560px);
+  grid-template-columns: minmax(260px, 420px);
 }
 
 .status-field {
@@ -132,20 +129,13 @@
 .status-page-size select {
   background: #ffffff;
   border: 1px solid #b8c1cc;
-  border-radius: 0;
+  border-radius: 3px;
   color: #263241;
-  font-family: inherit;
   font-size: 12px;
-  font-weight: 400;
-  height: 30px;
-  line-height: 30px;
+  height: 29px;
+  line-height: 29px;
   min-width: 0;
-  outline: none;
   padding: 0 8px;
-  transition:
-    border-color 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease;
 }
 
 .status-field input:focus,
@@ -216,22 +206,17 @@
   z-index: 1;
 }
 
-.status-table thead th:last-child {
-  border-right: none;
-}
-
 .status-table tbody td {
   border-bottom: 1px solid #e4e8ee;
   border-right: 1px solid #edf0f4;
-  color: #111827;
-  font-weight: 400;
-  height: 31px;
-  padding: 7px 9px;
+  color: #263241;
+  height: 36px;
+  max-width: 260px;
+  overflow: hidden;
+  padding: 2px 8px;
+  text-overflow: ellipsis;
   vertical-align: middle;
-}
-
-.status-table tbody td:last-child {
-  border-right: none;
+  white-space: nowrap;
 }
 
 .status-table tbody tr {
@@ -250,7 +235,7 @@
 
 .status-table th:nth-child(1),
 .status-table td:nth-child(1) {
-  width: 90px;
+  width: 110px;
 }
 
 .status-table th:nth-child(3),
@@ -313,10 +298,10 @@
   color: #475569;
   display: inline-flex;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 400;
   justify-content: center;
-  min-width: 42px;
-  padding: 3px 7px;
+  line-height: 14px;
+  padding: 1px 6px;
 }
 
 .status-badge.sim {
@@ -346,19 +331,15 @@
 
 .status-pagination {
   align-items: center;
-  border-top: 1px solid #e4e8ee;
   display: flex;
   gap: 10px;
   justify-content: flex-end;
-  padding-top: 12px;
 }
 
 .status-pagination span {
   color: #4b5563;
   font-size: 12px;
   font-weight: 700;
-  min-width: 125px;
-  text-align: center;
 }
 
 /* RESPONSIVO */
@@ -383,8 +364,8 @@
   }
 
   .status-filter-actions {
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .status-pagination {
@@ -393,7 +374,6 @@
   }
 
   .status-pagination span {
-    min-width: 0;
     text-align: left;
   }
 

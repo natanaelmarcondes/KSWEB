@@ -7,7 +7,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DailyCadComponent } from './pages/daily/daily-cad/daily-cad.component';
 import { DailyListComponent } from './pages/daily/daily-list/daily-list.component';
 import { LoginComponent } from './pages/login/login.component';
-import { ModeloPadraoComponent } from './pages/modelo-padrao/modelo-padrao.component';
 import { OrdensServicoCadComponent } from './pages/ordens-servico/ordens-servico-cad/ordens-servico-cad.component';
 import { OrdensServicoListComponent } from './pages/ordens-servico/ordens-servico-list/ordens-servico-list.component';
 import { SetoresCadComponent } from './pages/setores/setores-cad/setores-cad.component';
@@ -27,7 +26,6 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'modelo-padrao', component: ModeloPadraoComponent },
       { path: 'usuarios', component: UsuariosListComponent },
       { path: 'setores', component: SetoresListComponent },
       { path: 'setores/novo', component: SetoresCadComponent },

@@ -12,6 +12,8 @@ export class KsButtonComponent {
   @Input() tamanho: 'normal' | 'small' = 'normal';
   @Input() disabled = false;
 
+  @Input() largura: string | null = null;
+
   @Output() acao = new EventEmitter<void>();
 
   onClick(): void {

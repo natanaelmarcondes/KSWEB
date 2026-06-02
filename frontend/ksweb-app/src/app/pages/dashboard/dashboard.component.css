@@ -234,21 +234,17 @@
   z-index: 1;
 }
 
-.recent-table thead th:last-child {
-  border-right: none;
-}
-
 .recent-table tbody td {
   border-bottom: 1px solid #e4e8ee;
   border-right: 1px solid #edf0f4;
   color: #263241;
-  height: 31px;
-  padding: 7px 9px;
+  height: 22px;
+  max-width: 260px;
+  overflow: hidden;
+  padding: 2px 8px;
+  text-overflow: ellipsis;
   vertical-align: middle;
-}
-
-.recent-table tbody td:last-child {
-  border-right: none;
+  white-space: nowrap;
 }
 
 .recent-table tbody tr {
@@ -354,7 +350,7 @@
 .dashboard-alert {
   color: #64748b;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   padding: 18px 12px !important;
   text-align: center;
 }

@@ -16,33 +16,54 @@ body {
 
 /* Controles padrões centralizados */
 button, .ks-button {
-  padding: 0.5rem 1rem;
-  border: none;
+  align-items: center;
+  border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
+  display: inline-flex;
   font-family: inherit;
-  font-size: 1rem;
-  transition: background 0.2s, color 0.2s;
+  font-size: 0.95rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  min-height: 34px;
+  padding: 0 1rem;
+  transition:
+    background-color 0.14s ease,
+    border-color 0.14s ease,
+    box-shadow 0.14s ease,
+    color 0.14s ease;
+  white-space: nowrap;
+}
+button:focus-visible, .ks-button:focus-visible {
+  outline: 2px solid #bfdbfe;
+  outline-offset: 2px;
 }
 button.primary, .ks-button.primary {
-  background: #1976d2;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
   color: #fff;
 }
 button.secondary, .ks-button.secondary {
-  background: #e0e0e0;
-  color: #333;
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
 }
 button.danger, .ks-button.danger {
-  background: #d32f2f;
+  background: #dc2626;
+  border-color: #dc2626;
   color: #fff;
 }
 button.success, .ks-button.success {
-  background: #388e3c;
+  background: #15803d;
+  border-color: #15803d;
   color: #fff;
 }
 button.small, .ks-button.small {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.85em;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  min-height: 29px;
+  padding: 0 0.65rem;
 }
 input, select, textarea, .ks-input, .ks-select {
   padding: 0.5rem;
@@ -66,5 +87,4 @@ input:disabled, select:disabled, textarea:disabled, .ks-input:disabled, .ks-sele
   color: #94a3b8;
   cursor: not-allowed;
 }
-
 
