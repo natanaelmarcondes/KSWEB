@@ -31,8 +31,14 @@ export interface OrdemServicoStatusOption {
 }
 
 export interface OrdemServicoUsuarioOption {
-  userId: number;
-  firstName: string;
+  userId?: number;
+  firstName?: string;
+  usrCodigo?: number | null;
+  usrNome?: string;
+  nome?: string;
+  name?: string;
+  setor?: string | null;
+  queueId?: number | null;
 }
 
 export interface OrdemServicoFiltrosResponse {

@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../../core/auth/auth.service';
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 import {
   OrdemServicoFiltro,
@@ -19,7 +20,7 @@ import { OrdensServicoService } from '../ordens-servico.service';
 })
 
 export class OrdensServicoListComponent {
-  filtroUsuarioTipo: string = 'Solicitante';
+  filtroUsuarioTipo: string = 'Responsável';
   usuariosApi: any[] = [];
   usuarioOptions: { label: string; value: string }[] = [];
   items: OrdemServicoListItem[] = [];
@@ -35,8 +36,8 @@ export class OrdensServicoListComponent {
     pageSize: 25,
     numero: '',
     texto: '',
-    status: [],
-    filtrarPor: 'solicitante',
+    status: ['Open', 'Enviado para programação'],
+    filtrarPor: 'responsavel',
     filtroUsuarioNome: '',
     filtroPessoa: 'qualquer',
     listarTudo: false,
@@ -45,8 +46,10 @@ export class OrdensServicoListComponent {
 
   constructor(
     private readonly ordensServicoService: OrdensServicoService,
+    private readonly authService: AuthService,
     private readonly router: Router,
   ) {
+    this.aplicarFiltroUsuarioLogado();
     this.carregarStatus();
     this.carregarUsuarios();
     this.carregar();
@@ -313,6 +316,14 @@ export class OrdensServicoListComponent {
         };
       })
       .filter((usuario) => usuario.label);
+  }
+
+  private aplicarFiltroUsuarioLogado(): void {
+    const usuarioLogado = this.authService.usuario();
+
+    this.filtro.filtrarPor = 'responsavel';
+    this.filtro.filtroUsuarioNome = usuarioLogado?.nome ?? '';
+    this.filtro.usuarioId = usuarioLogado?.userId ? String(usuarioLogado.userId) : '';
   }
 
   private carregarFiltros(): void {

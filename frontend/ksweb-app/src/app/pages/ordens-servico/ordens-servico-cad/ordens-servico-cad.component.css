@@ -45,7 +45,7 @@
 .summary-grid {
   display: grid;
   gap: 12px;
-  grid-template-columns: 90px 160px minmax(150px, 1fr) minmax(180px, 1.2fr);
+  grid-template-columns: 180px 160px minmax(150px, 1fr) minmax(180px, 1.2fr);
 }
 
 .summary-field {
@@ -290,6 +290,7 @@
   .summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
 }
 
 @media (max-width: 640px) {
