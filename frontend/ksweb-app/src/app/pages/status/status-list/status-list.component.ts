@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 import { StatusFiltro, StatusListItem } from '../status.models';
@@ -19,6 +20,7 @@ export class StatusListComponent {
   total = 0;
   carregando = true;
   erro = '';
+  excluindoId: number | null = null;
 
   filtro: StatusFiltro = {
     page: 1,
@@ -26,7 +28,10 @@ export class StatusListComponent {
     termo: '',
   };
 
-  constructor(private readonly statusService: StatusService) {
+  constructor(
+    private readonly statusService: StatusService,
+    private readonly router: Router,
+  ) {
     this.carregar();
   }
 
@@ -106,6 +111,38 @@ export class StatusListComponent {
 
   atualizar(): void {
     this.carregar();
+  }
+
+  novo(): void {
+    void this.router.navigate(['/status/novo']);
+  }
+
+  editar(item: StatusListItem): void {
+    void this.router.navigate(['/status', item.statusId], {
+      state: { status: item },
+    });
+  }
+
+  excluir(item: StatusListItem): void {
+    const confirmar = window.confirm(`Excluir o status ${item.statusName}?`);
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.excluindoId = item.statusId;
+    this.erro = '';
+
+    this.statusService.excluir(item.statusId).subscribe({
+      next: () => {
+        this.excluindoId = null;
+        this.carregar();
+      },
+      error: () => {
+        this.erro = 'Nao foi possivel excluir o status.';
+        this.excluindoId = null;
+      },
+    });
   }
 
   booleanClasse(valor: boolean): string {

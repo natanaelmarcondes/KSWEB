@@ -622,6 +622,98 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Status"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/status/{statusId}": {
+      "put": {
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "statusId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "statusId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/usuarios": {
@@ -745,6 +837,68 @@
         "properties": {
           "queueName": {
             "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusCreateRequest": {
+        "required": [
+          "internalName",
+          "statusName"
+        ],
+        "type": "object",
+        "properties": {
+          "statusName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "isPending": {
+            "type": "boolean"
+          },
+          "statusStopClock": {
+            "type": "boolean"
+          },
+          "statusDescription": {
+            "maxLength": 250,
+            "type": "string",
+            "nullable": true
+          },
+          "internalName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusUpdateRequest": {
+        "required": [
+          "internalName",
+          "statusName"
+        ],
+        "type": "object",
+        "properties": {
+          "statusName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "isPending": {
+            "type": "boolean"
+          },
+          "statusStopClock": {
+            "type": "boolean"
+          },
+          "statusDescription": {
+            "maxLength": 250,
+            "type": "string",
+            "nullable": true
+          },
+          "internalName": {
+            "maxLength": 100,
             "minLength": 1,
             "type": "string"
           }

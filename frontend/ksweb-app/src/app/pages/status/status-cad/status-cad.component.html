@@ -1,0 +1,83 @@
+<section class="status-cad-page">
+  <header class="page-header">
+    <div>
+      <h1>{{ titulo }}</h1>
+      @if (modoEdicao) {
+        <span>Codigo: {{ statusId }}</span>
+      }
+    </div>
+
+    <app-ks-button tamanho="small" tipo="secondary" (acao)="voltar()">Voltar</app-ks-button>
+  </header>
+
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  @if (carregando) {
+    <div class="form-panel state">Carregando status...</div>
+  } @else {
+    <form class="form-panel" (ngSubmit)="salvar()">
+      <div class="panel-header">
+        <div>
+          <h2>Dados do status</h2>
+          <p>{{ modoEdicao ? 'Altere as informacoes do status' : 'Cadastre um novo status' }}</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          <span>Nome do status</span>
+          <input
+            type="text"
+            [(ngModel)]="form.statusName"
+            name="statusName"
+            maxlength="160"
+            required
+            autofocus
+          />
+        </label>
+
+        <label>
+          <span>Nome interno</span>
+          <input
+            type="text"
+            [(ngModel)]="form.internalName"
+            name="internalName"
+            maxlength="160"
+            required
+          />
+        </label>
+
+        <label class="full">
+          <span>Descricao</span>
+          <textarea
+            [(ngModel)]="form.statusDescription"
+            name="statusDescription"
+            maxlength="500"
+            rows="4"
+          ></textarea>
+        </label>
+
+        <div class="checks full">
+          <label class="check-field">
+            <input type="checkbox" [(ngModel)]="form.isPending" name="isPending" />
+            <span>Pendente</span>
+          </label>
+
+          <label class="check-field">
+            <input type="checkbox" [(ngModel)]="form.statusStopClock" name="statusStopClock" />
+            <span>Para relogio</span>
+          </label>
+        </div>
+
+        <div class="form-actions full">
+          <app-ks-button tamanho="small" tipo="secondary" (acao)="voltar()">Cancelar</app-ks-button>
+          <app-ks-button tamanho="small" tipo="primary" [disabled]="salvando" (acao)="salvar()">
+            {{ salvando ? 'Salvando...' : (modoEdicao ? 'Alterar status' : 'Cadastrar status') }}
+          </app-ks-button>
+        </div>
+      </div>
+    </form>
+  }
+</section>

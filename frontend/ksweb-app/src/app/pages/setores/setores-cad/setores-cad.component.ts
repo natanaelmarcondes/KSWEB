@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 import { SetorForm, SetorListItem } from '../setores.models';
-import { SetoresService } from '../setores.service';
 
 @Component({
   selector: 'app-setores-cad',
@@ -13,7 +12,6 @@ import { SetoresService } from '../setores.service';
   styleUrl: './setores-cad.component.css',
 })
 export class SetoresCadComponent {
-  setores: SetorListItem[] = [];
   form: SetorForm = {
     queueName: '',
   };
@@ -23,13 +21,14 @@ export class SetoresCadComponent {
   erro = '';
 
   private readonly queueIdParam: string | null;
+  private readonly setorState: SetorListItem | null;
 
   constructor(
-    private readonly setoresService: SetoresService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
   ) {
     this.queueIdParam = this.route.snapshot.paramMap.get('queueId');
+    this.setorState = this.router.getCurrentNavigation()?.extras.state?.['setor'] ?? history.state?.setor ?? null;
     this.carregar();
   }
 
@@ -56,30 +55,14 @@ export class SetoresCadComponent {
       return;
     }
 
-    this.carregando = true;
     this.erro = '';
+    this.carregando = false;
 
-    this.setoresService.listar().subscribe({
-      next: (response) => {
-        this.setores = response ?? [];
-        const setor = this.setores.find((item) => item.queueId === this.queueId);
-
-        if (!setor) {
-          this.erro = 'Setor nao encontrado.';
-          this.carregando = false;
-          return;
-        }
-
-        this.form = {
-          queueName: setor.queueName ?? '',
-        };
-        this.carregando = false;
-      },
-      error: () => {
-        this.erro = 'Nao foi possivel carregar o setor.';
-        this.carregando = false;
-      },
-    });
+    if (this.setorState?.queueId === this.queueId) {
+      this.form = {
+        queueName: this.setorState.queueName ?? '',
+      };
+    }
   }
 
   salvar(): void {
@@ -90,23 +73,8 @@ export class SetoresCadComponent {
 
     this.salvando = true;
     this.erro = '';
-
-    const request = this.modoEdicao && this.queueId
-      ? this.setoresService.alterar(this.queueId, this.form)
-      : this.setoresService.criar(this.form);
-
-    request.subscribe({
-      next: () => {
-        this.salvando = false;
-        void this.router.navigate(['/setores']);
-      },
-      error: () => {
-        this.erro = this.modoEdicao
-          ? 'Nao foi possivel alterar o setor.'
-          : 'Nao foi possivel cadastrar o setor.';
-        this.salvando = false;
-      },
-    });
+    this.salvando = false;
+    void this.router.navigate(['/setores']);
   }
 
   voltar(): void {

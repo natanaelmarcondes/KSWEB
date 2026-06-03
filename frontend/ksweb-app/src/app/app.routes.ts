@@ -12,6 +12,7 @@ import { OrdensServicoListComponent } from './pages/ordens-servico/ordens-servic
 import { SetoresCadComponent } from './pages/setores/setores-cad/setores-cad.component';
 import { SetoresListComponent } from './pages/setores/setores-list/setores-list.component';
 import { UsuariosListComponent } from './pages/usuarios/usuarios-list/usuarios-list.component';
+import { StatusCadComponent } from './pages/status/status-cad/status-cad.component';
 import { StatusListComponent } from './pages/status/status-list/status-list.component';
 
 export const routes: Routes = [
@@ -37,6 +38,8 @@ export const routes: Routes = [
       { path: 'ordens-servico/:codigo', component: OrdensServicoCadComponent },
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       { path: 'status', component: StatusListComponent },
+      { path: 'status/novo', component: StatusCadComponent },
+      { path: 'status/:statusId', component: StatusCadComponent },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

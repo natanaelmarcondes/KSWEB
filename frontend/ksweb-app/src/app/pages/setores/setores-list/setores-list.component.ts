@@ -124,7 +124,9 @@ export class SetoresListComponent {
   }
 
   editar(setor: SetorListItem): void {
-    void this.router.navigate(['/setores', setor.queueId]);
+    void this.router.navigate(['/setores', setor.queueId], {
+      state: { setor },
+    });
   }
 
   excluir(setor: SetorListItem): void {

@@ -8,6 +8,14 @@ export interface StatusListItem {
   internalName: string;
 }
 
+export interface StatusForm {
+  statusName: string;
+  isPending: boolean;
+  statusStopClock: boolean;
+  statusDescription: string;
+  internalName: string;
+}
+
 export interface StatusFiltro {
   page: number;
   pageSize: number;

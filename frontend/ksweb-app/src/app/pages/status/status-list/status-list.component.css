@@ -53,6 +53,12 @@
   margin-top: 3px;
 }
 
+.status-header-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
 /* ALERTA */
 
 .status-alert {
@@ -185,7 +191,7 @@
   background: #ffffff;
   border-collapse: collapse;
   font-size: 12px;
-  min-width: 1180px;
+  min-width: 1260px;
   width: 100%;
 }
 
@@ -252,6 +258,11 @@
   width: 210px;
 }
 
+.status-table th:nth-child(8),
+.status-table td:nth-child(8) {
+  width: 180px;
+}
+
 /* COLUNAS */
 
 .status-codigo {
@@ -285,6 +296,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.status-acoes {
+  min-width: 170px;
+  white-space: nowrap;
+}
+
+.status-acoes app-ks-button + app-ks-button {
+  margin-left: 6px;
 }
 
 .text-center {
@@ -350,6 +370,12 @@
     flex-direction: column;
   }
 
+  .status-header-actions {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .status-panel {
     padding: 14px;
   }
@@ -378,6 +404,6 @@
   }
 
   .status-table {
-    min-width: 1050px;
+    min-width: 1180px;
   }
 }

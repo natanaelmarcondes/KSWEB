@@ -386,6 +386,59 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "KSWeb.Api.Controllers.StatusController",
+    "Method": "Criar",
+    "RelativePath": "api/status",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.StatusCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.StatusController",
+    "Method": "Atualizar",
+    "RelativePath": "api/status/{statusId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "statusId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "KSWeb.Api.Models.StatusUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KSWeb.Api.Controllers.StatusController",
+    "Method": "Excluir",
+    "RelativePath": "api/status/{statusId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "statusId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "KSWeb.Api.Controllers.UsuariosController",
     "Method": "Listar",
     "RelativePath": "api/usuarios",
