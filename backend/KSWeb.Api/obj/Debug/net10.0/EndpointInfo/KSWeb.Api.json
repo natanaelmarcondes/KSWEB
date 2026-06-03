@@ -508,6 +508,75 @@
         }
       }
     },
+    "/api/ordens-servico-consulta/{id}": {
+      "get": {
+        "tags": [
+          "OrdensServicoConsulta"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ordens-servico-consulta/{id}/lida": {
+      "put": {
+        "tags": [
+          "OrdensServicoConsulta"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ordens-servico-consulta/{id}/resolucoes": {
+      "get": {
+        "tags": [
+          "OrdensServicoConsulta"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/setores": {
       "get": {
         "tags": [

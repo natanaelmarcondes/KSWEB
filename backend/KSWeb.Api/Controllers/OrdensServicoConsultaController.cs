@@ -22,4 +22,42 @@ public sealed class OrdensServicoConsultaController : ControllerBase
     {
         return Ok(await _ordensServicoConsultaService.ListarAsync(filtro));
     }
+
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> ObterPorId([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var os = await _ordensServicoConsultaService.ObterPorIdAsync(id);
+
+        if (os == null)
+            return NotFound(new { mensagem = "Ordem de serviço não encontrada." });
+
+        return Ok(os);
+    }
+
+    [HttpPut("{id:long}/lida")]
+    public async Task<IActionResult> MarcarComoLida([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var ok = await _ordensServicoConsultaService.MarcarComoLidaAsync(id);
+
+        if (!ok)
+            return NotFound(new { mensagem = "Ordem de serviço não encontrada." });
+
+        return NoContent();
+    }
+
+    [HttpGet("{id:long}/resolucoes")]
+    public async Task<IActionResult> ListarResolucoes([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var items = await _ordensServicoConsultaService.ListarResolucoesAsync(id);
+        return Ok(items);
+    }
 }

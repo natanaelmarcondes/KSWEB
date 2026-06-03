@@ -46,3 +46,27 @@ public sealed class OrdemServicoConsultaItem
     public bool? Atrasada { get; set; }
     public bool? Lida { get; set; }
 }
+
+public sealed class OrdemServicoDetalheResponse
+{
+    public long WorkOrderId { get; set; }
+    public long? RequesterId { get; set; }
+    public long? CreatedById { get; set; }
+    public long? CreatedTime { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string FullDescription { get; set; } = string.Empty;
+    public long? OwnerId { get; set; }
+    public long? StatusId { get; set; }
+    public string StatusName { get; set; } = string.Empty;
+}
+
+public sealed class OrdemServicoResolucaoItem
+{
+    public long HistoryDiffId { get; set; }
+    public long HistoryId { get; set; }
+    public string ColumnName { get; set; } = string.Empty;
+    public string PrevValue { get; set; } = string.Empty;
+    public string CurrentValue { get; set; } = string.Empty;
+    public long? OperationTime { get; set; }
+}

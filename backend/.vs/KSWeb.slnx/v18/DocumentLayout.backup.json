@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "H:\\KSWeb\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\setoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -81,10 +81,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\setorrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\setorrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -114,28 +110,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 0,
               "Title": "StatusRequests.cs",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusRequests.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\StatusRequests.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusRequests.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\StatusRequests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-03T12:42:25.381Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "KSWeb.Api\\appsettings.json",
-              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
-              "RelativeToolTip": "KSWeb.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-02T22:26:12.207Z",
               "EditorCaption": ""
             },
             {
@@ -170,9 +153,10 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAqwAgAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAABQwAgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T02:00:44.51Z"
+              "WhenOpened": "2026-05-31T02:00:44.51Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -182,9 +166,10 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABbAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAIBJwBQAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T01:43:44.315Z"
+              "WhenOpened": "2026-05-31T01:43:44.315Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -302,9 +287,10 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAiwIoAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAJIAAAAAAAAAAIBJwA8BAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T01:53:26.123Z"
+              "WhenOpened": "2026-05-31T01:53:26.123Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -316,8 +302,7 @@
               "RelativeToolTip": "KSWeb.Api\\Services\\StatusService.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwKsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-30T23:19:35.952Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T23:19:35.952Z"
             },
             {
               "$type": "Document",
@@ -329,8 +314,7 @@
               "RelativeToolTip": "KSWeb.Api\\Controllers\\StatusController.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwAoAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-30T23:19:57.781Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T23:19:57.781Z"
             },
             {
               "$type": "Document",

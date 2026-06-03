@@ -1,16 +1,144 @@
 <section class="ordem-view-page">
   <header class="page-header">
     <div>
-      <h1>O.S {{ codigo }}</h1>
-      <span>Visualizacao da ordem de servico</span>
+      <h1>O.S {{ ordem?.workorderId || codigo }}</h1>
+      <span>{{ ordem?.title || 'Visualizacao da ordem de servico' }}</span>
     </div>
 
     <app-ks-button tipo="secondary" (acao)="voltar()">Voltar</app-ks-button>
   </header>
 
-  <div class="view-panel">
-    <h2>Visualizacao em preparacao</h2>
-    <p>A rota da O.S ja esta conectada. O proximo passo e carregar os detalhes da ordem {{ codigo }}.</p>
-  </div>
+  @if (erro) {
+    <div class="alert">{{ erro }}</div>
+  }
+
+  @if (carregando) {
+    <section class="view-panel">
+      <div class="state">Carregando ordem de servico...</div>
+    </section>
+  } @else if (ordem) {
+    <section class="view-panel">
+      <div class="summary-grid">
+        <div class="summary-field">
+          <span>Codigo</span>
+          <strong>{{ valor(ordem.workorderId || codigo) }}</strong>
+        </div>
+
+        <div class="summary-field">
+          <span>Data</span>
+          <strong>{{ formatarData(ordem.createdTime) }}</strong>
+        </div>
+
+        <div class="summary-field">
+          <span>Aberta por</span>
+          <strong>{{ valor(ordem.createdByName) }}</strong>
+        </div>
+
+        <div class="summary-field">
+          <span>Cliente</span>
+          <strong>{{ valor(ordem.requesterName) }}</strong>
+        </div>
+
+        <div class="summary-field">
+          <span>Status</span>
+          <strong class="status-pill">{{ valor(ordem.statusName) }}</strong>
+        </div>
+
+        <div class="summary-field">
+          <span>Setor</span>
+          <strong>{{ valor(ordem.queueName) }}</strong>
+        </div>
+
+        <div class="summary-field">
+          <span>Responsavel</span>
+          <strong>{{ valor(ordem.ownerName) }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="tabs-panel">
+      <div class="tabs">
+        <button
+          type="button"
+          [class.active]="abaAtiva === 'descricao'"
+          (click)="selecionarAba('descricao')"
+        >
+          Descricao
+        </button>
+
+        <button
+          type="button"
+          [class.active]="abaAtiva === 'resolucao'"
+          (click)="selecionarAba('resolucao')"
+        >
+          Resolucao
+        </button>
+
+        <button
+          type="button"
+          [class.active]="abaAtiva === 'historico'"
+          (click)="selecionarAba('historico')"
+        >
+          Historico
+        </button>
+      </div>
+
+      <div class="tab-content">
+        @if (abaAtiva === 'descricao') {
+          <article class="text-content" [innerHTML]="descricao"></article>
+        }
+
+        @if (abaAtiva === 'resolucao') {
+          @if (ordem.lastResolution) {
+            <article class="text-content" [innerHTML]="ordem.lastResolution"></article>
+          }
+
+          <div class="timeline">
+            @for (resolucao of resolucoes; track resolucao.historyDiffId) {
+              <div class="timeline-item">
+                <div class="timeline-meta">
+                  <strong>{{ valor(resolucao.columnName) }}</strong>
+                  <span>{{ formatarData(resolucao.operationTime) }}</span>
+                </div>
+
+                <div class="resolution-grid">
+                  <div>
+                    <span>Anterior</span>
+                    <p>{{ valor(resolucao.prevValue) }}</p>
+                  </div>
+
+                  <div>
+                    <span>Atual</span>
+                    <p>{{ valor(resolucao.currentValue) }}</p>
+                  </div>
+                </div>
+              </div>
+            } @empty {
+              @if (!ordem.lastResolution) {
+                <div class="state">Nenhuma resolucao encontrada.</div>
+              }
+            }
+          </div>
+        }
+
+        @if (abaAtiva === 'historico') {
+          <div class="timeline">
+            @for (item of historico; track item.historyId) {
+              <div class="timeline-item">
+                <div class="timeline-meta">
+                  <strong>{{ valor(item.operation) }}</strong>
+                  <span>{{ formatarData(item.operationTime) }}</span>
+                </div>
+
+                <p>{{ valor(item.description) }}</p>
+              </div>
+            } @empty {
+              <div class="state">Nenhum historico encontrado.</div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+  }
 </section>
 

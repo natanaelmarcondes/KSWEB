@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 import {
   OrdemServicoFiltro,
   OrdemServicoFiltrosResponse,
+  OrdemServicoFormResponse,
   OrdemServicoListResponse,
+  OrdemServicoResolucaoItem,
   OrdemServicoStatusOption,
 } from './ordens-servico.models';
 
@@ -57,6 +59,14 @@ export class OrdensServicoService {
         });
     }
     return this.http.get<OrdemServicoListResponse>(this.apiUrl, { params });
+  }
+
+  consultar(id: number): Observable<OrdemServicoFormResponse> {
+    return this.http.get<OrdemServicoFormResponse>(`${this.apiUrl}/${id}`);
+  }
+
+  consultarResolucoes(id: number): Observable<OrdemServicoResolucaoItem[]> {
+    return this.http.get<OrdemServicoResolucaoItem[]>(`${this.apiUrl}/${id}/resolucoes`);
   }
 
   obterFiltros(): Observable<OrdemServicoFiltrosResponse> {

@@ -14,6 +14,139 @@ public sealed class OrdensServicoConsultaService
         _configuration = configuration;
     }
 
+    public async Task<OrdemServicoDetalheResponse?> ObterPorIdAsync(long id)
+    {
+        if (id <= 0)
+            return null;
+
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("ConnectionString 'DefaultConnection' não encontrada no appsettings.json.");
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        const string sql = """
+        SELECT
+            w.WORKORDERID     AS workorderid,
+            w.REQUESTERID     AS requesterid,
+            w.CREATEDBYID     AS createdbyid,
+            w.CREATEDTIME     AS createdtime,
+            w.TITLE           AS title,
+            w.DESCRIPTION     AS description,
+            d.FULLDESCRIPTION AS fulldescription,
+            ws.OWNERID        AS ownerid,
+            ws.STATUSID       AS statusid,
+            st.STATUSNAME     AS statusname
+        FROM workorder w
+        LEFT JOIN workordertodescription d ON d.WORKORDERID = w.WORKORDERID
+        LEFT JOIN workorderstates ws       ON ws.WORKORDERID = w.WORKORDERID
+        LEFT JOIN statusdefinition st      ON st.STATUSID = ws.STATUSID
+        WHERE w.WORKORDERID = @id;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.Add(new MySqlParameter("@id", id));
+
+        await using var reader = await command.ExecuteReaderAsync(CommandBehavior.SingleRow);
+
+        if (!await reader.ReadAsync())
+            return null;
+
+        return new OrdemServicoDetalheResponse
+        {
+            WorkOrderId = LerLong(reader, "workorderid"),
+            RequesterId = LerLongNullable(reader, "requesterid"),
+            CreatedById = LerLongNullable(reader, "createdbyid"),
+            CreatedTime = LerLongNullable(reader, "createdtime"),
+            Title = LerString(reader, "title"),
+            Description = LerString(reader, "description"),
+            FullDescription = LerString(reader, "fulldescription"),
+            OwnerId = LerLongNullable(reader, "ownerid"),
+            StatusId = LerLongNullable(reader, "statusid"),
+            StatusName = LerString(reader, "statusname"),
+        };
+    }
+
+    public async Task<bool> MarcarComoLidaAsync(long id)
+    {
+        if (id <= 0)
+            return false;
+
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("ConnectionString 'DefaultConnection' não encontrada no appsettings.json.");
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        const string sql = """
+        UPDATE workorderstates
+        SET ISREAD = 1
+        WHERE WORKORDERID = @id;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.Add(new MySqlParameter("@id", id));
+
+        var rows = await command.ExecuteNonQueryAsync();
+        return rows > 0;
+    }
+
+    public async Task<List<OrdemServicoResolucaoItem>> ListarResolucoesAsync(long id)
+    {
+        if (id <= 0)
+            return [];
+
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("ConnectionString 'DefaultConnection' não encontrada no appsettings.json.");
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        const string sql = """
+        SELECT
+            d.HISTORYDIFFID AS historydiffid,
+            d.HISTORYID     AS historyid,
+            d.COLUMNNAME    AS columnname,
+            d.PREV_VALUE    AS prev_value,
+            d.CURRENT_VALUE AS current_value,
+            h.OPERATIONTIME AS operationtime
+        FROM workorderhistory h
+        JOIN workorderhistorydiff d ON d.HISTORYID = h.HISTORYID
+        WHERE h.WORKORDERID = @id
+          AND d.COLUMNNAME = 'RESOLUTION'
+        ORDER BY h.OPERATIONTIME DESC,
+                 d.HISTORYDIFFID DESC;
+        """;
+
+        await using var command = new MySqlCommand(sql, connection);
+        command.Parameters.Add(new MySqlParameter("@id", id));
+
+        var items = new List<OrdemServicoResolucaoItem>();
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            items.Add(new OrdemServicoResolucaoItem
+            {
+                HistoryDiffId = LerLong(reader, "historydiffid"),
+                HistoryId = LerLong(reader, "historyid"),
+                ColumnName = LerString(reader, "columnname"),
+                PrevValue = LerString(reader, "prev_value"),
+                CurrentValue = LerString(reader, "current_value"),
+                OperationTime = LerLongNullable(reader, "operationtime"),
+            });
+        }
+
+        return items;
+    }
+
     public async Task<OrdensServicoConsultaResponse> ListarAsync(OrdensServicoConsultaFiltro filtro)
     {
         if (filtro.Page <= 0)
