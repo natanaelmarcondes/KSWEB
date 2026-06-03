@@ -85,40 +85,11 @@
 
       <div class="tab-content">
         @if (abaAtiva === 'descricao') {
-          <article class="text-content" [innerHTML]="descricao"></article>
+          <article class="text-content ql-content" [innerHTML]="descricaoHtml"></article>
         }
 
         @if (abaAtiva === 'resolucao') {
-          @if (ordem.lastResolution) {
-            <article class="text-content" [innerHTML]="ordem.lastResolution"></article>
-          }
-
-          <div class="timeline">
-            @for (resolucao of resolucoes; track resolucao.historyDiffId) {
-              <div class="timeline-item">
-                <div class="timeline-meta">
-                  <strong>{{ valor(resolucao.columnName) }}</strong>
-                  <span>{{ formatarData(resolucao.operationTime) }}</span>
-                </div>
-
-                <div class="resolution-grid">
-                  <div>
-                    <span>Anterior</span>
-                    <p>{{ valor(resolucao.prevValue) }}</p>
-                  </div>
-
-                  <div>
-                    <span>Atual</span>
-                    <p>{{ valor(resolucao.currentValue) }}</p>
-                  </div>
-                </div>
-              </div>
-            } @empty {
-              @if (!ordem.lastResolution) {
-                <div class="state">Nenhuma resolucao encontrada.</div>
-              }
-            }
-          </div>
+          <article class="text-content ql-content" [innerHTML]="resolucaoHtml"></article>
         }
 
         @if (abaAtiva === 'historico') {
@@ -141,4 +112,3 @@
     </section>
   }
 </section>
-

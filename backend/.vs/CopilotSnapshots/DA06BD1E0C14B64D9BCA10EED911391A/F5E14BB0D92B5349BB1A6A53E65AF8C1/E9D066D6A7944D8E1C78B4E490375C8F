@@ -1,4 +1,4 @@
-using KSWeb.Api.Models;
+﻿using KSWeb.Api.Models;
 using KSWeb.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,9 +46,11 @@ public sealed class OrdensServicoConsultaController : ControllerBase
         var items = await _ordensServicoConsultaService.ListarResolucoesAsync(id);
         return Ok(items);
     }
+       
 
-    [HttpGet("/api/ordens-servico-consulta/{id:long}")]
-    public async Task<IActionResult> ObterOrdemServicoHistorico([FromRoute] long id)
+    [HttpGet("{id:long}/ordem-servico")]
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> ObterOrdemServico([FromRoute] long id)
     {
         if (id <= 0)
             return BadRequest(new { mensagem = "Código da O.S inválido." });
@@ -59,29 +61,5 @@ public sealed class OrdensServicoConsultaController : ControllerBase
             return NotFound(new { mensagem = "Ordem de serviço não encontrada." });
 
         return Ok(os);
-    }
-
-    [HttpGet("/api/ordens-servico-consulta/{id:long}/resolucao")]
-    public async Task<IActionResult> ObterResolucaoHistorico([FromRoute] long id)
-    {
-        if (id <= 0)
-            return BadRequest(new { mensagem = "Código da O.S inválido." });
-
-        var resolucao = await _ordensServicoConsultaService.ObterUltimaResolucaoAsync(id);
-
-        if (string.IsNullOrWhiteSpace(resolucao))
-            return NotFound(new { mensagem = "Resolução não encontrada." });
-
-        return Ok(new { resolucao });
-    }
-
-    [HttpGet("/api/ordens-servico-consulta/{id:long}/historico")]
-    public async Task<IActionResult> ListarHistorico([FromRoute] long id)
-    {
-        if (id <= 0)
-            return BadRequest(new { mensagem = "Código da O.S inválido." });
-
-        var items = await _ordensServicoConsultaService.ListarResolucoesAsync(id);
-        return Ok(items);
     }
 }

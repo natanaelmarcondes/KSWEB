@@ -1,4 +1,4 @@
-using KSWeb.Api.Models;
+﻿using KSWeb.Api.Models;
 using MySqlConnector;
 using System.Data;
 using System.Text;
@@ -67,40 +67,6 @@ public sealed class OrdensServicoConsultaService
             StatusId = LerLongNullable(reader, "statusid"),
             StatusName = LerString(reader, "statusname"),
         };
-    }
-
-    public async Task<string?> ObterUltimaResolucaoAsync(long id)
-    {
-        if (id <= 0)
-            return null;
-
-        var connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-        if (string.IsNullOrWhiteSpace(connectionString))
-            throw new InvalidOperationException("ConnectionString 'DefaultConnection' não encontrada no appsettings.json.");
-
-        await using var connection = new MySqlConnection(connectionString);
-        await connection.OpenAsync();
-
-        const string sql = """
-        SELECT d.CURRENT_VALUE
-        FROM workorderhistory h
-        JOIN workorderhistorydiff d ON d.HISTORYID = h.HISTORYID
-        WHERE h.WORKORDERID = @id
-          AND d.COLUMNNAME = 'RESOLUTION'
-        ORDER BY h.OPERATIONTIME DESC
-        LIMIT 1;
-        """;
-
-        await using var command = new MySqlCommand(sql, connection);
-        command.Parameters.Add(new MySqlParameter("@id", id));
-
-        var result = await command.ExecuteScalarAsync();
-
-        if (result == null || result == DBNull.Value)
-            return null;
-
-        return Convert.ToString(result);
     }
 
     public async Task<bool> MarcarComoLidaAsync(long id)

@@ -7,8 +7,9 @@ import {
   OrdemServicoFiltro,
   OrdemServicoFiltrosResponse,
   OrdemServicoFormResponse,
+  OrdemServicoHistoricoItem,
   OrdemServicoListResponse,
-  OrdemServicoResolucaoItem,
+  OrdemServicoResolucaoResponse,
   OrdemServicoStatusOption,
 } from './ordens-servico.models';
 
@@ -65,8 +66,16 @@ export class OrdensServicoService {
     return this.http.get<OrdemServicoFormResponse>(`${this.apiUrl}/${id}`);
   }
 
-  consultarResolucoes(id: number): Observable<OrdemServicoResolucaoItem[]> {
-    return this.http.get<OrdemServicoResolucaoItem[]>(`${this.apiUrl}/${id}/resolucoes`);
+  consultarResolucao(id: number): Observable<OrdemServicoResolucaoResponse> {
+    return this.http.get<OrdemServicoResolucaoResponse>(`${this.apiUrl}/${id}/resolucao`);
+  }
+
+  consultarHistorico(id: number): Observable<OrdemServicoHistoricoItem[]> {
+    return this.http.get<OrdemServicoHistoricoItem[]>(`${this.apiUrl}/${id}/historico`);
+  }
+
+  marcarComoLida(id: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/lida`, {});
   }
 
   obterFiltros(): Observable<OrdemServicoFiltrosResponse> {

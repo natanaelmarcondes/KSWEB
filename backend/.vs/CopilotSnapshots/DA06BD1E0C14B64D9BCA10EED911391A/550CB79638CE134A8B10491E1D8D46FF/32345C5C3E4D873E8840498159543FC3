@@ -1,0 +1,56 @@
+﻿using KSWeb.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KSWeb.Api.Controllers;
+
+[ApiController]
+[Authorize]
+[Route("api/ordens-servico-historico")]
+public sealed class OrdensServicoHistoricoController : ControllerBase
+{
+    private readonly OrdensServicoConsultaService _ordensServicoConsultaService;
+
+    public OrdensServicoHistoricoController(OrdensServicoConsultaService ordensServicoConsultaService)
+    {
+        _ordensServicoConsultaService = ordensServicoConsultaService;
+    }
+
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> ObterOrdemServico([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var os = await _ordensServicoConsultaService.ObterPorIdAsync(id);
+
+        if (os == null)
+            return NotFound(new { mensagem = "Ordem de serviço não encontrada." });
+
+        return Ok(os);
+    }
+
+    [HttpGet("{id:long}/resolucao")]
+    public async Task<IActionResult> ObterResolucao([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var resolucao = await _ordensServicoConsultaService.ObterUltimaResolucaoAsync(id);
+
+        if (string.IsNullOrWhiteSpace(resolucao))
+            return NotFound(new { mensagem = "Resolução não encontrada." });
+
+        return Ok(new { resolucao });
+    }
+
+    [HttpGet("{id:long}/historico")]
+    public async Task<IActionResult> ListarHistorico([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var items = await _ordensServicoConsultaService.ListarResolucoesAsync(id);
+        return Ok(items);
+    }
+}

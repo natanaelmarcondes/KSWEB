@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 import {
   OrdemServicoFormResponse,
   OrdemServicoHistoricoItem,
-  OrdemServicoResolucaoItem,
+  OrdemServicoResolucaoResponse,
 } from '../ordens-servico.models';
 import { OrdensServicoService } from '../ordens-servico.service';
 
@@ -23,7 +23,8 @@ export class OrdensServicoCadComponent {
 
   readonly codigo = Number(this.route.snapshot.paramMap.get('codigo') ?? 0);
   ordem: OrdemServicoFormResponse | null = null;
-  resolucoes: OrdemServicoResolucaoItem[] = [];
+  historico: OrdemServicoHistoricoItem[] = [];
+  resolucaoHtml = '';
   abaAtiva: 'descricao' | 'resolucao' | 'historico' = 'descricao';
   carregando = true;
   erro = '';
@@ -32,12 +33,8 @@ export class OrdensServicoCadComponent {
     this.carregar();
   }
 
-  get historico(): OrdemServicoHistoricoItem[] {
-    return this.ordem?.historico ?? [];
-  }
-
-  get descricao(): string {
-    return this.ordem?.fullDescription || this.ordem?.description || '-';
+  get descricaoHtml(): string {
+    return this.htmlOuVazio(this.ordem?.fullDescription || this.ordem?.description);
   }
 
   carregar(): void {
@@ -52,11 +49,14 @@ export class OrdensServicoCadComponent {
 
     forkJoin({
       ordem: this.ordensServicoService.consultar(this.codigo),
-      resolucoes: this.ordensServicoService.consultarResolucoes(this.codigo),
+      resolucao: this.ordensServicoService.consultarResolucao(this.codigo).pipe(catchError(() => of(null))),
+      historico: this.ordensServicoService.consultarHistorico(this.codigo).pipe(catchError(() => of([]))),
+      lida: this.ordensServicoService.marcarComoLida(this.codigo).pipe(catchError(() => of(null))),
     }).subscribe({
-      next: ({ ordem, resolucoes }) => {
+      next: ({ ordem, resolucao, historico }) => {
         this.ordem = ordem;
-        this.resolucoes = resolucoes ?? [];
+        this.resolucaoHtml = this.obterHtmlResolucao(resolucao) || ordem.lastResolution || '';
+        this.historico = Array.isArray(historico) ? historico : [];
         this.carregando = false;
       },
       error: () => {
@@ -95,6 +95,18 @@ export class OrdensServicoCadComponent {
     }
 
     return String(valor);
+  }
+
+  htmlOuVazio(valor: string | null | undefined): string {
+    if (!valor?.trim()) {
+      return '';
+    }
+
+    return valor;
+  }
+
+  private obterHtmlResolucao(response: OrdemServicoResolucaoResponse | null): string {
+    return this.htmlOuVazio(response?.resolucao);
   }
 
   voltar(): void {

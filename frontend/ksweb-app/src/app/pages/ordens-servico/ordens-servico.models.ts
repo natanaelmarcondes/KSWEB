@@ -87,6 +87,10 @@ export interface OrdemServicoResolucaoItem {
   operationTime: number | null;
 }
 
+export interface OrdemServicoResolucaoResponse {
+  resolucao: string | null;
+}
+
 export interface OrdemServicoFormResponse {
   workorderId: number | null;
   requesterId: number | null;

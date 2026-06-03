@@ -1,0 +1,32 @@
+﻿using KSWeb.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KSWeb.Api.Controllers;
+
+[ApiController]
+[Authorize]
+[Route("api/ordens-servico-historico")]
+public sealed class OrdensServicoHistoricoController : ControllerBase
+{
+    private readonly OrdensServicoConsultaService _ordensServicoConsultaService;
+
+    public OrdensServicoHistoricoController(OrdensServicoConsultaService ordensServicoConsultaService)
+    {
+        _ordensServicoConsultaService = ordensServicoConsultaService;
+    }
+
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> ObterResolucao([FromRoute] long id)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var resolucao = await _ordensServicoConsultaService.ObterUltimaResolucaoAsync(id);
+
+        if (string.IsNullOrWhiteSpace(resolucao))
+            return NotFound(new { mensagem = "Resolução não encontrada." });
+
+        return Ok(new { resolucao });
+    }
+}

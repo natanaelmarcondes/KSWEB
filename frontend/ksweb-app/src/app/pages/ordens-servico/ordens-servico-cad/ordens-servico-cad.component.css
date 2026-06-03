@@ -133,6 +133,86 @@
   content: 'Nenhuma descricao encontrada.';
 }
 
+.ql-content {
+  white-space: normal;
+}
+
+.ql-content :where(p, div, ol, ul, blockquote, pre, h1, h2, h3) {
+  margin: 0 0 10px;
+}
+
+.ql-content :where(p, div, ol, ul, blockquote, pre, h1, h2, h3):last-child {
+  margin-bottom: 0;
+}
+
+.ql-content :where(b, strong) {
+  color: #111827;
+  font-weight: 700;
+}
+
+.ql-content :where(i, em) {
+  font-style: italic;
+}
+
+.ql-content :where(u) {
+  text-decoration: underline;
+}
+
+.ql-content :where(s) {
+  text-decoration: line-through;
+}
+
+.ql-content :where(a) {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.ql-content :where(ol, ul) {
+  padding-left: 24px;
+}
+
+.ql-content :where(li) {
+  margin: 4px 0;
+}
+
+.ql-content :where(blockquote) {
+  border-left: 4px solid #cbd5e1;
+  color: #475569;
+  padding-left: 12px;
+}
+
+.ql-content :where(pre) {
+  background: #0f172a;
+  color: #e2e8f0;
+  overflow-x: auto;
+  padding: 10px 12px;
+}
+
+.ql-content :where(.ql-align-center) {
+  text-align: center;
+}
+
+.ql-content :where(.ql-align-right) {
+  text-align: right;
+}
+
+.ql-content :where(.ql-align-justify) {
+  text-align: justify;
+}
+
+.ql-content :where(.ql-indent-1) {
+  padding-left: 3em;
+}
+
+.ql-content :where(.ql-indent-2) {
+  padding-left: 6em;
+}
+
+.ql-content :where(.ql-indent-3) {
+  padding-left: 9em;
+}
+
 .timeline {
   display: grid;
   gap: 10px;
@@ -164,11 +244,17 @@
 }
 
 .timeline-item p,
+.resolution-html,
 .resolution-grid p {
   color: #263241;
   font-size: 13px;
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.resolution-html:empty::before {
+  color: #64748b;
+  content: '-';
 }
 
 .resolution-grid {
