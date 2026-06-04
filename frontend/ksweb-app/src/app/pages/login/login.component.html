@@ -35,7 +35,7 @@
           placeholder="seuemail@keysystems.com.br"
           formControlName="email"
           [erro]="form.controls.email.touched && form.controls.email.invalid ? 'Informe um email valido.' : ''"
-        />
+        ></app-ks-input>
 
         <app-ks-input
           label="Senha"
@@ -43,9 +43,12 @@
           autocomplete="current-password"
           formControlName="senha"
           [erro]="form.controls.senha.touched && form.controls.senha.invalid ? 'Informe sua senha.' : ''"
-        />
+        ></app-ks-input>
 
-        <app-checkbox label="Lembrar usuario" formControlName="manterConectado" />
+        <label class="login-remember">
+          <input type="checkbox" formControlName="manterConectado" />
+          <span>Lembrar usuario</span>
+        </label>
 
         <app-ks-button tipo="primary" (acao)="entrar()" [disabled]="carregando()">
           {{ carregando() ? 'Entrando...' : 'Entrar' }}

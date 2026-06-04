@@ -137,6 +137,25 @@
   gap: 15px;
 }
 
+.login-remember {
+  align-items: center;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 8px;
+  line-height: 1.2;
+}
+
+.login-remember input {
+  accent-color: #1d4ed8;
+  cursor: pointer;
+  height: 16px;
+  margin: 0;
+  width: 16px;
+}
+
 .login-form app-button {
   width: 100%;
 }
