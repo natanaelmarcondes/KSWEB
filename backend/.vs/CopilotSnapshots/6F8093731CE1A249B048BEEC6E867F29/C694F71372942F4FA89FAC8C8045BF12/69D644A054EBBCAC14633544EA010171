@@ -1,4 +1,4 @@
-using KSWeb.Api.Data;
+﻿using KSWeb.Api.Data;
 using KSWeb.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi;
@@ -35,10 +35,10 @@ builder.Services.AddScoped<DbConnectionFactory>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<OrdensServicoConsultaService>();
-builder.Services.AddScoped<OrdensServicoService>();
 builder.Services.AddScoped<SetoresService>();
 builder.Services.AddScoped<UsuariosService>();
 builder.Services.AddScoped<StatusService>();
+builder.Services.AddScoped<OrdensServicoConsultaService>();
 builder.Services.AddScoped<DailyService>();
 builder.Services.AddScoped<DailyRegistrosService>();
 

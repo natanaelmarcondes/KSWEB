@@ -1,90 +1,102 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\KSWeb\\backend\\",
+  "WorkspaceRootPath": "H:\\KSWeb\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\services\\ordensservicoconsultaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\ordensservicoconsultaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\ordensservicocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\ordensservicocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\controllers\\ordensservicoconsultacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\ordensservicoconsultacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\services\\setoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\setoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\controllers\\dailycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\dailycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\services\\dailyregistrosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\dailyregistrosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\dailyregistrosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\dailyregistrosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\services\\dailyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\dailyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\dailymodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\dailymodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\ordensservicoconsultamodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\ordensservicoconsultamodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\controllers\\setorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\setorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\controllers\\statuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\statuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\services\\statusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\statusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\statusmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\statusmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\services\\usuariosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\usuariosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\usuariosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\usuariosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\ordensservicoconsultaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\ordensservicoconsultaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\ordensservicoconsultacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\ordensservicoconsultacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\setoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\setoresservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\dailycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\dailycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\dailyregistrosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\dailyregistrosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\dailyregistrosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\dailyregistrosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\dailyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\dailyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\dailymodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\dailymodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\ordensservicoconsultamodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\ordensservicoconsultamodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\setorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\setorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\statuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\statuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\statusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\statusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\statusmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\statusmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\usuariosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\usuariosmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\setorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\setorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\setorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|d:\\ksweb\\backend\\ksweb.api\\models\\setorrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\setorrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\setorrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\ordensservicomodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\models\\ordensservicomodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\ordensservicoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\ordensservicoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,7 +106,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -114,62 +126,74 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "KSWeb.Api\\appsettings.json",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
-              "RelativeToolTip": "KSWeb.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-03T21:18:33.465Z",
+              "DocumentIndex": 0,
+              "Title": "OrdensServicoController.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoController.cs",
+              "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoController.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoController.cs",
+              "RelativeToolTip": "KSWeb.Api\\Controllers\\OrdensServicoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T11:21:53.475Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
-              "RelativeDocumentMoniker": "KSWeb.Api\\Program.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
-              "RelativeToolTip": "KSWeb.Api\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABFAAAAAAAAAA==",
+              "DocumentIndex": 23,
+              "Title": "OrdensServicoService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoService.cs",
+              "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoService.cs",
+              "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoService.cs",
+              "ViewState": "AgIAAGMBAAAAAAAAAABBwJUCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-02T11:42:16.121Z"
+              "WhenOpened": "2026-06-05T11:15:34.781Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 22,
+              "Title": "OrdensServicoModels.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoModels.cs",
+              "RelativeDocumentMoniker": "KSWeb.Api\\Models\\OrdensServicoModels.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoModels.cs",
+              "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-05T11:11:58.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "OrdensServicoConsultaModels.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoConsultaModels.cs",
               "ViewState": "AgIAAFcAAAAAAAAAAABQwFkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T02:00:44.51Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-31T02:00:44.51Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "OrdensServicoConsultaController.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAIBJwHAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T01:43:44.315Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-31T01:43:44.315Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "StatusModels.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusModels.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusModels.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\StatusModels.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusModels.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\StatusModels.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -177,11 +201,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "DailyController.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\DailyController.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\DailyController.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\DailyController.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\DailyController.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\DailyController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\DailyController.cs",
               "ViewState": "AgIAAH8AAAAAAAAAAAAUwIYAAAByAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -189,11 +213,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "DailyRegistrosModels.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyRegistrosModels.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyRegistrosModels.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\DailyRegistrosModels.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyRegistrosModels.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyRegistrosModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\DailyRegistrosModels.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAA2wCsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -201,24 +225,61 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "OrdensServicoConsultaService.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
-              "ViewState": "AgIAANQAAAAAAAAAAAAiwPIAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAADABAAAAAAAAAAAAAEEBAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-31T01:53:26.123Z",
+              "WhenOpened": "2026-05-31T01:53:26.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsuariosService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\UsuariosService.cs",
+              "RelativeDocumentMoniker": "KSWeb.Api\\Services\\UsuariosService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\UsuariosService.cs",
+              "RelativeToolTip": "KSWeb.Api\\Services\\UsuariosService.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAIAwwE8AAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-30T21:57:55.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "KSWeb.Api\\appsettings.json",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
+              "RelativeToolTip": "KSWeb.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-03T21:18:33.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
+              "RelativeDocumentMoniker": "KSWeb.Api\\Program.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
+              "RelativeToolTip": "KSWeb.Api\\Program.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAIBJwA4AAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-02T11:42:16.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
               "Title": "SetorRequests.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorRequests.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorRequests.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\SetorRequests.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorRequests.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorRequests.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\SetorRequests.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -226,11 +287,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "StatusRequests.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusRequests.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusRequests.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\StatusRequests.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusRequests.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\StatusRequests.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\StatusRequests.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -238,11 +299,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "DailyModels.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyModels.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyModels.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\DailyModels.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyModels.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\DailyModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\DailyModels.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAA2wCoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -250,11 +311,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "SetoresService.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\SetoresService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\SetoresService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\SetoresService.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\SetoresService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\SetoresService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\SetoresService.cs",
               "ViewState": "AgIAAGAAAAAAAAAAAADgv2gAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -262,11 +323,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "DailyRegistrosService.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyRegistrosService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyRegistrosService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\DailyRegistrosService.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyRegistrosService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyRegistrosService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\DailyRegistrosService.cs",
               "ViewState": "AgIAAGwBAAAAAAAAAAAiwI8BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -274,11 +335,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "DailyService.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\DailyService.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\DailyService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\DailyService.cs",
               "ViewState": "AgIAAPAAAAAAAAAAAAAiwBMBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -286,11 +347,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "UsuariosModels.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\UsuariosModels.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\UsuariosModels.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\UsuariosModels.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\UsuariosModels.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\UsuariosModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\UsuariosModels.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -299,22 +360,10 @@
             {
               "$type": "Document",
               "DocumentIndex": 17,
-              "Title": "UsuariosService.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\UsuariosService.cs",
-              "RelativeDocumentMoniker": "KSWeb.Api\\Services\\UsuariosService.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\UsuariosService.cs",
-              "RelativeToolTip": "KSWeb.Api\\Services\\UsuariosService.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAiwFYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-30T21:57:55.108Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
               "Title": "StatusService.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\StatusService.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\StatusService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\StatusService.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Services\\StatusService.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\StatusService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\StatusService.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwKsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -322,11 +371,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "StatusController.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\StatusController.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\StatusController.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\StatusController.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\StatusController.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\StatusController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\StatusController.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwAoAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -334,11 +383,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "SetoresController.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\SetoresController.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\SetoresController.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\SetoresController.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\SetoresController.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\SetoresController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\SetoresController.cs",
               "ViewState": "AgIAACsAAAAAAAAAAIBJwA4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -346,11 +395,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "UsuariosController.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\UsuariosController.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\UsuariosController.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\UsuariosController.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\UsuariosController.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\UsuariosController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\UsuariosController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -358,11 +407,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "SetorResponse.cs",
-              "DocumentMoniker": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorResponse.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorResponse.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\SetorResponse.cs",
-              "ToolTip": "D:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorResponse.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\SetorResponse.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\SetorResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
