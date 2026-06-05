@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, forkJoin, of } from 'rxjs';
 
@@ -9,13 +10,24 @@ import {
   OrdemServicoFormResponse,
   OrdemServicoHistoricoItem,
   OrdemServicoResolucaoResponse,
+  OrdemServicoStatusOption,
   OrdemServicoUsuarioOption,
+  SalvarOrdemServicoRequest,
 } from '../ordens-servico.models';
 import { OrdensServicoService } from '../ordens-servico.service';
 
+interface OrdemServicoEdicaoForm {
+  requesterId: number | null;
+  title: string;
+  description: string;
+  fullDescription: string;
+  ownerId: number | null;
+  statusId: number | null;
+}
+
 @Component({
   selector: 'app-ordens-servico-cad',
-  imports: [KsButtonComponent],
+  imports: [FormsModule, KsButtonComponent],
   templateUrl: './ordens-servico-cad.component.html',
   styleUrl: './ordens-servico-cad.component.css',
 })
@@ -31,14 +43,19 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   ordem: OrdemServicoFormResponse | null = null;
   historico: OrdemServicoHistoricoItem[] = [];
   usuarios: OrdemServicoUsuarioOption[] = [];
+  statusOptions: OrdemServicoStatusOption[] = [];
   setores: SetorListItem[] = [];
+  formEdicao: OrdemServicoEdicaoForm | null = null;
   resolucaoHtml = '';
   resolucaoEdicaoHtml = '';
   abaAtiva: 'descricao' | 'resolucao' | 'historico' = 'descricao';
   carregando = true;
+  editandoOrdem = false;
+  salvandoOrdem = false;
   editandoResolucao = false;
   salvandoResolucao = false;
   erro = '';
+  erroEdicao = '';
   erroResolucao = '';
   private quillEditor: any = null;
   private readonly quillToolbarOptions = [
@@ -83,13 +100,15 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     forkJoin({
       ordem: this.ordensServicoService.consultar(this.codigo),
       usuarios: this.ordensServicoService.getUsuarios().pipe(catchError(() => of([]))),
+      status: this.ordensServicoService.getStatus().pipe(catchError(() => of([]))),
       setores: this.setoresService.listar().pipe(catchError(() => of([]))),
       resolucao: this.ordensServicoService.consultarResolucao(this.codigo).pipe(catchError(() => of(null))),
       historico: this.ordensServicoService.consultarHistorico(this.codigo).pipe(catchError(() => of([]))),
       lida: this.ordensServicoService.marcarComoLida(this.codigo).pipe(catchError(() => of(null))),
     }).subscribe({
-      next: ({ ordem, usuarios, setores, resolucao, historico }) => {
+      next: ({ ordem, usuarios, status, setores, resolucao, historico }) => {
         this.usuarios = Array.isArray(usuarios) ? usuarios : [];
+        this.statusOptions = Array.isArray(status) ? status : [];
         this.setores = Array.isArray(setores) ? setores : [];
         this.ordem = this.preencherCamposRelacionados(ordem);
         this.resolucaoHtml = this.obterHtmlResolucao(resolucao) || ordem.lastResolution || '';
@@ -105,6 +124,73 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
 
   selecionarAba(aba: 'descricao' | 'resolucao' | 'historico'): void {
     this.abaAtiva = aba;
+  }
+
+  editarOrdem(): void {
+    if (!this.ordem) {
+      return;
+    }
+
+    this.erroEdicao = '';
+    this.abaAtiva = 'descricao';
+    this.editandoOrdem = true;
+    this.formEdicao = {
+      requesterId: this.ordem.requesterId,
+      title: this.ordem.title ?? '',
+      description: this.ordem.description ?? '',
+      fullDescription: this.ordem.fullDescription ?? '',
+      ownerId: this.ordem.ownerId,
+      statusId: this.ordem.statusId,
+    };
+  }
+
+  cancelarEdicaoOrdem(): void {
+    this.erroEdicao = '';
+    this.editandoOrdem = false;
+    this.salvandoOrdem = false;
+    this.formEdicao = null;
+  }
+
+  salvarOrdem(): void {
+    if (!this.codigo || !this.ordem || !this.formEdicao || this.salvandoOrdem) {
+      return;
+    }
+
+    const request: SalvarOrdemServicoRequest = {
+      requesterId: Number(this.formEdicao.requesterId ?? 0),
+      title: this.formEdicao.title.trim(),
+      description: this.formEdicao.description,
+      fullDescription: this.formEdicao.fullDescription,
+      ownerId: this.formEdicao.ownerId ? Number(this.formEdicao.ownerId) : null,
+      statusId: this.formEdicao.statusId ? Number(this.formEdicao.statusId) : null,
+    };
+
+    if (!request.title) {
+      this.erroEdicao = 'Informe o titulo da ordem de servico.';
+      return;
+    }
+
+    this.salvandoOrdem = true;
+    this.erroEdicao = '';
+
+    this.ordensServicoService.salvar(this.codigo, request).subscribe({
+      next: () => {
+        this.ordem = this.preencherCamposRelacionados({
+          ...this.ordem!,
+          ...request,
+          requesterName: this.obterNomeUsuario(request.requesterId),
+          ownerName: this.obterNomeUsuario(request.ownerId),
+          statusName: this.obterNomeStatus(request.statusId),
+        });
+        this.editandoOrdem = false;
+        this.salvandoOrdem = false;
+        this.formEdicao = null;
+      },
+      error: () => {
+        this.erroEdicao = 'Nao foi possivel salvar a ordem de servico.';
+        this.salvandoOrdem = false;
+      },
+    });
   }
 
   adicionarResolucao(): void {
@@ -260,6 +346,24 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
       const usuarioId = item.userId ?? item.usrCodigo;
       return Number(usuarioId) === Number(userId);
     }) ?? null;
+  }
+
+  nomeUsuarioOption(usuario: OrdemServicoUsuarioOption): string {
+    return usuario.firstName ?? usuario.usrNome ?? usuario.nome ?? usuario.name ?? '-';
+  }
+
+  usuarioIdOption(usuario: OrdemServicoUsuarioOption): number | null {
+    const usuarioId = usuario.userId ?? usuario.usrCodigo;
+
+    return usuarioId === null || usuarioId === undefined ? null : Number(usuarioId);
+  }
+
+  private obterNomeStatus(statusId: number | null | undefined): string | null {
+    if (!statusId) {
+      return null;
+    }
+
+    return this.statusOptions.find((item) => Number(item.statusId) === Number(statusId))?.statusName ?? null;
   }
 
   private obterNomeSetor(queueId: number | null | undefined): string | null {

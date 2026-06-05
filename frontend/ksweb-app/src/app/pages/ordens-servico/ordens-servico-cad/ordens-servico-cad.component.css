@@ -11,6 +11,14 @@
   justify-content: space-between;
 }
 
+.page-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
 .page-header h1 {
   color: #1f2937;
   font-size: 18px;
@@ -75,6 +83,60 @@
   padding: 6px 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.summary-field select,
+.order-edit-form input,
+.order-edit-form textarea {
+  background: #ffffff;
+  border: 1px solid #b9c2cf;
+  color: #263241;
+  font: inherit;
+  font-size: 12px;
+  min-height: 29px;
+  outline: none;
+  padding: 6px 8px;
+  width: 100%;
+}
+
+.summary-field select:focus,
+.order-edit-form input:focus,
+.order-edit-form textarea:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+}
+
+.summary-grid.editing {
+  grid-template-columns: 120px 150px minmax(150px, 1fr) minmax(180px, 1.2fr);
+}
+
+.order-edit-form {
+  display: grid;
+  gap: 12px;
+}
+
+.order-edit-form.saving {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.order-edit-form label {
+  display: grid;
+  gap: 5px;
+}
+
+.order-edit-form label span {
+  color: #4b5563;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.order-edit-form textarea {
+  line-height: 1.45;
+  min-height: 110px;
+  resize: vertical;
 }
 
 .status-pill {

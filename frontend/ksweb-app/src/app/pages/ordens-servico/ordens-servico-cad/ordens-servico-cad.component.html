@@ -5,11 +5,31 @@
       <span>{{ ordem?.title || 'Visualizacao da ordem de servico' }}</span>
     </div>
 
-    <app-ks-button tipo="secondary" (acao)="voltar()">Voltar</app-ks-button>
+    <div class="page-actions">
+      @if (ordem && !editandoOrdem) {
+        <app-ks-button tipo="primary" (acao)="editarOrdem()">Editar</app-ks-button>
+      }
+
+      @if (editandoOrdem) {
+        <app-ks-button tipo="primary" [disabled]="salvandoOrdem" (acao)="salvarOrdem()">
+          {{ salvandoOrdem ? 'Salvando...' : 'Salvar' }}
+        </app-ks-button>
+
+        <app-ks-button tipo="secondary" [disabled]="salvandoOrdem" (acao)="cancelarEdicaoOrdem()">
+          Cancelar
+        </app-ks-button>
+      }
+
+      <app-ks-button tipo="secondary" (acao)="voltar()">Voltar</app-ks-button>
+    </div>
   </header>
 
   @if (erro) {
     <div class="alert">{{ erro }}</div>
+  }
+
+  @if (erroEdicao) {
+    <div class="alert">{{ erroEdicao }}</div>
   }
 
   @if (carregando) {
@@ -18,7 +38,7 @@
     </section>
   } @else if (ordem) {
     <section class="view-panel">
-      <div class="summary-grid">
+      <div class="summary-grid" [class.editing]="editandoOrdem">
         <div class="summary-field">
           <span>Codigo</span>
           <strong>{{ valor(ordem.workorderId || codigo) }}</strong>
@@ -36,12 +56,29 @@
 
         <div class="summary-field">
           <span>Cliente</span>
-          <strong>{{ valor(ordem.requesterName) }}</strong>
+          @if (editandoOrdem && formEdicao) {
+            <select [(ngModel)]="formEdicao.requesterId" [disabled]="salvandoOrdem">
+              @for (usuario of usuarios; track usuarioIdOption(usuario) ?? $index) {
+                <option [ngValue]="usuarioIdOption(usuario)">{{ nomeUsuarioOption(usuario) }}</option>
+              }
+            </select>
+          } @else {
+            <strong>{{ valor(ordem.requesterName) }}</strong>
+          }
         </div>
 
         <div class="summary-field">
           <span>Status</span>
-          <strong class="status-pill">{{ valor(ordem.statusName) }}</strong>
+          @if (editandoOrdem && formEdicao) {
+            <select [(ngModel)]="formEdicao.statusId" [disabled]="salvandoOrdem">
+              <option [ngValue]="null">Sem status</option>
+              @for (status of statusOptions; track status.statusId) {
+                <option [ngValue]="status.statusId">{{ status.statusName }}</option>
+              }
+            </select>
+          } @else {
+            <strong class="status-pill">{{ valor(ordem.statusName) }}</strong>
+          }
         </div>
 
         <div class="summary-field">
@@ -51,7 +88,16 @@
 
         <div class="summary-field">
           <span>Responsavel</span>
-          <strong>{{ valor(ordem.ownerName) }}</strong>
+          @if (editandoOrdem && formEdicao) {
+            <select [(ngModel)]="formEdicao.ownerId" [disabled]="salvandoOrdem">
+              <option [ngValue]="null">Sem responsavel</option>
+              @for (usuario of usuarios; track usuarioIdOption(usuario) ?? $index) {
+                <option [ngValue]="usuarioIdOption(usuario)">{{ nomeUsuarioOption(usuario) }}</option>
+              }
+            </select>
+          } @else {
+            <strong>{{ valor(ordem.ownerName) }}</strong>
+          }
         </div>
       </div>
     </section>
@@ -85,7 +131,26 @@
 
       <div class="tab-content">
         @if (abaAtiva === 'descricao') {
-          <article class="text-content ql-content" [innerHTML]="descricaoHtml"></article>
+          @if (editandoOrdem && formEdicao) {
+            <div class="order-edit-form" [class.saving]="salvandoOrdem">
+              <label>
+                <span>Titulo</span>
+                <input type="text" [(ngModel)]="formEdicao.title" [disabled]="salvandoOrdem" />
+              </label>
+
+              <label>
+                <span>Descricao</span>
+                <textarea rows="5" [(ngModel)]="formEdicao.description" [disabled]="salvandoOrdem"></textarea>
+              </label>
+
+              <label>
+                <span>Descricao completa</span>
+                <textarea rows="9" [(ngModel)]="formEdicao.fullDescription" [disabled]="salvandoOrdem"></textarea>
+              </label>
+            </div>
+          } @else {
+            <article class="text-content ql-content" [innerHTML]="descricaoHtml"></article>
+          }
         }
 
         @if (abaAtiva === 'resolucao') {
