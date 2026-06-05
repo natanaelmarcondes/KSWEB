@@ -11,11 +11,11 @@
       }
 
       @if (editandoOrdem) {
-        <app-ks-button tipo="primary" [disabled]="salvandoOrdem" (acao)="salvarOrdem()">
-          {{ salvandoOrdem ? 'Salvando...' : 'Salvar' }}
+        <app-ks-button tipo="primary" [disabled]="salvandoOrdem || enviandoImagemDescricao" (acao)="salvarOrdem()">
+          {{ salvandoOrdem ? 'Salvando...' : (enviandoImagemDescricao ? 'Enviando imagem...' : 'Salvar') }}
         </app-ks-button>
 
-        <app-ks-button tipo="secondary" [disabled]="salvandoOrdem" (acao)="cancelarEdicaoOrdem()">
+        <app-ks-button tipo="secondary" [disabled]="salvandoOrdem || enviandoImagemDescricao" (acao)="cancelarEdicaoOrdem()">
           Cancelar
         </app-ks-button>
       }
@@ -206,7 +206,9 @@
 
               <label>
                 <span>Descricao completa</span>
-                <textarea rows="9" [(ngModel)]="formEdicao.fullDescription" [disabled]="salvandoOrdem"></textarea>
+                <div class="description-editor" [class.saving]="salvandoOrdem || enviandoImagemDescricao">
+                  <div #descricaoEditor></div>
+                </div>
               </label>
             </div>
           } @else {

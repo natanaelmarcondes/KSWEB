@@ -138,8 +138,7 @@
               "RelativeToolTip": "KSWeb.Api\\appsettings.Development.json",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-05T17:25:38.029Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T17:25:38.029Z"
             },
             {
               "$type": "Document",
@@ -149,7 +148,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoController.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\OrdensServicoController.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAABQwG0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAIBJwJwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-05T15:48:30.15Z",
               "EditorCaption": ""
@@ -162,7 +161,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoService.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoService.cs",
-              "ViewState": "AgIAAHABAAAAAAAAAAAQwH4BAABdAAAAAAAAAA==",
+              "ViewState": "AgIAAMABAAAAAAAAAAAgwMsBAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-05T11:15:34.781Z",
               "EditorCaption": ""
@@ -175,7 +174,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\OrdensServicoModels.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoModels.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAIBJwBsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAABQwCEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-05T11:11:58.224Z",
               "EditorCaption": ""
@@ -274,8 +273,7 @@
               "RelativeToolTip": "KSWeb.Api\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAxwBMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-03T21:18:33.465Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-03T21:18:33.465Z"
             },
             {
               "$type": "Document",
@@ -287,8 +285,7 @@
               "RelativeToolTip": "KSWeb.Api\\Program.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwGsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-02T11:42:16.121Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-02T11:42:16.121Z"
             },
             {
               "$type": "Document",

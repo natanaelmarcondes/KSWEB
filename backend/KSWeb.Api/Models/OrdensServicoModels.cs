@@ -25,3 +25,9 @@ public sealed class UploadImagemResolucaoRequest
     [FromForm(Name = "imagem")]
     public IFormFile Imagem { get; set; } = default!;
 }
+
+public sealed class UploadImagemRequest
+{
+    [FromForm(Name = "imagem")]
+    public IFormFile Imagem { get; set; } = default!;
+}

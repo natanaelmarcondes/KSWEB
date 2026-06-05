@@ -34,6 +34,7 @@ interface OrdemServicoEdicaoForm {
   styleUrl: './ordens-servico-cad.component.css',
 })
 export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('descricaoEditor') descricaoEditor?: ElementRef<HTMLDivElement>;
   @ViewChild('resolucaoEditor') resolucaoEditor?: ElementRef<HTMLDivElement>;
 
   private readonly route = inject(ActivatedRoute);
@@ -58,6 +59,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   salvandoOrdem = false;
   editandoResolucao = false;
   salvandoResolucao = false;
+  uploadsImagemDescricao = 0;
   uploadsImagemResolucao = 0;
   erro = '';
   erroEdicao = '';
@@ -67,6 +69,9 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   clienteDropdownAberto = false;
   responsavelDropdownAberto = false;
   private quillEditor: any = null;
+  private descricaoQuillEditor: any = null;
+  private descricaoPasteHandler: ((event: ClipboardEvent) => void) | null = null;
+  private descricaoPasteTarget: HTMLElement | null = null;
   private resolucaoPasteHandler: ((event: ClipboardEvent) => void) | null = null;
   private resolucaoPasteTarget: HTMLElement | null = null;
   private readonly quillToolbarOptions = [
@@ -85,14 +90,24 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (this.editandoOrdem && this.abaAtiva === 'descricao') {
+      void this.inicializarEditorDescricao();
+    }
+
     if (this.editandoResolucao) {
       void this.inicializarEditorResolucao();
     }
   }
 
   ngOnDestroy(): void {
+    this.removerInterceptadorPasteDescricao();
     this.removerInterceptadorPasteResolucao();
+    this.descricaoQuillEditor = null;
     this.quillEditor = null;
+  }
+
+  get enviandoImagemDescricao(): boolean {
+    return this.uploadsImagemDescricao > 0;
   }
 
   get enviandoImagemResolucao(): boolean {
@@ -185,6 +200,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
         this.clienteBusca = this.obterNomeUsuario(this.formEdicao.requesterId) ?? '';
         this.responsavelBusca = this.obterNomeUsuario(this.formEdicao.ownerId) ?? '';
         this.carregando = false;
+        void this.inicializarEditorDescricao();
       },
       error: () => {
         this.erro = 'Nao foi possivel carregar os dados para nova ordem de servico.';
@@ -195,6 +211,10 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
 
   selecionarAba(aba: 'descricao' | 'resolucao' | 'historico'): void {
     this.abaAtiva = aba;
+
+    if (aba === 'descricao' && this.editandoOrdem) {
+      void this.inicializarEditorDescricao();
+    }
   }
 
   editarOrdem(): void {
@@ -216,6 +236,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     };
     this.clienteBusca = this.obterNomeUsuario(this.formEdicao.requesterId) ?? '';
     this.responsavelBusca = this.obterNomeUsuario(this.formEdicao.ownerId) ?? '';
+    void this.inicializarEditorDescricao();
   }
 
   cancelarEdicaoOrdem(): void {
@@ -228,12 +249,27 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     this.editandoOrdem = false;
     this.salvandoOrdem = false;
     this.formEdicao = null;
+    this.removerInterceptadorPasteDescricao();
+    this.descricaoQuillEditor = null;
     this.clienteBusca = '';
     this.responsavelBusca = '';
   }
 
   salvarOrdem(): void {
     if ((!this.novaOrdem && (!this.codigo || !this.ordem)) || !this.formEdicao || this.salvandoOrdem) {
+      return;
+    }
+
+    if (this.enviandoImagemDescricao) {
+      this.erroEdicao = 'Aguarde o envio da imagem antes de salvar a ordem de servico.';
+      return;
+    }
+
+    this.removerImagensBase64EditorDescricao();
+    this.formEdicao.fullDescription = this.normalizarHtmlImagensAnexas(this.obterHtmlEditorDescricao());
+
+    if (this.contemImagemBase64(this.formEdicao.fullDescription)) {
+      this.erroEdicao = 'A descricao contem imagem em base64. Cole a imagem novamente para enviar pela API.';
       return;
     }
 
@@ -292,6 +328,8 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
         });
         this.editandoOrdem = false;
         this.salvandoOrdem = false;
+        this.removerInterceptadorPasteDescricao();
+        this.descricaoQuillEditor = null;
         this.formEdicao = null;
       },
       error: () => {
@@ -366,6 +404,111 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     this.formEdicao.ownerId = this.usuarioIdOption(usuario);
     this.responsavelBusca = this.nomeUsuarioOption(usuario);
     this.responsavelDropdownAberto = false;
+  }
+
+  private async inicializarEditorDescricao(): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve));
+
+    if (!this.editandoOrdem || this.abaAtiva !== 'descricao' || !this.formEdicao || !this.descricaoEditor?.nativeElement || this.descricaoQuillEditor) {
+      return;
+    }
+
+    const { default: Quill } = await import('quill');
+
+    this.descricaoQuillEditor = new Quill(this.descricaoEditor.nativeElement, {
+      modules: {
+        toolbar: this.quillToolbarOptions,
+      },
+      theme: 'snow',
+    });
+
+    this.carregarHtmlNoEditorDescricao(this.formEdicao.fullDescription);
+    this.configurarInterceptadorPasteDescricao();
+    this.descricaoQuillEditor.on('text-change', () => {
+      if (this.formEdicao) {
+        this.formEdicao.fullDescription = this.obterHtmlEditorDescricao();
+      }
+    });
+  }
+
+  private configurarInterceptadorPasteDescricao(): void {
+    this.removerInterceptadorPasteDescricao();
+
+    this.descricaoPasteHandler = (event: ClipboardEvent) => {
+      void this.aoColarNoEditorDescricao(event);
+    };
+    const target = this.descricaoEditor?.nativeElement ?? this.descricaoQuillEditor?.root ?? null;
+
+    if (!target) {
+      return;
+    }
+
+    this.descricaoPasteTarget = target;
+    target.addEventListener('paste', this.descricaoPasteHandler, true);
+  }
+
+  private removerInterceptadorPasteDescricao(): void {
+    if (!this.descricaoPasteTarget || !this.descricaoPasteHandler) {
+      this.descricaoPasteHandler = null;
+      this.descricaoPasteTarget = null;
+      return;
+    }
+
+    this.descricaoPasteTarget.removeEventListener('paste', this.descricaoPasteHandler, true);
+    this.descricaoPasteHandler = null;
+    this.descricaoPasteTarget = null;
+  }
+
+  private async aoColarNoEditorDescricao(event: ClipboardEvent): Promise<void> {
+    const imagens = this.obterImagensDoClipboard(event.clipboardData);
+
+    if (!imagens.length) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    this.erroEdicao = '';
+
+    if (!this.codigo) {
+      this.erroEdicao = 'Salve a ordem de servico antes de colar imagens na descricao.';
+      return;
+    }
+
+    const range = this.descricaoQuillEditor.getSelection(true);
+    let indiceInsercao = range?.index ?? this.descricaoQuillEditor.getLength();
+
+    const texto = event.clipboardData?.getData('text/plain')?.trim();
+    if (texto) {
+      this.descricaoQuillEditor.insertText(indiceInsercao, texto, 'user');
+      indiceInsercao += texto.length;
+    }
+
+    for (const imagem of imagens) {
+      this.uploadsImagemDescricao += 1;
+
+      try {
+        const response = await firstValueFrom(this.ordensServicoService.enviarImagemDescricao(this.codigo, imagem));
+        const url = this.obterUrlImagemUpload(response);
+
+        if (!url) {
+          throw new Error('Resposta da API sem URL da imagem.');
+        }
+
+        this.descricaoQuillEditor.insertEmbed(indiceInsercao, 'image', url, 'user');
+        indiceInsercao += 1;
+        this.descricaoQuillEditor.setSelection(indiceInsercao, 0, 'silent');
+        this.removerImagensBase64EditorDescricao();
+        if (this.formEdicao) {
+          this.formEdicao.fullDescription = this.obterHtmlEditorDescricao();
+        }
+      } catch {
+        this.erroEdicao = 'Nao foi possivel enviar a imagem colada.';
+      } finally {
+        this.uploadsImagemDescricao = Math.max(0, this.uploadsImagemDescricao - 1);
+      }
+    }
   }
 
   adicionarResolucao(): void {
@@ -504,7 +647,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
 
       try {
         const response = await firstValueFrom(this.ordensServicoService.enviarImagemResolucao(this.codigo, imagem));
-        const url = this.obterUrlImagemResolucao(response);
+        const url = this.obterUrlImagemUpload(response);
 
         if (!url) {
           throw new Error('Resposta da API sem URL da imagem.');
@@ -575,7 +718,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private obterUrlImagemResolucao(response: unknown): string | null {
+  private obterUrlImagemUpload(response: unknown): string | null {
     if (typeof response === 'string') {
       return response.trim() || null;
     }
@@ -600,6 +743,28 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     editorRoot
       ?.querySelectorAll('img[src^="data:image/"]')
       .forEach((imagem) => imagem.remove());
+  }
+
+  private removerImagensBase64EditorDescricao(): void {
+    const editorRoot = this.descricaoQuillEditor?.root as HTMLElement | null | undefined;
+
+    editorRoot
+      ?.querySelectorAll('img[src^="data:image/"]')
+      .forEach((imagem) => imagem.remove());
+  }
+
+  private carregarHtmlNoEditorDescricao(html: string): void {
+    const conteudo = html || '';
+
+    this.descricaoQuillEditor.setText('', 'silent');
+    this.descricaoQuillEditor.clipboard.dangerouslyPasteHTML(0, conteudo, 'silent');
+    if (this.formEdicao) {
+      this.formEdicao.fullDescription = this.obterHtmlEditorDescricao();
+    }
+  }
+
+  private obterHtmlEditorDescricao(): string {
+    return this.descricaoQuillEditor?.root?.innerHTML ?? this.formEdicao?.fullDescription ?? '';
   }
 
   private carregarHtmlNoEditorResolucao(html: string): void {

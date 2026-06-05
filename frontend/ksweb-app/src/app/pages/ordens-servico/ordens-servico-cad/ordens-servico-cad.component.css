@@ -62,8 +62,7 @@
   min-width: 0;
 }
 
-.summary-field span,
-.resolution-grid span {
+.summary-field span {
   color: #4b5563;
   font-size: 11px;
   font-weight: 700;
@@ -293,34 +292,34 @@
   margin-bottom: 14px;
 }
 
-.resolution-editor {
+:is(.description-editor, .resolution-editor) {
   border: 1px solid #cfd6df;
   color: #263241;
   width: 100%;
 }
 
-.resolution-editor:focus-within {
+:is(.description-editor, .resolution-editor):focus-within {
   border-color: #1976d2;
   box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
 }
 
-.resolution-editor.saving {
+:is(.description-editor, .resolution-editor).saving {
   opacity: 0.72;
   pointer-events: none;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow {
   border: none;
   border-bottom: 1px solid #cfd6df;
   line-height: 1;
   padding: 3px 5px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-formats {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow .ql-formats {
   margin-right: 6px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow button {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow button {
   border-radius: 2px;
   height: 20px;
   line-height: 1;
@@ -329,47 +328,46 @@
   width: 20px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow button svg {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow button svg {
   height: 15px;
   width: 15px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-picker {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow .ql-picker {
   font-size: 12px;
   height: 20px;
   line-height: 20px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-color-picker,
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-icon-picker {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow :is(.ql-color-picker, .ql-icon-picker) {
   width: 24px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-picker-label {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow .ql-picker-label {
   min-height: 0;
   padding: 0 16px 0 4px;
 }
 
-:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-picker-label svg {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-toolbar.ql-snow .ql-picker-label svg {
   height: 15px;
   width: 15px;
 }
 
-:host ::ng-deep .resolution-editor .ql-snow.ql-toolbar button:hover,
-:host ::ng-deep .resolution-editor .ql-snow .ql-toolbar button:hover {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-snow.ql-toolbar button:hover,
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-snow .ql-toolbar button:hover {
   box-shadow: none;
 }
 
-:host ::ng-deep .resolution-editor .ql-container.ql-snow {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-container.ql-snow {
   border: none;
   font: inherit;
 }
 
-:host ::ng-deep .resolution-editor .ql-editor {
+:host ::ng-deep :is(.description-editor, .resolution-editor) .ql-editor {
   min-height: 220px;
 }
 
-:host ::ng-deep .resolution-editor.saving .ql-editor {
+:host ::ng-deep :is(.description-editor, .resolution-editor).saving .ql-editor {
   cursor: wait;
 }
 
@@ -468,10 +466,6 @@
   padding-left: 6em;
 }
 
-.ql-content :where(.ql-indent-3) {
-  padding-left: 9em;
-}
-
 .timeline {
   display: grid;
   gap: 10px;
@@ -502,32 +496,11 @@
   white-space: nowrap;
 }
 
-.timeline-item p,
-.resolution-html,
-.resolution-grid p {
+.timeline-item p {
   color: #263241;
   font-size: 13px;
   margin: 0;
   overflow-wrap: anywhere;
-}
-
-.resolution-html:empty::before {
-  color: #64748b;
-  content: '-';
-}
-
-.resolution-grid {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.resolution-grid div {
-  background: #f8fafc;
-  border: 1px solid #e4e8ee;
-  display: grid;
-  gap: 5px;
-  padding: 9px 10px;
 }
 
 .alert {
@@ -559,8 +532,7 @@
     flex-direction: column;
   }
 
-  .summary-grid,
-  .resolution-grid {
+  .summary-grid {
     grid-template-columns: 1fr;
   }
 
