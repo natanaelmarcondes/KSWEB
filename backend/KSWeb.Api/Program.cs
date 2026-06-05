@@ -1,6 +1,7 @@
 using KSWeb.Api.Data;
 using KSWeb.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -82,6 +83,19 @@ WebApplication app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseStaticFiles();
+
+var inlineImagesPhysicalRoot = builder.Configuration["InlineImages:PhysicalRootPath"];
+if (!string.IsNullOrWhiteSpace(inlineImagesPhysicalRoot))
+{
+    Directory.CreateDirectory(inlineImagesPhysicalRoot);
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(inlineImagesPhysicalRoot),
+        RequestPath = "/inlineimages"
+    });
+}
 
 app.UseCors("KSWebCors");
 

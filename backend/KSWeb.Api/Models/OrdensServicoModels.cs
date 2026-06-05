@@ -1,5 +1,7 @@
 namespace KSWeb.Api.Models;
 
+using Microsoft.AspNetCore.Mvc;
+
 public sealed class SalvarOrdemServicoRequest
 {
     public long RequesterId { get; set; }
@@ -16,4 +18,10 @@ public sealed class SalvarOrdemServicoResponse
     public string Mensagem { get; set; } = string.Empty;
     public long WorkOrderId { get; set; }
     public bool Criada { get; set; }
+}
+
+public sealed class UploadImagemResolucaoRequest
+{
+    [FromForm(Name = "imagem")]
+    public IFormFile Imagem { get; set; } = default!;
 }

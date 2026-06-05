@@ -2,6 +2,7 @@ using KSWeb.Api.Models;
 using KSWeb.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
 namespace KSWeb.Api.Controllers;
@@ -12,10 +13,14 @@ namespace KSWeb.Api.Controllers;
 public sealed class OrdensServicoController : ControllerBase
 {
     private readonly OrdensServicoService _ordensServicoService;
+    private readonly IWebHostEnvironment _environment;
+    private readonly IConfiguration _configuration;
 
-    public OrdensServicoController(OrdensServicoService ordensServicoService)
+    public OrdensServicoController(OrdensServicoService ordensServicoService, IWebHostEnvironment environment, IConfiguration configuration)
     {
         _ordensServicoService = ordensServicoService;
+        _environment = environment;
+        _configuration = configuration;
     }
 
     [HttpPost]
@@ -54,5 +59,51 @@ public sealed class OrdensServicoController : ControllerBase
         }
 
         return Ok(response);
+    }
+
+    [HttpPost("{id:long}/resolution-image")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadImagemResolucao([FromRoute] long id, [FromForm] UploadImagemResolucaoRequest request)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        if (request == null || request.Imagem == null || request.Imagem.Length == 0)
+            return BadRequest(new { mensagem = "Nenhuma imagem foi enviada." });
+
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+        var fileExtension = Path.GetExtension(request.Imagem.FileName).ToLowerInvariant();
+
+        if (!allowedExtensions.Contains(fileExtension))
+            return BadRequest(new { mensagem = "Formato de imagem não permitido. Use: jpg, jpeg, png, gif ou webp." });
+
+        var maxFileSize = 10 * 1024 * 1024; // 10MB
+        if (request.Imagem.Length > maxFileSize)
+            return BadRequest(new { mensagem = "A imagem não pode ser maior que 10MB." });
+
+        var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var fileName = $"{timestamp}{fileExtension}";
+
+        // Se configurado, grava as imagens fora do wwwroot do backend (ex.: pasta public do frontend)
+        var inlineImagesPhysicalRoot = _configuration["InlineImages:PhysicalRootPath"];
+        var physicalRoot = string.IsNullOrWhiteSpace(inlineImagesPhysicalRoot)
+            ? Path.Combine(_environment.WebRootPath, "inlineimages")
+            : inlineImagesPhysicalRoot;
+
+        var relativePath = Path.Combine("WorkOrder", id.ToString(), "Resolution");
+        var fullPath = Path.Combine(physicalRoot, relativePath);
+
+        Directory.CreateDirectory(fullPath);
+
+        var filePath = Path.Combine(fullPath, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await request.Imagem.CopyToAsync(stream);
+        }
+
+        var urlRelativa = $"/inlineimages/{relativePath.Replace("\\", "/")}/{fileName}";
+
+        return Ok(new { url = urlRelativa });
     }
 }

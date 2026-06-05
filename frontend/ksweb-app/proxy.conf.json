@@ -6,7 +6,7 @@
     "logLevel": "debug"
   },
   "/inlineimages": {
-    "target": "http://localhost:5230",
+    "target": "http://localhost:5226",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

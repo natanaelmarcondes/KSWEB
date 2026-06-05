@@ -137,6 +137,14 @@ export interface SalvarResolucaoRequest {
   resolucaoHtml: string;
 }
 
+export interface OrdemServicoResolucaoImagemResponse {
+  url?: string;
+  imageUrl?: string;
+  src?: string;
+  path?: string;
+  fileUrl?: string;
+}
+
 export interface AlterarStatusAtribuirRequest {
   statusId: number | null;
   queueId: number | null;

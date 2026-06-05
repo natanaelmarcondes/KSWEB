@@ -1,0 +1,98 @@
+﻿using KSWeb.Api.Models;
+using KSWeb.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+namespace KSWeb.Api.Controllers;
+
+[ApiController]
+[Authorize]
+[Route("api/ordens-servico")]
+public sealed class OrdensServicoController : ControllerBase
+{
+    private readonly OrdensServicoService _ordensServicoService;
+    private readonly IWebHostEnvironment _environment;
+
+    public OrdensServicoController(OrdensServicoService ordensServicoService, IWebHostEnvironment environment)
+    {
+        _ordensServicoService = ordensServicoService;
+        _environment = environment;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Criar([FromBody] SalvarOrdemServicoRequest request)
+    {
+        var userId = long.TryParse(User.FindFirstValue("USER_ID"), out var parsedUserId)
+            ? parsedUserId
+            : 0;
+
+        var response = await _ordensServicoService.SalvarAsync(null, request, userId);
+
+        if (!response.Sucesso)
+            return BadRequest(response);
+
+        return CreatedAtAction(nameof(Criar), new { id = response.WorkOrderId }, response);
+    }
+
+    [HttpPut("{id:long}")]
+    public async Task<IActionResult> Atualizar([FromRoute] long id, [FromBody] SalvarOrdemServicoRequest request)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var userId = long.TryParse(User.FindFirstValue("USER_ID"), out var parsedUserId)
+            ? parsedUserId
+            : 0;
+
+        var response = await _ordensServicoService.SalvarAsync(id, request, userId);
+
+        if (!response.Sucesso)
+        {
+            if (response.Mensagem.Equals("O.S não encontrada.", StringComparison.OrdinalIgnoreCase))
+                return NotFound(response);
+
+            return BadRequest(response);
+        }
+
+        return Ok(response);
+    }
+
+    [HttpPost("{id:long}/resolution-image")]
+    public async Task<IActionResult> UploadImagemResolucao([FromRoute] long id, IFormFile imagem)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        if (imagem == null || imagem.Length == 0)
+            return BadRequest(new { mensagem = "Nenhuma imagem foi enviada." });
+
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+        var fileExtension = Path.GetExtension(imagem.FileName).ToLowerInvariant();
+
+        if (!allowedExtensions.Contains(fileExtension))
+            return BadRequest(new { mensagem = "Formato de imagem não permitido. Use: jpg, jpeg, png, gif ou webp." });
+
+        var maxFileSize = 10 * 1024 * 1024; // 10MB
+        if (imagem.Length > maxFileSize)
+            return BadRequest(new { mensagem = "A imagem não pode ser maior que 10MB." });
+
+        var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var fileName = $"{timestamp}{fileExtension}";
+        var relativePath = Path.Combine("inlineimages", "WorkOrder", id.ToString(), "Resolution");
+        var fullPath = Path.Combine(_environment.WebRootPath, relativePath);
+
+        Directory.CreateDirectory(fullPath);
+
+        var filePath = Path.Combine(fullPath, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await imagem.CopyToAsync(stream);
+        }
+
+        var urlRelativa = $"/{relativePath.Replace("\\", "/")}/{fileName}";
+
+        return Ok(new { url = urlRelativa });
+    }
+}

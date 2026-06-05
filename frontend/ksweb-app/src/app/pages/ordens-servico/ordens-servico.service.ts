@@ -10,6 +10,7 @@ import {
   OrdemServicoHistoricoItem,
   OrdemServicoListResponse,
   OrdemServicoResolucaoResponse,
+  OrdemServicoResolucaoImagemResponse,
   SalvarOrdemServicoRequest,
   SalvarResolucaoRequest,
   OrdemServicoStatusOption,
@@ -83,6 +84,28 @@ export class OrdensServicoService {
 
   salvarResolucao(id: number, request: SalvarResolucaoRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${id}/resolucao`, request);
+  }
+
+  enviarImagemResolucao(id: number, arquivo: File): Observable<OrdemServicoResolucaoImagemResponse | string> {
+    const formData = new FormData();
+    formData.append('imagem', arquivo, this.obterNomeImagemResolucao(arquivo));
+
+    return this.http.post<OrdemServicoResolucaoImagemResponse | string>(`/api/ordens-servico/${id}/resolution-image`, formData);
+  }
+
+  private obterNomeImagemResolucao(arquivo: File): string {
+    if (/\.(jpe?g|png|gif|webp)$/i.test(arquivo.name)) {
+      return arquivo.name;
+    }
+
+    const extensaoPorMime: Record<string, string> = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/gif': 'gif',
+      'image/webp': 'webp',
+    };
+
+    return `resolution-image.${extensaoPorMime[arquivo.type] ?? 'png'}`;
   }
 
   consultarHistorico(id: number): Observable<OrdemServicoHistoricoItem[]> {

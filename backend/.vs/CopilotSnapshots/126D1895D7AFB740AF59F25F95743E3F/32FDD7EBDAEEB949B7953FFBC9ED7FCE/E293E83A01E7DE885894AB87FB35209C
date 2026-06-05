@@ -1,0 +1,19 @@
+﻿namespace KSWeb.Api.Models;
+
+public sealed class SalvarOrdemServicoRequest
+{
+    public long RequesterId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string FullDescription { get; set; } = string.Empty;
+    public long? OwnerId { get; set; }
+    public long? StatusId { get; set; }
+}
+
+public sealed class SalvarOrdemServicoResponse
+{
+    public bool Sucesso { get; set; }
+    public string Mensagem { get; set; } = string.Empty;
+    public long WorkOrderId { get; set; }
+    public bool Criada { get; set; }
+}

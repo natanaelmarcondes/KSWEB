@@ -221,11 +221,11 @@
                 Adicionar Resolução
               </app-ks-button>
             } @else {
-              <app-ks-button tipo="primary" tamanho="small" [disabled]="salvandoResolucao" (acao)="salvarResolucao()">
-                {{ salvandoResolucao ? 'Salvando...' : 'Salvar' }}
+              <app-ks-button tipo="primary" tamanho="small" [disabled]="salvandoResolucao || enviandoImagemResolucao" (acao)="salvarResolucao()">
+                {{ salvandoResolucao ? 'Salvando...' : (enviandoImagemResolucao ? 'Enviando imagem...' : 'Salvar') }}
               </app-ks-button>
 
-              <app-ks-button tipo="secondary" tamanho="small" [disabled]="salvandoResolucao" (acao)="cancelarResolucao()">
+              <app-ks-button tipo="secondary" tamanho="small" [disabled]="salvandoResolucao || enviandoImagemResolucao" (acao)="cancelarResolucao()">
                 Cancelar
               </app-ks-button>
             }

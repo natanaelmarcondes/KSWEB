@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, firstValueFrom, forkJoin, of } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
@@ -58,6 +58,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   salvandoOrdem = false;
   editandoResolucao = false;
   salvandoResolucao = false;
+  uploadsImagemResolucao = 0;
   erro = '';
   erroEdicao = '';
   erroResolucao = '';
@@ -66,6 +67,8 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   clienteDropdownAberto = false;
   responsavelDropdownAberto = false;
   private quillEditor: any = null;
+  private resolucaoPasteHandler: ((event: ClipboardEvent) => void) | null = null;
+  private resolucaoPasteTarget: HTMLElement | null = null;
   private readonly quillToolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
     [{ header: [1, 2, 3, false] }],
@@ -88,7 +91,12 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.removerInterceptadorPasteResolucao();
     this.quillEditor = null;
+  }
+
+  get enviandoImagemResolucao(): boolean {
+    return this.uploadsImagemResolucao > 0;
   }
 
   @HostListener('document:click', ['$event'])
@@ -370,6 +378,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   cancelarResolucao(): void {
     this.erroResolucao = '';
     this.resolucaoEdicaoHtml = this.resolucaoHtml;
+    this.removerInterceptadorPasteResolucao();
     this.editandoResolucao = false;
     this.quillEditor = null;
   }
@@ -379,9 +388,21 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
+    if (this.enviandoImagemResolucao) {
+      this.erroResolucao = 'Aguarde o envio da imagem antes de salvar a resolucao.';
+      return;
+    }
+
     this.salvandoResolucao = true;
     this.erroResolucao = '';
+    this.removerImagensBase64EditorResolucao();
     this.resolucaoEdicaoHtml = this.normalizarHtmlImagensAnexas(this.obterHtmlEditorResolucao());
+
+    if (this.contemImagemBase64(this.resolucaoEdicaoHtml)) {
+      this.erroResolucao = 'A resolucao contem imagem em base64. Cole a imagem novamente para enviar pela API.';
+      this.salvandoResolucao = false;
+      return;
+    }
 
     this.ordensServicoService.salvarResolucao(this.codigo, {
       resolucaoHtml: this.resolucaoEdicaoHtml,
@@ -394,8 +415,9 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
             lastResolution: this.resolucaoHtml,
           };
         }
-        this.editandoResolucao = false;
         this.salvandoResolucao = false;
+        this.removerInterceptadorPasteResolucao();
+        this.editandoResolucao = false;
         this.quillEditor = null;
       },
       error: () => {
@@ -422,9 +444,162 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     });
 
     this.carregarHtmlNoEditorResolucao(this.resolucaoEdicaoHtml);
+    this.configurarInterceptadorPasteResolucao();
     this.quillEditor.on('text-change', () => {
       this.resolucaoEdicaoHtml = this.obterHtmlEditorResolucao();
     });
+  }
+
+  private configurarInterceptadorPasteResolucao(): void {
+    this.removerInterceptadorPasteResolucao();
+
+    this.resolucaoPasteHandler = (event: ClipboardEvent) => {
+      void this.aoColarNoEditorResolucao(event);
+    };
+    const target = this.resolucaoEditor?.nativeElement ?? this.quillEditor?.root ?? null;
+
+    if (!target) {
+      return;
+    }
+
+    this.resolucaoPasteTarget = target;
+    target.addEventListener('paste', this.resolucaoPasteHandler, true);
+  }
+
+  private removerInterceptadorPasteResolucao(): void {
+    if (!this.resolucaoPasteTarget || !this.resolucaoPasteHandler) {
+      this.resolucaoPasteHandler = null;
+      this.resolucaoPasteTarget = null;
+      return;
+    }
+
+    this.resolucaoPasteTarget.removeEventListener('paste', this.resolucaoPasteHandler, true);
+    this.resolucaoPasteHandler = null;
+    this.resolucaoPasteTarget = null;
+  }
+
+  private async aoColarNoEditorResolucao(event: ClipboardEvent): Promise<void> {
+    const imagens = this.obterImagensDoClipboard(event.clipboardData);
+
+    if (!imagens.length) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    this.erroResolucao = '';
+
+    const range = this.quillEditor.getSelection(true);
+    let indiceInsercao = range?.index ?? this.quillEditor.getLength();
+
+    const texto = event.clipboardData?.getData('text/plain')?.trim();
+    if (texto) {
+      this.quillEditor.insertText(indiceInsercao, texto, 'user');
+      indiceInsercao += texto.length;
+    }
+
+    for (const imagem of imagens) {
+      this.uploadsImagemResolucao += 1;
+
+      try {
+        const response = await firstValueFrom(this.ordensServicoService.enviarImagemResolucao(this.codigo, imagem));
+        const url = this.obterUrlImagemResolucao(response);
+
+        if (!url) {
+          throw new Error('Resposta da API sem URL da imagem.');
+        }
+
+        this.quillEditor.insertEmbed(indiceInsercao, 'image', url, 'user');
+        indiceInsercao += 1;
+        this.quillEditor.setSelection(indiceInsercao, 0, 'silent');
+        this.removerImagensBase64EditorResolucao();
+        this.resolucaoEdicaoHtml = this.obterHtmlEditorResolucao();
+      } catch {
+        this.erroResolucao = 'Nao foi possivel enviar a imagem colada.';
+      } finally {
+        this.uploadsImagemResolucao = Math.max(0, this.uploadsImagemResolucao - 1);
+      }
+    }
+  }
+
+  private obterImagensDoClipboard(clipboardData: DataTransfer | null): File[] {
+    if (!clipboardData) {
+      return [];
+    }
+
+    const arquivos = Array.from(clipboardData.items)
+      .filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
+      .map((item) => item.getAsFile())
+      .filter((arquivo): arquivo is File => !!arquivo);
+
+    if (arquivos.length) {
+      return arquivos;
+    }
+
+    return this.obterImagensBase64DoHtml(clipboardData.getData('text/html'));
+  }
+
+  private obterImagensBase64DoHtml(html: string): File[] {
+    if (!html?.includes('data:image/')) {
+      return [];
+    }
+
+    const template = document.createElement('template');
+    template.innerHTML = html;
+
+    return Array.from(template.content.querySelectorAll<HTMLImageElement>('img[src^="data:image/"]'))
+      .map((imagem, index) => this.converterDataUrlParaArquivo(imagem.src, `resolution-image-${index + 1}`))
+      .filter((arquivo): arquivo is File => !!arquivo);
+  }
+
+  private converterDataUrlParaArquivo(dataUrl: string, nomeBase: string): File | null {
+    const match = dataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+
+    if (!match?.[1] || !match[2]) {
+      return null;
+    }
+
+    try {
+      const bytes = atob(match[2]);
+      const buffer = new Uint8Array(bytes.length);
+
+      for (let index = 0; index < bytes.length; index += 1) {
+        buffer[index] = bytes.charCodeAt(index);
+      }
+
+      const extensao = match[1].split('/')[1] || 'png';
+      return new File([buffer], `${nomeBase}.${extensao}`, { type: match[1] });
+    } catch {
+      return null;
+    }
+  }
+
+  private obterUrlImagemResolucao(response: unknown): string | null {
+    if (typeof response === 'string') {
+      return response.trim() || null;
+    }
+
+    if (!response || typeof response !== 'object') {
+      return null;
+    }
+
+    const dados = response as Record<string, unknown>;
+    const url = dados['url'] ?? dados['imageUrl'] ?? dados['src'] ?? dados['path'] ?? dados['fileUrl'];
+
+    return typeof url === 'string' && url.trim() ? url.trim() : null;
+  }
+
+  private contemImagemBase64(html: string): boolean {
+    return /<img\b[^>]*\bsrc=["']data:image\//i.test(html);
+  }
+
+  private removerImagensBase64EditorResolucao(): void {
+    const editorRoot = this.quillEditor?.root as HTMLElement | null | undefined;
+
+    editorRoot
+      ?.querySelectorAll('img[src^="data:image/"]')
+      .forEach((imagem) => imagem.remove());
   }
 
   private carregarHtmlNoEditorResolucao(html: string): void {
