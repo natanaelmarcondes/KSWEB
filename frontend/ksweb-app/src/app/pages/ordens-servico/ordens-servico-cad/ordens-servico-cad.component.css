@@ -121,6 +121,94 @@
   padding: 16px 18px;
 }
 
+.resolution-toolbar {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.resolution-editor {
+  border: 1px solid #cfd6df;
+  color: #263241;
+  width: 100%;
+}
+
+.resolution-editor:focus-within {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+}
+
+.resolution-editor.saving {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid #cfd6df;
+  line-height: 1;
+  padding: 3px 5px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-formats {
+  margin-right: 6px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow button {
+  border-radius: 2px;
+  height: 20px;
+  line-height: 1;
+  min-height: 0;
+  padding: 1px 2px;
+  width: 20px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow button svg {
+  height: 15px;
+  width: 15px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-picker {
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-color-picker,
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-icon-picker {
+  width: 24px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-picker-label {
+  min-height: 0;
+  padding: 0 16px 0 4px;
+}
+
+:host ::ng-deep .resolution-editor .ql-toolbar.ql-snow .ql-picker-label svg {
+  height: 15px;
+  width: 15px;
+}
+
+:host ::ng-deep .resolution-editor .ql-snow.ql-toolbar button:hover,
+:host ::ng-deep .resolution-editor .ql-snow .ql-toolbar button:hover {
+  box-shadow: none;
+}
+
+:host ::ng-deep .resolution-editor .ql-container.ql-snow {
+  border: none;
+  font: inherit;
+}
+
+:host ::ng-deep .resolution-editor .ql-editor {
+  min-height: 220px;
+}
+
+:host ::ng-deep .resolution-editor.saving .ql-editor {
+  cursor: wait;
+}
+
 .text-content {
   color: #263241;
   font-size: 13px;

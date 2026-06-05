@@ -128,8 +128,7 @@ export interface SalvarOrdemServicoRequest {
 }
 
 export interface SalvarResolucaoRequest {
-  html: string;
-  texto: string;
+  resolucaoHtml: string;
 }
 
 export interface AlterarStatusAtribuirRequest {

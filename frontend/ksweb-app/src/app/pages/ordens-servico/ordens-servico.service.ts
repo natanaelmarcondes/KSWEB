@@ -10,6 +10,7 @@ import {
   OrdemServicoHistoricoItem,
   OrdemServicoListResponse,
   OrdemServicoResolucaoResponse,
+  SalvarResolucaoRequest,
   OrdemServicoStatusOption,
 } from './ordens-servico.models';
 
@@ -68,6 +69,10 @@ export class OrdensServicoService {
 
   consultarResolucao(id: number): Observable<OrdemServicoResolucaoResponse> {
     return this.http.get<OrdemServicoResolucaoResponse>(`${this.apiUrl}/${id}/resolucao`);
+  }
+
+  salvarResolucao(id: number, request: SalvarResolucaoRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${id}/resolucao`, request);
   }
 
   consultarHistorico(id: number): Observable<OrdemServicoHistoricoItem[]> {

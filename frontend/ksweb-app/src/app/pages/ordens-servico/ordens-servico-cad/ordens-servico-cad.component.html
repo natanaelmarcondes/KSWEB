@@ -89,7 +89,33 @@
         }
 
         @if (abaAtiva === 'resolucao') {
-          <article class="text-content ql-content" [innerHTML]="resolucaoHtml"></article>
+          <div class="resolution-toolbar">
+            @if (!editandoResolucao) {
+              <app-ks-button tipo="primary" tamanho="small" (acao)="adicionarResolucao()">
+                Adicionar Resolução
+              </app-ks-button>
+            } @else {
+              <app-ks-button tipo="primary" tamanho="small" [disabled]="salvandoResolucao" (acao)="salvarResolucao()">
+                {{ salvandoResolucao ? 'Salvando...' : 'Salvar' }}
+              </app-ks-button>
+
+              <app-ks-button tipo="secondary" tamanho="small" [disabled]="salvandoResolucao" (acao)="cancelarResolucao()">
+                Cancelar
+              </app-ks-button>
+            }
+          </div>
+
+          @if (erroResolucao) {
+            <div class="alert">{{ erroResolucao }}</div>
+          }
+
+          @if (editandoResolucao) {
+            <div class="resolution-editor" [class.saving]="salvandoResolucao">
+              <div #resolucaoEditor></div>
+            </div>
+          } @else {
+            <article class="text-content ql-content" [innerHTML]="resolucaoHtml"></article>
+          }
         }
 
         @if (abaAtiva === 'historico') {

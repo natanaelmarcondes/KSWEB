@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, forkJoin, of } from 'rxjs';
 
@@ -19,7 +19,9 @@ import { OrdensServicoService } from '../ordens-servico.service';
   templateUrl: './ordens-servico-cad.component.html',
   styleUrl: './ordens-servico-cad.component.css',
 })
-export class OrdensServicoCadComponent {
+export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('resolucaoEditor') resolucaoEditor?: ElementRef<HTMLDivElement>;
+
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly ordensServicoService = inject(OrdensServicoService);
@@ -31,12 +33,37 @@ export class OrdensServicoCadComponent {
   usuarios: OrdemServicoUsuarioOption[] = [];
   setores: SetorListItem[] = [];
   resolucaoHtml = '';
+  resolucaoEdicaoHtml = '';
   abaAtiva: 'descricao' | 'resolucao' | 'historico' = 'descricao';
   carregando = true;
+  editandoResolucao = false;
+  salvandoResolucao = false;
   erro = '';
+  erroResolucao = '';
+  private quillEditor: any = null;
+  private readonly quillToolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ header: [1, 2, 3, false] }],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ align: [] }],
+    ['blockquote', 'code-block'],
+    ['link'],
+    ['clean'],
+  ];
 
   constructor() {
     this.carregar();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.editandoResolucao) {
+      void this.inicializarEditorResolucao();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.quillEditor = null;
   }
 
   get descricaoHtml(): string {
@@ -78,6 +105,85 @@ export class OrdensServicoCadComponent {
 
   selecionarAba(aba: 'descricao' | 'resolucao' | 'historico'): void {
     this.abaAtiva = aba;
+  }
+
+  adicionarResolucao(): void {
+    this.erroResolucao = '';
+    this.resolucaoEdicaoHtml = this.resolucaoHtml;
+    this.editandoResolucao = true;
+    void this.inicializarEditorResolucao();
+  }
+
+  cancelarResolucao(): void {
+    this.erroResolucao = '';
+    this.resolucaoEdicaoHtml = this.resolucaoHtml;
+    this.editandoResolucao = false;
+    this.quillEditor = null;
+  }
+
+  salvarResolucao(): void {
+    if (!this.codigo || this.salvandoResolucao) {
+      return;
+    }
+
+    this.salvandoResolucao = true;
+    this.erroResolucao = '';
+    this.resolucaoEdicaoHtml = this.obterHtmlEditorResolucao();
+
+    this.ordensServicoService.salvarResolucao(this.codigo, {
+      resolucaoHtml: this.resolucaoEdicaoHtml,
+    }).subscribe({
+      next: () => {
+        this.resolucaoHtml = this.resolucaoEdicaoHtml;
+        if (this.ordem) {
+          this.ordem = {
+            ...this.ordem,
+            lastResolution: this.resolucaoHtml,
+          };
+        }
+        this.editandoResolucao = false;
+        this.salvandoResolucao = false;
+        this.quillEditor = null;
+      },
+      error: () => {
+        this.erroResolucao = 'Nao foi possivel salvar a resolucao.';
+        this.salvandoResolucao = false;
+      },
+    });
+  }
+
+  private async inicializarEditorResolucao(): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve));
+
+    if (!this.editandoResolucao || !this.resolucaoEditor?.nativeElement || this.quillEditor) {
+      return;
+    }
+
+    const { default: Quill } = await import('quill');
+
+    this.quillEditor = new Quill(this.resolucaoEditor.nativeElement, {
+      modules: {
+        toolbar: this.quillToolbarOptions,
+      },
+      theme: 'snow',
+    });
+
+    this.carregarHtmlNoEditorResolucao(this.resolucaoEdicaoHtml);
+    this.quillEditor.on('text-change', () => {
+      this.resolucaoEdicaoHtml = this.obterHtmlEditorResolucao();
+    });
+  }
+
+  private carregarHtmlNoEditorResolucao(html: string): void {
+    const conteudo = html || '';
+
+    this.quillEditor.setText('', 'silent');
+    this.quillEditor.clipboard.dangerouslyPasteHTML(0, conteudo, 'silent');
+    this.resolucaoEdicaoHtml = this.obterHtmlEditorResolucao();
+  }
+
+  private obterHtmlEditorResolucao(): string {
+    return this.quillEditor?.root?.innerHTML ?? this.resolucaoEdicaoHtml;
   }
 
   formatarData(valor: number | null | undefined): string {

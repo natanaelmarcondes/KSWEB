@@ -1,4 +1,4 @@
-namespace KSWeb.Api.Models;
+﻿namespace KSWeb.Api.Models;
 
 public sealed class OrdensServicoConsultaFiltro
 {
@@ -69,21 +69,4 @@ public sealed class OrdemServicoResolucaoItem
     public string PrevValue { get; set; } = string.Empty;
     public string CurrentValue { get; set; } = string.Empty;
     public long? OperationTime { get; set; }
-}
-
-public sealed class OrdemServicoSalvarResolucaoRequest
-{
-    public string ResolucaoHtml { get; set; } = string.Empty;
-}
-
-public sealed class OrdemServicoSalvarResolucaoResponse
-{
-    public bool Sucesso { get; set; }
-    public string Mensagem { get; set; } = string.Empty;
-    public long WorkOrderId { get; set; }
-    public long HistoryId { get; set; }
-    public string Operation { get; set; } = string.Empty;
-    public string? PrevValue { get; set; }
-    public string CurrentValue { get; set; } = string.Empty;
-    public long OperationTime { get; set; }
 }

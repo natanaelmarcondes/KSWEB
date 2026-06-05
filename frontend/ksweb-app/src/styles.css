@@ -1,3 +1,5 @@
+@import 'quill/dist/quill.snow.css';
+
 * {
   box-sizing: border-box;
 }
@@ -87,4 +89,3 @@ input:disabled, select:disabled, textarea:disabled, .ks-input:disabled, .ks-sele
   color: #94a3b8;
   cursor: not-allowed;
 }
-

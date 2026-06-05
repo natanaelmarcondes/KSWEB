@@ -598,6 +598,46 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "OrdensServicoConsulta"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdemServicoSalvarResolucaoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdemServicoSalvarResolucaoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrdemServicoSalvarResolucaoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/ordens-servico-consulta/{id}/historico": {
@@ -914,6 +954,16 @@
         "type": "object",
         "properties": {
           "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrdemServicoSalvarResolucaoRequest": {
+        "type": "object",
+        "properties": {
+          "resolucaoHtml": {
             "type": "string",
             "nullable": true
           }
