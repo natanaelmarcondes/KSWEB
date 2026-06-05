@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, forkJoin, of } from 'rxjs';
 
+import { AuthService } from '../../../core/auth/auth.service';
 import { KsButtonComponent } from '../../../shared/components/ks-button/ks-button.component';
 import { SetorListItem } from '../../setores/setores.models';
 import { SetoresService } from '../../setores/setores.service';
@@ -23,6 +24,7 @@ interface OrdemServicoEdicaoForm {
   fullDescription: string;
   ownerId: number | null;
   statusId: number | null;
+  queueId: number | null;
 }
 
 @Component({
@@ -38,8 +40,10 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly ordensServicoService = inject(OrdensServicoService);
   private readonly setoresService = inject(SetoresService);
+  private readonly authService = inject(AuthService);
 
   readonly codigo = Number(this.route.snapshot.paramMap.get('codigo') ?? 0);
+  readonly novaOrdem = this.route.snapshot.routeConfig?.path === 'ordens-servico/novo';
   ordem: OrdemServicoFormResponse | null = null;
   historico: OrdemServicoHistoricoItem[] = [];
   usuarios: OrdemServicoUsuarioOption[] = [];
@@ -57,6 +61,10 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
   erro = '';
   erroEdicao = '';
   erroResolucao = '';
+  clienteBusca = '';
+  responsavelBusca = '';
+  clienteDropdownAberto = false;
+  responsavelDropdownAberto = false;
   private quillEditor: any = null;
   private readonly quillToolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
@@ -83,11 +91,26 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     this.quillEditor = null;
   }
 
+  @HostListener('document:click', ['$event'])
+  fecharAutocomplete(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+
+    if (!target?.closest('.user-picker')) {
+      this.clienteDropdownAberto = false;
+      this.responsavelDropdownAberto = false;
+    }
+  }
+
   get descricaoHtml(): string {
-    return this.htmlOuVazio(this.ordem?.fullDescription || this.ordem?.description);
+    return this.normalizarHtmlImagensAnexas(this.htmlOuVazio(this.ordem?.fullDescription || this.ordem?.description));
   }
 
   carregar(): void {
+    if (this.novaOrdem) {
+      this.carregarNovaOrdem();
+      return;
+    }
+
     if (!this.codigo) {
       this.erro = 'Codigo da ordem de servico invalido.';
       this.carregando = false;
@@ -111,12 +134,52 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
         this.statusOptions = Array.isArray(status) ? status : [];
         this.setores = Array.isArray(setores) ? setores : [];
         this.ordem = this.preencherCamposRelacionados(ordem);
-        this.resolucaoHtml = this.obterHtmlResolucao(resolucao) || ordem.lastResolution || '';
+        this.resolucaoHtml = this.normalizarHtmlImagensAnexas(this.obterHtmlResolucao(resolucao) || ordem.lastResolution || '');
         this.historico = Array.isArray(historico) ? historico : [];
         this.carregando = false;
       },
       error: () => {
         this.erro = 'Nao foi possivel carregar a ordem de servico.';
+        this.carregando = false;
+      },
+    });
+  }
+
+  carregarNovaOrdem(): void {
+    this.carregando = true;
+    this.erro = '';
+    this.erroEdicao = '';
+    this.editandoOrdem = true;
+    this.abaAtiva = 'descricao';
+
+    forkJoin({
+      usuarios: this.ordensServicoService.getUsuarios().pipe(catchError(() => of([]))),
+      status: this.ordensServicoService.getStatus().pipe(catchError(() => of([]))),
+      setores: this.setoresService.listar().pipe(catchError(() => of([]))),
+    }).subscribe({
+      next: ({ usuarios, status, setores }) => {
+        const usuarioLogado = this.authService.usuario();
+        const usuarioLogadoId = usuarioLogado?.userId ?? usuarioLogado?.usrCodigo ?? null;
+
+        this.usuarios = Array.isArray(usuarios) ? usuarios : [];
+        this.statusOptions = Array.isArray(status) ? status : [];
+        this.setores = Array.isArray(setores) ? setores : [];
+        this.formEdicao = {
+          requesterId: usuarioLogadoId,
+          title: '',
+          description: '',
+          fullDescription: '',
+          ownerId: null,
+          statusId: this.statusOptions[0]?.statusId ?? null,
+          queueId: this.obterUsuario(usuarioLogadoId)?.queueId ?? null,
+        };
+        this.formEdicao.ownerId = this.usuarioPertenceAoSetor(usuarioLogadoId, this.formEdicao.queueId) ? usuarioLogadoId : null;
+        this.clienteBusca = this.obterNomeUsuario(this.formEdicao.requesterId) ?? '';
+        this.responsavelBusca = this.obterNomeUsuario(this.formEdicao.ownerId) ?? '';
+        this.carregando = false;
+      },
+      error: () => {
+        this.erro = 'Nao foi possivel carregar os dados para nova ordem de servico.';
         this.carregando = false;
       },
     });
@@ -141,18 +204,28 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
       fullDescription: this.ordem.fullDescription ?? '',
       ownerId: this.ordem.ownerId,
       statusId: this.ordem.statusId,
+      queueId: this.ordem.queueId,
     };
+    this.clienteBusca = this.obterNomeUsuario(this.formEdicao.requesterId) ?? '';
+    this.responsavelBusca = this.obterNomeUsuario(this.formEdicao.ownerId) ?? '';
   }
 
   cancelarEdicaoOrdem(): void {
+    if (this.novaOrdem) {
+      this.voltar();
+      return;
+    }
+
     this.erroEdicao = '';
     this.editandoOrdem = false;
     this.salvandoOrdem = false;
     this.formEdicao = null;
+    this.clienteBusca = '';
+    this.responsavelBusca = '';
   }
 
   salvarOrdem(): void {
-    if (!this.codigo || !this.ordem || !this.formEdicao || this.salvandoOrdem) {
+    if ((!this.novaOrdem && (!this.codigo || !this.ordem)) || !this.formEdicao || this.salvandoOrdem) {
       return;
     }
 
@@ -170,8 +243,35 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
+    if (!request.requesterId) {
+      this.erroEdicao = 'Informe o cliente da ordem de servico.';
+      return;
+    }
+
     this.salvandoOrdem = true;
     this.erroEdicao = '';
+
+    if (this.novaOrdem) {
+      this.ordensServicoService.criar({
+        ...request,
+        ownerId: request.ownerId ?? 0,
+        statusId: request.statusId ?? 0,
+      }).subscribe({
+        next: (response) => {
+          const novaId = response && typeof response === 'object'
+            ? response.workorderId ?? response.numeroOs ?? response.id
+            : null;
+
+          this.salvandoOrdem = false;
+          void this.router.navigate(novaId ? ['/ordens-servico', novaId] : ['/ordens-servico']);
+        },
+        error: () => {
+          this.erroEdicao = 'Nao foi possivel criar a ordem de servico.';
+          this.salvandoOrdem = false;
+        },
+      });
+      return;
+    }
 
     this.ordensServicoService.salvar(this.codigo, request).subscribe({
       next: () => {
@@ -191,6 +291,73 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
         this.salvandoOrdem = false;
       },
     });
+  }
+
+  aoSelecionarSetor(): void {
+    if (!this.formEdicao) {
+      return;
+    }
+
+    if (!this.usuarioPertenceAoSetor(this.formEdicao.ownerId, this.formEdicao.queueId)) {
+      this.formEdicao.ownerId = null;
+      this.responsavelBusca = '';
+    }
+  }
+
+  abrirClienteDropdown(): void {
+    if (this.salvandoOrdem) {
+      return;
+    }
+
+    this.responsavelDropdownAberto = false;
+    this.clienteDropdownAberto = true;
+  }
+
+  abrirResponsavelDropdown(): void {
+    if (this.salvandoOrdem) {
+      return;
+    }
+
+    this.clienteDropdownAberto = false;
+    this.responsavelDropdownAberto = true;
+  }
+
+  aoDigitarCliente(): void {
+    if (!this.formEdicao) {
+      return;
+    }
+
+    this.formEdicao.requesterId = null;
+    this.clienteDropdownAberto = true;
+  }
+
+  aoDigitarResponsavel(): void {
+    if (!this.formEdicao) {
+      return;
+    }
+
+    this.formEdicao.ownerId = null;
+    this.responsavelDropdownAberto = true;
+  }
+
+  selecionarCliente(usuario: OrdemServicoUsuarioOption): void {
+    if (!this.formEdicao) {
+      return;
+    }
+
+    this.formEdicao.requesterId = this.usuarioIdOption(usuario);
+    this.clienteBusca = this.nomeUsuarioOption(usuario);
+    this.clienteDropdownAberto = false;
+  }
+
+  selecionarResponsavel(usuario: OrdemServicoUsuarioOption): void {
+    if (!this.formEdicao) {
+      return;
+    }
+
+    this.formEdicao.ownerId = this.usuarioIdOption(usuario);
+    this.responsavelBusca = this.nomeUsuarioOption(usuario);
+    this.responsavelDropdownAberto = false;
   }
 
   adicionarResolucao(): void {
@@ -214,13 +381,13 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
 
     this.salvandoResolucao = true;
     this.erroResolucao = '';
-    this.resolucaoEdicaoHtml = this.obterHtmlEditorResolucao();
+    this.resolucaoEdicaoHtml = this.normalizarHtmlImagensAnexas(this.obterHtmlEditorResolucao());
 
     this.ordensServicoService.salvarResolucao(this.codigo, {
       resolucaoHtml: this.resolucaoEdicaoHtml,
     }).subscribe({
       next: () => {
-        this.resolucaoHtml = this.resolucaoEdicaoHtml;
+        this.resolucaoHtml = this.normalizarHtmlImagensAnexas(this.resolucaoEdicaoHtml);
         if (this.ordem) {
           this.ordem = {
             ...this.ordem,
@@ -307,6 +474,44 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     return valor;
   }
 
+  private normalizarHtmlImagensAnexas(html: string): string {
+    if (!html?.trim() || !html.includes('inlineimages')) {
+      return html;
+    }
+
+    const template = document.createElement('template');
+    template.innerHTML = html;
+
+    template.content.querySelectorAll<HTMLImageElement>('img[src*="inlineimages"]').forEach((imagem) => {
+      const src = imagem.getAttribute('src') ?? '';
+      const novoSrc = this.normalizarSrcImagemAnexa(src);
+
+      if (novoSrc) {
+        imagem.setAttribute('src', novoSrc);
+        imagem.setAttribute('loading', 'lazy');
+      }
+    });
+
+    return template.innerHTML;
+  }
+
+  private normalizarSrcImagemAnexa(src: string): string {
+    const numeroOs = this.ordem?.workorderId || this.codigo;
+
+    if (!numeroOs || !src?.trim()) {
+      return src;
+    }
+
+    const caminho = src.trim().replace(/\\/g, '/');
+    const match = caminho.match(/\/?inlineimages\/WorkOrder\/[^/"')\s]+\/(.+)$/i);
+
+    if (!match?.[1]) {
+      return caminho.startsWith('/inlineimages/') ? caminho : `/${caminho.replace(/^\/+/, '')}`;
+    }
+
+    return `/inlineimages/WorkOrder/${numeroOs}/${match[1]}`;
+  }
+
   private obterHtmlResolucao(response: OrdemServicoResolucaoResponse | null): string {
     return this.htmlOuVazio(response?.resolucao);
   }
@@ -352,10 +557,56 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     return usuario.firstName ?? usuario.usrNome ?? usuario.nome ?? usuario.name ?? '-';
   }
 
+  get usuariosResponsavelOptions(): OrdemServicoUsuarioOption[] {
+    if (!this.novaOrdem || !this.formEdicao?.queueId) {
+      return this.usuarios;
+    }
+
+    return this.usuarios.filter((usuario) => Number(usuario.queueId) === Number(this.formEdicao?.queueId));
+  }
+
+  get clientesFiltrados(): OrdemServicoUsuarioOption[] {
+    return this.filtrarUsuarios(this.usuarios, this.clienteBusca);
+  }
+
+  get responsaveisFiltrados(): OrdemServicoUsuarioOption[] {
+    return this.filtrarUsuarios(this.usuariosResponsavelOptions, this.responsavelBusca);
+  }
+
   usuarioIdOption(usuario: OrdemServicoUsuarioOption): number | null {
     const usuarioId = usuario.userId ?? usuario.usrCodigo;
 
     return usuarioId === null || usuarioId === undefined ? null : Number(usuarioId);
+  }
+
+  private usuarioPertenceAoSetor(userId: number | null | undefined, queueId: number | null | undefined): boolean {
+    if (!userId) {
+      return false;
+    }
+
+    if (!queueId) {
+      return true;
+    }
+
+    return Number(this.obterUsuario(userId)?.queueId) === Number(queueId);
+  }
+
+  private filtrarUsuarios(usuarios: OrdemServicoUsuarioOption[], termo: string): OrdemServicoUsuarioOption[] {
+    const termoNormalizado = this.normalizarTexto(termo);
+
+    if (!termoNormalizado) {
+      return usuarios;
+    }
+
+    return usuarios.filter((usuario) => this.normalizarTexto(this.nomeUsuarioOption(usuario)).includes(termoNormalizado));
+  }
+
+  private normalizarTexto(valor: string | null | undefined): string {
+    return (valor ?? '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
   }
 
   private obterNomeStatus(statusId: number | null | undefined): string | null {
@@ -366,7 +617,7 @@ export class OrdensServicoCadComponent implements AfterViewInit, OnDestroy {
     return this.statusOptions.find((item) => Number(item.statusId) === Number(statusId))?.statusName ?? null;
   }
 
-  private obterNomeSetor(queueId: number | null | undefined): string | null {
+  obterNomeSetor(queueId: number | null | undefined): string | null {
     if (!queueId) {
       return null;
     }

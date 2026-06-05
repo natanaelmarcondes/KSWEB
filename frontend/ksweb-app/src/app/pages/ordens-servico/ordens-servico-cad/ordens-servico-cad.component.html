@@ -1,12 +1,12 @@
 <section class="ordem-view-page">
   <header class="page-header">
     <div>
-      <h1>O.S {{ ordem?.workorderId || codigo }}</h1>
-      <span>{{ ordem?.title || 'Visualizacao da ordem de servico' }}</span>
+      <h1>{{ novaOrdem ? 'Nova O.S' : 'O.S ' + (ordem?.workorderId || codigo) }}</h1>
+      <span>{{ novaOrdem ? 'Cadastro de ordem de servico' : (ordem?.title || 'Visualizacao da ordem de servico') }}</span>
     </div>
 
     <div class="page-actions">
-      @if (ordem && !editandoOrdem) {
+      @if (ordem && !editandoOrdem && !novaOrdem) {
         <app-ks-button tipo="primary" (acao)="editarOrdem()">Editar</app-ks-button>
       }
 
@@ -36,34 +36,60 @@
     <section class="view-panel">
       <div class="state">Carregando ordem de servico...</div>
     </section>
-  } @else if (ordem) {
+  } @else if (ordem || novaOrdem) {
     <section class="view-panel">
-      <div class="summary-grid" [class.editing]="editandoOrdem">
-        <div class="summary-field">
-          <span>Codigo</span>
-          <strong>{{ valor(ordem.workorderId || codigo) }}</strong>
-        </div>
+      <div class="summary-grid" [class.editing]="editandoOrdem" [class.new-order]="novaOrdem">
+        @if (!novaOrdem) {
+          <div class="summary-field">
+            <span>Codigo</span>
+            <strong>{{ valor(ordem?.workorderId || codigo) }}</strong>
+          </div>
+        }
 
-        <div class="summary-field">
-          <span>Data</span>
-          <strong>{{ formatarData(ordem.createdTime) }}</strong>
-        </div>
+        @if (!novaOrdem) {
+          <div class="summary-field">
+            <span>Data</span>
+            <strong>{{ formatarData(ordem?.createdTime) }}</strong>
+          </div>
+        }
 
-        <div class="summary-field">
-          <span>Aberta por</span>
-          <strong>{{ valor(ordem.createdByName) }}</strong>
-        </div>
+        @if (!novaOrdem) {
+          <div class="summary-field">
+            <span>Aberta por</span>
+            <strong>{{ valor(ordem?.createdByName) }}</strong>
+          </div>
+        }
 
         <div class="summary-field">
           <span>Cliente</span>
           @if (editandoOrdem && formEdicao) {
-            <select [(ngModel)]="formEdicao.requesterId" [disabled]="salvandoOrdem">
-              @for (usuario of usuarios; track usuarioIdOption(usuario) ?? $index) {
-                <option [ngValue]="usuarioIdOption(usuario)">{{ nomeUsuarioOption(usuario) }}</option>
+            <div class="user-picker">
+              <input
+                type="search"
+                [(ngModel)]="clienteBusca"
+                [disabled]="salvandoOrdem"
+                placeholder="Buscar cliente"
+                autocomplete="off"
+                (focus)="abrirClienteDropdown()"
+                (input)="aoDigitarCliente()"
+                (click)="$event.stopPropagation()"
+              />
+
+              @if (clienteDropdownAberto) {
+                <div class="user-picker-menu" (click)="$event.stopPropagation()">
+                  @for (usuario of clientesFiltrados; track usuarioIdOption(usuario) ?? $index) {
+                    <button type="button" class="user-picker-option" (click)="selecionarCliente(usuario)">
+                      <strong>{{ nomeUsuarioOption(usuario) }}</strong>
+                      <span>{{ valor(usuario.setor || obterNomeSetor(usuario.queueId)) }}</span>
+                    </button>
+                  } @empty {
+                    <div class="user-picker-empty">Nenhum usuario encontrado.</div>
+                  }
+                </div>
               }
-            </select>
+            </div>
           } @else {
-            <strong>{{ valor(ordem.requesterName) }}</strong>
+            <strong>{{ valor(ordem?.requesterName) }}</strong>
           }
         </div>
 
@@ -77,26 +103,59 @@
               }
             </select>
           } @else {
-            <strong class="status-pill">{{ valor(ordem.statusName) }}</strong>
+            <strong class="status-pill">{{ valor(ordem?.statusName) }}</strong>
           }
         </div>
 
         <div class="summary-field">
           <span>Setor</span>
-          <strong>{{ valor(ordem.queueName) }}</strong>
+          @if (novaOrdem && formEdicao) {
+            <select [(ngModel)]="formEdicao.queueId" [disabled]="salvandoOrdem" (change)="aoSelecionarSetor()">
+              <option [ngValue]="null">Selecione o setor</option>
+              @for (setor of setores; track setor.queueId) {
+                <option [ngValue]="setor.queueId">{{ setor.queueName }}</option>
+              }
+            </select>
+          } @else {
+            <strong>{{ valor(ordem?.queueName) }}</strong>
+          }
         </div>
 
         <div class="summary-field">
           <span>Responsavel</span>
           @if (editandoOrdem && formEdicao) {
-            <select [(ngModel)]="formEdicao.ownerId" [disabled]="salvandoOrdem">
-              <option [ngValue]="null">Sem responsavel</option>
-              @for (usuario of usuarios; track usuarioIdOption(usuario) ?? $index) {
-                <option [ngValue]="usuarioIdOption(usuario)">{{ nomeUsuarioOption(usuario) }}</option>
+            <div class="user-picker">
+              <input
+                type="search"
+                [(ngModel)]="responsavelBusca"
+                [disabled]="salvandoOrdem"
+                placeholder="Buscar responsavel"
+                autocomplete="off"
+                (focus)="abrirResponsavelDropdown()"
+                (input)="aoDigitarResponsavel()"
+                (click)="$event.stopPropagation()"
+              />
+
+              @if (responsavelDropdownAberto) {
+                <div class="user-picker-menu" (click)="$event.stopPropagation()">
+                  <button type="button" class="user-picker-option muted" (click)="formEdicao.ownerId = null; responsavelBusca = ''; responsavelDropdownAberto = false">
+                    <strong>Sem responsavel</strong>
+                    <span>Nao atribuir agora</span>
+                  </button>
+
+                  @for (usuario of responsaveisFiltrados; track usuarioIdOption(usuario) ?? $index) {
+                    <button type="button" class="user-picker-option" (click)="selecionarResponsavel(usuario)">
+                      <strong>{{ nomeUsuarioOption(usuario) }}</strong>
+                      <span>{{ valor(usuario.setor || obterNomeSetor(usuario.queueId)) }}</span>
+                    </button>
+                  } @empty {
+                    <div class="user-picker-empty">Nenhum usuario encontrado para o setor.</div>
+                  }
+                </div>
               }
-            </select>
+            </div>
           } @else {
-            <strong>{{ valor(ordem.ownerName) }}</strong>
+            <strong>{{ valor(ordem?.ownerName) }}</strong>
           }
         </div>
       </div>
@@ -112,21 +171,23 @@
           Descricao
         </button>
 
-        <button
-          type="button"
-          [class.active]="abaAtiva === 'resolucao'"
-          (click)="selecionarAba('resolucao')"
-        >
-          Resolucao
-        </button>
+        @if (!novaOrdem) {
+          <button
+            type="button"
+            [class.active]="abaAtiva === 'resolucao'"
+            (click)="selecionarAba('resolucao')"
+          >
+            Resolucao
+          </button>
 
-        <button
-          type="button"
-          [class.active]="abaAtiva === 'historico'"
-          (click)="selecionarAba('historico')"
-        >
-          Historico
-        </button>
+          <button
+            type="button"
+            [class.active]="abaAtiva === 'historico'"
+            (click)="selecionarAba('historico')"
+          >
+            Historico
+          </button>
+        }
       </div>
 
       <div class="tab-content">
@@ -153,7 +214,7 @@
           }
         }
 
-        @if (abaAtiva === 'resolucao') {
+        @if (!novaOrdem && abaAtiva === 'resolucao') {
           <div class="resolution-toolbar">
             @if (!editandoResolucao) {
               <app-ks-button tipo="primary" tamanho="small" (acao)="adicionarResolucao()">
@@ -183,7 +244,7 @@
           }
         }
 
-        @if (abaAtiva === 'historico') {
+        @if (!novaOrdem && abaAtiva === 'historico') {
           <div class="timeline">
             @for (item of historico; track item.historyId) {
               <div class="timeline-item">

@@ -252,6 +252,10 @@ export class OrdensServicoListComponent {
     this.carregar();
   }
 
+  novo(): void {
+    void this.router.navigate(['/ordens-servico', 'novo']);
+  }
+
   abrir(ordem: OrdemServicoListItem): void {
     void this.router.navigate(['/ordens-servico', ordem.numeroOs]);
   }

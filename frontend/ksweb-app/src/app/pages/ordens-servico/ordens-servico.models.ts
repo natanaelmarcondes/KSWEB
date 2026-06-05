@@ -127,6 +127,12 @@ export interface SalvarOrdemServicoRequest {
   statusId: number | null;
 }
 
+export interface CriarOrdemServicoResponse {
+  workorderId?: number;
+  numeroOs?: number;
+  id?: number;
+}
+
 export interface SalvarResolucaoRequest {
   resolucaoHtml: string;
 }

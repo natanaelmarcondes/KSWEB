@@ -4,6 +4,13 @@
   gap: 14px;
 }
 
+.page-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
 .page-header h1 {
   color: #1f2937;
   font-size: 18px;

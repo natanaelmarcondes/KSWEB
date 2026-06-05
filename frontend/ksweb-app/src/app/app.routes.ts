@@ -35,6 +35,7 @@ export const routes: Routes = [
       { path: 'daily/:dailyId/registros', component: DailyCadComponent },
       { path: 'daily/:dailyId', component: DailyCadComponent },
       { path: 'ordens-servico', component: OrdensServicoListComponent },
+      { path: 'ordens-servico/novo', component: OrdensServicoCadComponent },
       { path: 'ordens-servico/:codigo', component: OrdensServicoCadComponent },
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       { path: 'status', component: StatusListComponent },

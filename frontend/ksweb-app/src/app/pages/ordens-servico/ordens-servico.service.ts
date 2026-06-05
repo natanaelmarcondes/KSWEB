@@ -13,6 +13,7 @@ import {
   SalvarOrdemServicoRequest,
   SalvarResolucaoRequest,
   OrdemServicoStatusOption,
+  CriarOrdemServicoResponse,
 } from './ordens-servico.models';
 
 @Injectable({ providedIn: 'root' })
@@ -70,6 +71,10 @@ export class OrdensServicoService {
 
   salvar(id: number, request: SalvarOrdemServicoRequest): Observable<void> {
     return this.http.put<void>(`/api/ordens-servico/${id}`, request);
+  }
+
+  criar(request: SalvarOrdemServicoRequest): Observable<CriarOrdemServicoResponse | void> {
+    return this.http.post<CriarOrdemServicoResponse | void>('/api/ordens-servico', request);
   }
 
   consultarResolucao(id: number): Observable<OrdemServicoResolucaoResponse> {
