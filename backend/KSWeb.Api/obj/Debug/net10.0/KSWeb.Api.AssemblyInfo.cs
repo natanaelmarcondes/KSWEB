@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KSWeb.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72cc14de4ca5ff362fdb24a35c8ed8d1fbd109bd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+74e83be333d68890463ab2af4fb64048b58cd633")]
 [assembly: System.Reflection.AssemblyProductAttribute("KSWeb.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KSWeb.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

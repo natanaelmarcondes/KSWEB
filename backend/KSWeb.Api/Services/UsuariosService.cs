@@ -84,4 +84,48 @@ public sealed class UsuariosService
 
         return usuarios.AsList();
     }
+
+    public async Task<IReadOnlyList<UsuarioListItem>> ListarPorSetorAsync(long queueId)
+    {
+        using var connection = _connectionFactory.CreateConnection();
+
+        string sql = """
+            SELECT
+                us.usr_codigo AS UsrCodigo,
+                au.USER_ID AS UserId,
+                COALESCE(NULLIF(us.usr_nome, ''), au.FIRST_NAME, '') AS UsrNome,
+                COALESCE(us.usr_email, '') AS UsrEmail,
+                COALESCE(us.usr_nivel, '') AS UsrNivel,
+                COALESCE(qt.QUEUEID, us.QUEUEID) AS QueueId,
+                COALESCE(q.QUEUENAME, qUs.QUEUENAME, '') AS Setor
+            FROM aaauser au
+
+            LEFT JOIN usuarios us
+                   ON us.USER_ID = au.USER_ID
+
+            LEFT JOIN sduser su
+                   ON su.USERID = au.USER_ID
+
+            LEFT JOIN helpdeskcrew hc
+                   ON hc.TECHNICIANID = au.USER_ID
+
+            LEFT JOIN queue_technician qt
+                   ON qt.TECHNICIANID = hc.TECHNICIANID
+
+            LEFT JOIN queuedefinition q
+                   ON q.QUEUEID = qt.QUEUEID
+
+            LEFT JOIN queuedefinition qUs
+                   ON qUs.QUEUEID = us.QUEUEID
+
+            WHERE (qt.QUEUEID = @queueId OR us.QUEUEID = @queueId)
+
+            ORDER BY
+                COALESCE(NULLIF(us.usr_nome, ''), au.FIRST_NAME, '');
+            """;
+
+        var usuarios = await connection.QueryAsync<UsuarioListItem>(sql, new { queueId });
+
+        return usuarios.AsList();
+    }
 }

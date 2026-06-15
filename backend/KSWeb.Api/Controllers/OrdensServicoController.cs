@@ -153,4 +153,22 @@ public sealed class OrdensServicoController : ControllerBase
 
         return Ok(new { url = urlRelativa });
     }
+
+    [HttpPut("{id:long}/atribuir")]
+    public async Task<IActionResult> AtribuirResponsavel([FromRoute] long id, [FromBody] AtribuirResponsavelRequest request)
+    {
+        if (id <= 0)
+            return BadRequest(new { mensagem = "Código da O.S inválido." });
+
+        var userId = long.TryParse(User.FindFirstValue("USER_ID"), out var parsedUserId)
+            ? parsedUserId
+            : 0;
+
+        var response = await _ordensServicoService.AtribuirResponsavelAsync(id, request, userId);
+
+        if (!response.Sucesso)
+            return BadRequest(response);
+
+        return Ok(response);
+    }
 }

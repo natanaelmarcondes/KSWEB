@@ -31,3 +31,15 @@ public sealed class UploadImagemRequest
     [FromForm(Name = "imagem")]
     public IFormFile Imagem { get; set; } = default!;
 }
+
+public sealed class AtribuirResponsavelRequest
+{
+    public long? StatusId { get; set; }
+    public long? OwnerId { get; set; }
+}
+
+public sealed class AtribuirResponsavelResponse
+{
+    public bool Sucesso { get; set; }
+    public string Mensagem { get; set; } = string.Empty;
+}

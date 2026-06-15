@@ -1,0 +1,33 @@
+﻿using KSWeb.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KSWeb.Api.Controllers;
+
+[ApiController]
+[Authorize]
+[Route("api/usuarios")]
+public sealed class UsuariosController : ControllerBase
+{
+    private readonly UsuariosService _usuariosService;
+
+    public UsuariosController(UsuariosService usuariosService)
+    {
+        _usuariosService = usuariosService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Listar([FromQuery] string? termo)
+    {
+        return Ok(await _usuariosService.ListarAsync(termo));
+    }
+
+    [HttpGet("setor/{queueId:long}")]
+    public async Task<IActionResult> ListarPorSetor([FromRoute] long queueId)
+    {
+        if (queueId <= 0)
+            return BadRequest(new { mensagem = "ID do setor inválido." });
+
+        return Ok(await _usuariosService.ListarPorSetorAsync(queueId));
+    }
+}

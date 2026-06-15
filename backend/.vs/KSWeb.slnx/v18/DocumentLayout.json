@@ -148,10 +148,9 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoController.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\OrdensServicoController.cs",
-              "ViewState": "AgIAAJkAAAAAAAAAAIBJwJwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKsAAAAAAAAAAIBJwK4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T15:48:30.15Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T15:48:30.15Z"
             },
             {
               "$type": "Document",
@@ -161,7 +160,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoService.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoService.cs",
-              "ViewState": "AgIAAMABAAAAAAAAAAAgwMsBAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAIgDAAAAAAAAAAAcwI4DAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-05T11:15:34.781Z",
               "EditorCaption": ""
@@ -174,10 +173,9 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Models\\OrdensServicoModels.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Models\\OrdensServicoModels.cs",
               "RelativeToolTip": "KSWeb.Api\\Models\\OrdensServicoModels.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAABQwCEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAIBXwC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T11:11:58.224Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T11:11:58.224Z"
             },
             {
               "$type": "Document",
@@ -259,7 +257,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\UsuariosService.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\UsuariosService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\UsuariosService.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAIAwwE8AAABFAAAAAAAAAA==",
+              "ViewState": "AgIAAIEAAAAAAAAAAIBJwE8AAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-30T21:57:55.108Z"
             },
@@ -415,7 +413,7 @@
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\UsuariosController.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\UsuariosController.cs",
               "RelativeToolTip": "KSWeb.Api\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAIBJwA0AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-30T21:52:55.467Z"
             },
@@ -440,10 +438,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             },
             {
               "$type": "Bookmark",

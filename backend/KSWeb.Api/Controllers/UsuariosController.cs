@@ -21,4 +21,13 @@ public sealed class UsuariosController : ControllerBase
     {
         return Ok(await _usuariosService.ListarAsync(termo));
     }
+
+    [HttpGet("setor/{queueId:long}")]
+    public async Task<IActionResult> ListarPorSetor([FromRoute] long queueId)
+    {
+        if (queueId <= 0)
+            return BadRequest(new { mensagem = "ID do setor inválido." });
+
+        return Ok(await _usuariosService.ListarPorSetorAsync(queueId));
+    }
 }

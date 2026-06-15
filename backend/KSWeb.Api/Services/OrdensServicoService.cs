@@ -658,4 +658,287 @@ public sealed class OrdensServicoService
             await cmd.ExecuteNonQueryAsync();
         }
     }
+
+    public async Task<AtribuirResponsavelResponse> AtribuirResponsavelAsync(long workOrderId, AtribuirResponsavelRequest request, long userId)
+    {
+        if (workOrderId <= 0)
+        {
+            return new AtribuirResponsavelResponse
+            {
+                Sucesso = false,
+                Mensagem = "Código da O.S inválido."
+            };
+        }
+
+        if (userId <= 0)
+        {
+            return new AtribuirResponsavelResponse
+            {
+                Sucesso = false,
+                Mensagem = "Usuário autenticado inválido."
+            };
+        }
+
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("ConnectionString 'DefaultConnection' não encontrada no appsettings.json.");
+
+        await using var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+        await using var transaction = await connection.BeginTransactionAsync();
+
+        try
+        {
+            var exists = await WorkOrderExistsAsync(connection, transaction, workOrderId);
+
+            if (!exists)
+            {
+                await transaction.RollbackAsync();
+                return new AtribuirResponsavelResponse
+                {
+                    Sucesso = false,
+                    Mensagem = "O.S não encontrada."
+                };
+            }
+
+            var nowMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+            // 1) Busca valores anteriores
+            long? prevOwnerId = null;
+            long? prevStatusId = null;
+            long? prevQueueId = null;
+
+            var selectPrevSql = """
+                SELECT OWNERID, STATUSID 
+                FROM workorderstates 
+                WHERE WORKORDERID = @workOrderId;
+                """;
+
+            await using (var cmd = new MySqlCommand(selectPrevSql, connection, transaction))
+            {
+                cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                await using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    prevOwnerId = reader.IsDBNull(0) ? null : reader.GetInt64(0);
+                    prevStatusId = reader.IsDBNull(1) ? null : reader.GetInt64(1);
+                }
+            }
+
+            if (prevOwnerId.HasValue)
+            {
+                var selectQueueSql = """
+                    SELECT QUEUEID 
+                    FROM queue_technician 
+                    WHERE TECHNICIANID = @techId
+                    ORDER BY QUEUEID 
+                    LIMIT 1;
+                    """;
+
+                await using var cmd = new MySqlCommand(selectQueueSql, connection, transaction);
+                cmd.Parameters.AddWithValue("@techId", prevOwnerId.Value);
+                var result = await cmd.ExecuteScalarAsync();
+                if (result != null && result != DBNull.Value)
+                    prevQueueId = Convert.ToInt64(result);
+            }
+
+            // 2) Verifica se workorderstates existe
+            var countSql = """
+                SELECT COUNT(*) 
+                FROM workorderstates 
+                WHERE WORKORDERID = @workOrderId;
+                """;
+
+            long count;
+            await using (var cmd = new MySqlCommand(countSql, connection, transaction))
+            {
+                cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                count = Convert.ToInt64(await cmd.ExecuteScalarAsync());
+            }
+
+            // 3) INSERT ou UPDATE em workorderstates
+            if (count == 0)
+            {
+                var insertSql = """
+                    INSERT INTO workorderstates (WORKORDERID, OWNERID, STATUSID)
+                    VALUES (@workOrderId, @ownerId, @statusId);
+                    """;
+
+                await using var cmd = new MySqlCommand(insertSql, connection, transaction);
+                cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                cmd.Parameters.AddWithValue("@ownerId", (object?)request.OwnerId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@statusId", (object?)request.StatusId ?? DBNull.Value);
+                await cmd.ExecuteNonQueryAsync();
+            }
+            else
+            {
+                var updateSql = """
+                    UPDATE workorderstates
+                    SET OWNERID = @ownerId,
+                        STATUSID = @statusId
+                    WHERE WORKORDERID = @workOrderId;
+                    """;
+
+                await using var cmd = new MySqlCommand(updateSql, connection, transaction);
+                cmd.Parameters.AddWithValue("@ownerId", (object?)request.OwnerId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@statusId", (object?)request.StatusId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            // 4) UPDATE em workorder (REQUESTERID = responsável) se mudou
+            if (request.OwnerId.HasValue && request.OwnerId != prevOwnerId)
+            {
+                var updateWoSql = """
+                    UPDATE workorder
+                    SET REQUESTERID = @ownerId
+                    WHERE WORKORDERID = @workOrderId;
+                    """;
+
+                await using var cmd = new MySqlCommand(updateWoSql, connection, transaction);
+                cmd.Parameters.AddWithValue("@ownerId", request.OwnerId.Value);
+                cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            // 5) Marca como NÃO LIDA se atribuiu
+            if (request.OwnerId.HasValue)
+            {
+                var updateIsReadSql = """
+                    UPDATE workorderstates
+                    SET ISREAD = 0
+                    WHERE WORKORDERID = @workOrderId;
+                    """;
+
+                await using var cmd = new MySqlCommand(updateIsReadSql, connection, transaction);
+                cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            // 6) Histórico (se mudou status ou responsável)
+            bool statusMudou = request.StatusId.HasValue && request.StatusId != prevStatusId;
+            bool responsavelMudou = request.OwnerId.HasValue && request.OwnerId != prevOwnerId;
+
+            if (statusMudou || responsavelMudou)
+            {
+                // a) Próximo HISTORYID
+                var selectHistoryIdSql = """
+                    SELECT COALESCE(MAX(HISTORYID), 0) + 1 
+                    FROM workorderhistory;
+                    """;
+
+                long historyId;
+                await using (var cmd = new MySqlCommand(selectHistoryIdSql, connection, transaction))
+                {
+                    historyId = Convert.ToInt64(await cmd.ExecuteScalarAsync());
+                }
+
+                // b) Insere histórico
+                var insertHistorySql = """
+                    INSERT INTO workorderhistory 
+                    (HISTORYID, WORKORDERID, OPERATIONOWNERID, OPERATIONTIME, DESCRIPTION, OPERATION)
+                    VALUES 
+                    (@historyId, @workOrderId, @userId, @nowMs, @description, 'UPDATE');
+                    """;
+
+                await using (var cmd = new MySqlCommand(insertHistorySql, connection, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@historyId", historyId);
+                    cmd.Parameters.AddWithValue("@workOrderId", workOrderId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.Parameters.AddWithValue("@nowMs", nowMs);
+                    cmd.Parameters.AddWithValue("@description", "Alterou status e atribuiu responsável/fila.");
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                // c) Próximo HISTORYDIFFID
+                var selectDiffIdSql = """
+                    SELECT COALESCE(MAX(HISTORYDIFFID), 0) + 1 
+                    FROM workorderhistorydiff;
+                    """;
+
+                long baseDiffId;
+                await using (var cmd = new MySqlCommand(selectDiffIdSql, connection, transaction))
+                {
+                    baseDiffId = Convert.ToInt64(await cmd.ExecuteScalarAsync());
+                }
+
+                // d) Insere diffs (somente os campos que mudaram)
+                var diffs = new List<(long id, string col, string? prev, string? curr)>();
+                long currentDiffId = baseDiffId;
+
+                if (statusMudou)
+                {
+                    diffs.Add((currentDiffId++, "STATUSID", prevStatusId?.ToString(), request.StatusId?.ToString()));
+                }
+
+                if (responsavelMudou)
+                {
+                    diffs.Add((currentDiffId++, "OWNERID", prevOwnerId?.ToString(), request.OwnerId?.ToString()));
+
+                    // Buscar nova fila
+                    long? newQueueId = null;
+                    if (request.OwnerId.HasValue)
+                    {
+                        var selectNewQueueSql = """
+                            SELECT QUEUEID 
+                            FROM queue_technician 
+                            WHERE TECHNICIANID = @techId
+                            ORDER BY QUEUEID 
+                            LIMIT 1;
+                            """;
+
+                        await using var cmd = new MySqlCommand(selectNewQueueSql, connection, transaction);
+                        cmd.Parameters.AddWithValue("@techId", request.OwnerId.Value);
+                        var result = await cmd.ExecuteScalarAsync();
+                        if (result != null && result != DBNull.Value)
+                            newQueueId = Convert.ToInt64(result);
+                    }
+
+                    if (newQueueId != prevQueueId)
+                    {
+                        diffs.Add((currentDiffId++, "QUEUEID", prevQueueId?.ToString(), newQueueId?.ToString()));
+                    }
+
+                    diffs.Add((currentDiffId++, "ASSIGNEDTIME", null, nowMs.ToString()));
+                    diffs.Add((currentDiffId++, "LASTUPDATEDTIME", null, nowMs.ToString()));
+                    diffs.Add((currentDiffId++, "TECHNICIANID", null, userId.ToString()));
+                }
+
+                var insertDiffSql = """
+                    INSERT INTO workorderhistorydiff (HISTORYDIFFID, HISTORYID, COLUMNNAME, PREV_VALUE, CURRENT_VALUE)
+                    VALUES (@diffId, @historyId, @columnName, @prevValue, @currentValue);
+                    """;
+
+                foreach (var diff in diffs)
+                {
+                    await using var cmd = new MySqlCommand(insertDiffSql, connection, transaction);
+                    cmd.Parameters.AddWithValue("@diffId", diff.id);
+                    cmd.Parameters.AddWithValue("@historyId", historyId);
+                    cmd.Parameters.AddWithValue("@columnName", diff.col);
+                    cmd.Parameters.AddWithValue("@prevValue", (object?)diff.prev ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@currentValue", (object?)diff.curr ?? DBNull.Value);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+
+            await transaction.CommitAsync();
+
+            return new AtribuirResponsavelResponse
+            {
+                Sucesso = true,
+                Mensagem = "Status e responsável atribuídos com sucesso."
+            };
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            return new AtribuirResponsavelResponse
+            {
+                Sucesso = false,
+                Mensagem = $"Erro ao atribuir responsável: {ex.Message}"
+            };
+        }
+    }
 }
