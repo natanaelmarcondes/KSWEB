@@ -1,3 +1,4 @@
+import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { DailyService } from '../daily.service';
 
 @Component({
   selector: 'app-daily-list',
-  imports: [FormsModule, KsButtonComponent],
+  imports: [KsTableComponent, KsColumnDirective, FormsModule, KsButtonComponent],
   templateUrl: './daily-list.component.html',
   styleUrl: './daily-list.component.css',
 })

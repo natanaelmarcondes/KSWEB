@@ -52,67 +52,54 @@
       <div class="state">Carregando usuarios...</div>
     } @else {
       <div class="table-wrapper">
-        <table class="usuarios-table">
-          <thead>
-            <tr>
-              <th>Codigo</th>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Nivel</th>
-              <th>Setor/Fila</th>
-              <th>Queue ID</th>
-              <th>USER ID</th>
-              <th>Acoes</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (usuario of items; track usuario.userId + '-' + usuario.queueId + '-' + usuario.usrCodigo) {
-              <tr>
-                <td class="usuario-codigo">
+        <app-ks-table [rows]="items" emptyMessage="Nenhum usuario encontrado.">
+  <ng-template ksColumn="Codigo" field="usrCodigo" [minWidth]="120" let-usuario>
+    <div class="usuario-codigo">
                   @if (usuario.usrCodigo) {
                     {{ usuario.usrCodigo }}
                   } @else {
                     -
                   }
-                </td>
-
-                <td class="usuario-nome">{{ usuario.usrNome || '-' }}</td>
-                <td class="usuario-email">{{ usuario.usrEmail || '-' }}</td>
-
-                <td>
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Nome" field="usrNome" [minWidth]="120" let-usuario>
+    <div class="usuario-nome">{{ usuario.usrNome || '-' }}</div>
+  </ng-template>
+  <ng-template ksColumn="E-mail" field="usrEmail" [minWidth]="210" let-usuario>
+    <div class="usuario-email">{{ usuario.usrEmail || '-' }}</div>
+  </ng-template>
+  <ng-template ksColumn="Nivel" field="usrNivel" [minWidth]="120" let-usuario>
+    <div>
                   <span class="nivel" [class]="nivelClasse(usuario.usrNivel)">
                     {{ usuario.usrNivel || '-' }}
                   </span>
-                </td>
-
-                <td class="usuario-setor">{{ usuario.setor || '-' }}</td>
-
-                <td class="usuario-queue">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Setor/Fila" field="setor" [minWidth]="120" let-usuario>
+    <div class="usuario-setor">{{ usuario.setor || '-' }}</div>
+  </ng-template>
+  <ng-template ksColumn="Queue ID" field="queueId" [minWidth]="120" let-usuario>
+    <div class="usuario-queue">
                   @if (usuario.queueId) {
                     {{ usuario.queueId }}
                   } @else {
                     -
                   }
-                </td>
-
-                <td class="usuario-user-id">{{ usuario.userId }}</td>
-
-                <td class="acoes">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="USER ID" field="userId" [minWidth]="120" let-usuario>
+    <div class="usuario-user-id">{{ usuario.userId }}</div>
+  </ng-template>
+  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-usuario>
+    <div class="acoes">
                   @if (usuario.usrCodigo) {
                     <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(usuario)">Editar</app-ks-button>
                   } @else {
                     <span class="sem-cadastro">Sem cadastro</span>
                   }
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="8" class="empty">Nenhum usuario encontrado.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+</app-ks-table>
       </div>
 
       <div class="pagination">

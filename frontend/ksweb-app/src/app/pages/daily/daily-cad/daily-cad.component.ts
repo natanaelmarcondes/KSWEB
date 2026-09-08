@@ -1,3 +1,4 @@
+import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +9,7 @@ import { DailyService } from '../daily.service';
 
 @Component({
   selector: 'app-daily-cad',
-  imports: [FormsModule, KsButtonComponent],
+  imports: [KsTableComponent, KsColumnDirective, FormsModule, KsButtonComponent],
   templateUrl: './daily-cad.component.html',
   styleUrl: './daily-cad.component.css',
 })

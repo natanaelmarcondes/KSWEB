@@ -1,3 +1,4 @@
+import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 // ...existing code...
 import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +15,7 @@ import { OrdensServicoService } from '../ordens-servico.service';
 
 @Component({
   selector: 'app-ordens-servico-list',
-  imports: [KsButtonComponent, FormsModule],
+  imports: [KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
   templateUrl: './ordens-servico-list.component.html',
   styleUrl: './ordens-servico-list.component.css',
 })

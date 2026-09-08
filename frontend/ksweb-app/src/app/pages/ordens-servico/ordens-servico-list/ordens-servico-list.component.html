@@ -116,52 +116,40 @@
       <div class="state">Carregando ordens de servico...</div>
     } @else {
       <div class="table-wrapper">
-        <table class="ordens-table">
-          <thead>
-            <tr>
-              <th>O.S</th>
-              <th>Título</th>
-              <th>Solicitante</th>
-              <th>Criado por</th>
-              <th>Responsável</th>
-              <th>Setor</th>
-              <th>Status</th>
-              <th>Criada em</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (ordem of items; track ordem.numeroOs) {
-              <tr
-                [class.nao-lida]="ordem.lida === false"
-                (click)="abrir(ordem)"
-                tabindex="0"
-                (keyup.enter)="abrir(ordem)"
-              >
-                <td class="os-numero">{{ ordem.numeroOs }}</td>
-                <td class="os-titulo">
+        <app-ks-table [rows]="items" (rowAction)="abrir($event)" emptyMessage="Nenhuma O.S encontrada.">
+  <ng-template ksColumn="O.S" field="numeroOs" [minWidth]="120" let-ordem>
+    <div class="os-numero">{{ ordem.numeroOs }}</div>
+  </ng-template>
+  <ng-template ksColumn="Título" field="titulo" [minWidth]="210" let-ordem>
+    <div class="os-titulo">
                   <button type="button" (click)="abrir(ordem); $event.stopPropagation()">
                     {{ ordem.titulo }}
                   </button>
-                </td>
-                <td>{{ ordem.solicitante }}</td>
-                <td>{{ ordem.criadoPor }}</td>
-                <td>{{ ordem.responsavel }}</td>
-                <td>{{ ordem.setor }}</td>
-                <td>
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Solicitante" field="solicitante" [minWidth]="120" let-ordem>
+    <div>{{ ordem.solicitante }}</div>
+  </ng-template>
+  <ng-template ksColumn="Criado por" field="criadoPor" [minWidth]="120" let-ordem>
+    <div>{{ ordem.criadoPor }}</div>
+  </ng-template>
+  <ng-template ksColumn="Responsável" field="responsavel" [minWidth]="120" let-ordem>
+    <div>{{ ordem.responsavel }}</div>
+  </ng-template>
+  <ng-template ksColumn="Setor" field="setor" [minWidth]="120" let-ordem>
+    <div>{{ ordem.setor }}</div>
+  </ng-template>
+  <ng-template ksColumn="Status" field="statusNome" [minWidth]="120" let-ordem>
+    <div>
                   <span class="status" [class]="statusClasse(ordem.statusNome)">
                     {{ ordem.statusNome || 'SEM STATUS' }}
                   </span>
-                </td>
-                <td class="os-data">{{ formatarData(ordem.criadoEmMs) }}</td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="8" class="empty">Nenhuma O.S encontrada.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Criada em" field="criadoEmMs" [minWidth]="120" let-ordem>
+    <div class="os-data">{{ formatarData(ordem.criadoEmMs) }}</div>
+  </ng-template>
+</app-ks-table>
       </div>
 
       <div class="pagination">

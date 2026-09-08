@@ -60,30 +60,22 @@
       </div>
 
       <div class="recent-table-wrapper">
-        <table class="recent-table">
-          <thead>
-            <tr>
-              <th>O.S</th>
-              <th>Título</th>
-              <th>Data Visualização</th>
-              <th class="recent-text-center">Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (os of ultimasOsVisitadas; track os.numero) {
-              <tr>
-                <td class="recent-numero">{{ os.numero }}</td>
-
-                <td class="recent-titulo">
+        <app-ks-table [rows]="ultimasOsVisitadas" emptyMessage="Nenhuma O.S. visitada.">
+  <ng-template ksColumn="O.S" field="numero" [minWidth]="120" let-os>
+    <div class="recent-numero">{{ os.numero }}</div>
+  </ng-template>
+  <ng-template ksColumn="Título" field="titulo" [minWidth]="210" let-os>
+    <div class="recent-titulo">
                   <button type="button" class="recent-link" (click)="abrirOs(os.numero)">
                     {{ os.titulo }}
                   </button>
-                </td>
-
-                <td class="recent-data">{{ os.dataVisualizacao }}</td>
-
-                <td class="recent-acoes">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Data Visualização" field="dataVisualizacao" [minWidth]="120" let-os>
+    <div class="recent-data">{{ os.dataVisualizacao }}</div>
+  </ng-template>
+  <ng-template ksColumn="Ações" field="" [minWidth]="120" let-os>
+    <div class="recent-acoes">
                   <button
                     type="button"
                     class="recent-action-btn visualizar"
@@ -92,15 +84,9 @@
                   >
                     ⊙
                   </button>
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="4" class="recent-empty">Nenhuma O.S. visitada.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+</app-ks-table>
       </div>
     </div>
   </app-ks-card>

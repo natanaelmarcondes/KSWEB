@@ -53,21 +53,15 @@
       <div class="state">Carregando setores...</div>
     } @else {
       <div class="table-wrapper">
-        <table class="setores-table">
-          <thead>
-            <tr>
-              <th>Codigo</th>
-              <th>Nome do setor</th>
-              <th>Acoes</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (setor of items; track setor.queueId) {
-              <tr>
-                <td class="setor-codigo">{{ setor.queueId }}</td>
-                <td class="setor-nome">{{ setor.queueName }}</td>
-                <td class="acoes">
+        <app-ks-table [rows]="items" emptyMessage="Nenhum setor encontrado.">
+  <ng-template ksColumn="Codigo" field="queueId" [minWidth]="120" let-setor>
+    <div class="setor-codigo">{{ setor.queueId }}</div>
+  </ng-template>
+  <ng-template ksColumn="Nome do setor" field="queueName" [minWidth]="120" let-setor>
+    <div class="setor-nome">{{ setor.queueName }}</div>
+  </ng-template>
+  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-setor>
+    <div class="acoes">
                   <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(setor)">Editar</app-ks-button>
                   <app-ks-button
                     tamanho="small"
@@ -77,15 +71,9 @@
                   >
                     {{ excluindoId === setor.queueId ? 'Excluindo...' : 'Excluir' }}
                   </app-ks-button>
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="3" class="empty">Nenhum setor encontrado.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+</app-ks-table>
       </div>
 
       <div class="pagination">

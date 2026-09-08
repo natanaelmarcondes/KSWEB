@@ -2,8 +2,8 @@ using KSWeb.Api.Data;
 using KSWeb.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.OpenApi;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -11,6 +11,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -23,11 +24,18 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Informe o JWT retornado pelo login."
     });
 
-    options.AddSecurityRequirement(openApiDocument => new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecuritySchemeReference("Bearer", openApiDocument, null),
-            []
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
         }
     });
 });
@@ -44,7 +52,10 @@ builder.Services.AddScoped<DailyService>();
 builder.Services.AddScoped<DailyRegistrosService>();
 
 IConfigurationSection jwtSection = builder.Configuration.GetSection("Jwt");
-string jwtKey = jwtSection["Key"] ?? throw new InvalidOperationException("Jwt:Key nao configurado.");
+
+string jwtKey = jwtSection["Key"]
+    ?? throw new InvalidOperationException("Jwt:Key nao configurado.");
+
 string jwtIssuer = jwtSection["Issuer"] ?? "KSWeb.Api";
 string jwtAudience = jwtSection["Audience"] ?? "KSWeb.App";
 
@@ -56,10 +67,15 @@ builder.Services
         {
             ValidateIssuer = true,
             ValidIssuer = jwtIssuer,
+
             ValidateAudience = true,
             ValidAudience = jwtAudience,
+
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtKey)
+            ),
+
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(1)
         };
@@ -86,13 +102,18 @@ app.UseSwaggerUI();
 
 app.UseStaticFiles();
 
-var inlineImagesPhysicalRoot = builder.Configuration["InlineImages:PhysicalRootPath"];
+var inlineImagesPhysicalRoot =
+    builder.Configuration["InlineImages:PhysicalRootPath"];
+
 if (!string.IsNullOrWhiteSpace(inlineImagesPhysicalRoot))
 {
     Directory.CreateDirectory(inlineImagesPhysicalRoot);
+
     app.UseStaticFiles(new StaticFileOptions
     {
-        FileProvider = new PhysicalFileProvider(inlineImagesPhysicalRoot),
+        FileProvider = new PhysicalFileProvider(
+            inlineImagesPhysicalRoot
+        ),
         RequestPath = "/inlineimages"
     });
 }

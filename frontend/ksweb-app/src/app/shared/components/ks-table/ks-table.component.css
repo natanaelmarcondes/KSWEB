@@ -1,60 +1,9 @@
-.ks-table-wrap {
-  background: #ffffff;
-  border: 1px solid #cfd6df;
-  overflow-x: auto;
-  transition: border-color 0.18s, box-shadow 0.18s;
-  width: 100%;
-}
-
-.ks-table-wrap:hover {
-  border-color: #1976d2;
-  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
-}
-
-.ks-table {
-  background: #ffffff;
-  border-collapse: collapse;
-  font-size: 12px;
-  min-width: 900px;
-  width: 100%;
-}
-
-.ks-table ::ng-deep th,
-.ks-table ::ng-deep td {
-  border-bottom: 1px solid #e4e8ee;
-  border-right: 1px solid #edf0f4;
-  color: #263241;
-  font-size: 12px;
-  height: 22px;
-  max-width: 260px;
-  overflow: hidden;
-  padding: 2px 8px;
-  text-align: left;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.ks-table ::ng-deep th {
-  background: linear-gradient(180deg, #eef2f7 0%, #e2e8f0 100%);
-  border-bottom: 1px solid #b9c2cf;
-  border-right: 1px solid #d8dee7;
-  color: #1f2937;
-  font-size: 11px;
-  font-weight: 700;
-  height: auto;
-  letter-spacing: 0.35px;
-  padding: 8px 9px;
-  position: sticky;
-  text-transform: uppercase;
-  top: 0;
-  z-index: 1;
-}
-
-.ks-table ::ng-deep tr:hover td {
-  background: #f5f8fc;
-}
-
-.ks-table ::ng-deep tr:last-child td {
-  border-bottom: none;
-}
+:host { display: block; width: 100%; min-width: 0; }
+ag-grid-angular { display: block; width: 100%; height: 440px; }
+:host ::ng-deep .ag-cell { display: flex; align-items: center; }
+:host ::ng-deep app-ks-cell { display: block; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+:host ::ng-deep .ag-row.nao-lida { font-weight: 700; }
+:host ::ng-deep .acoes { display: flex; align-items: center; gap: 6px; }
+:host ::ng-deep .os-titulo button,
+:host ::ng-deep .recent-link { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; background: none; color: #0068b9; border: 0; padding: 0; min-height: 28px; font-size: 12px; text-align: left; font-weight: inherit; }
+:host ::ng-deep .ag-filter input { font-size: 12px; }

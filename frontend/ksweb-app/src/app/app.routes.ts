@@ -3,22 +3,11 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/auth/auth.guard';
 import { guestGuard } from './core/auth/guest.guard';
 import { ShellComponent } from './layout/shell/shell.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { DailyCadComponent } from './pages/daily/daily-cad/daily-cad.component';
-import { DailyListComponent } from './pages/daily/daily-list/daily-list.component';
-import { LoginComponent } from './pages/login/login.component';
-import { OrdensServicoCadComponent } from './pages/ordens-servico/ordens-servico-cad/ordens-servico-cad.component';
-import { OrdensServicoListComponent } from './pages/ordens-servico/ordens-servico-list/ordens-servico-list.component';
-import { SetoresCadComponent } from './pages/setores/setores-cad/setores-cad.component';
-import { SetoresListComponent } from './pages/setores/setores-list/setores-list.component';
-import { UsuariosListComponent } from './pages/usuarios/usuarios-list/usuarios-list.component';
-import { StatusCadComponent } from './pages/status/status-cad/status-cad.component';
-import { StatusListComponent } from './pages/status/status-list/status-list.component';
 
 export const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent),
     canActivate: [guestGuard],
   },
   {
@@ -26,21 +15,21 @@ export const routes: Routes = [
     component: ShellComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'usuarios', component: UsuariosListComponent },
-      { path: 'setores', component: SetoresListComponent },
-      { path: 'setores/novo', component: SetoresCadComponent },
-      { path: 'setores/:queueId', component: SetoresCadComponent },
-      { path: 'daily', component: DailyListComponent },
-      { path: 'daily/:dailyId/registros', component: DailyCadComponent },
-      { path: 'daily/:dailyId', component: DailyCadComponent },
-      { path: 'ordens-servico', component: OrdensServicoListComponent },
-      { path: 'ordens-servico/novo', component: OrdensServicoCadComponent },
-      { path: 'ordens-servico/:codigo', component: OrdensServicoCadComponent },
+      { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
+      { path: 'usuarios', loadComponent: () => import('./pages/usuarios/usuarios-list/usuarios-list.component').then(m => m.UsuariosListComponent) },
+      { path: 'setores', loadComponent: () => import('./pages/setores/setores-list/setores-list.component').then(m => m.SetoresListComponent) },
+      { path: 'setores/novo', loadComponent: () => import('./pages/setores/setores-cad/setores-cad.component').then(m => m.SetoresCadComponent) },
+      { path: 'setores/:queueId', loadComponent: () => import('./pages/setores/setores-cad/setores-cad.component').then(m => m.SetoresCadComponent) },
+      { path: 'daily', loadComponent: () => import('./pages/daily/daily-list/daily-list.component').then(m => m.DailyListComponent) },
+      { path: 'daily/:dailyId/registros', loadComponent: () => import('./pages/daily/daily-cad/daily-cad.component').then(m => m.DailyCadComponent) },
+      { path: 'daily/:dailyId', loadComponent: () => import('./pages/daily/daily-cad/daily-cad.component').then(m => m.DailyCadComponent) },
+      { path: 'ordens-servico', loadComponent: () => import('./pages/ordens-servico/ordens-servico-list/ordens-servico-list.component').then(m => m.OrdensServicoListComponent) },
+      { path: 'ordens-servico/novo', loadComponent: () => import('./pages/ordens-servico/ordens-servico-cad/ordens-servico-cad.component').then(m => m.OrdensServicoCadComponent) },
+      { path: 'ordens-servico/:codigo', loadComponent: () => import('./pages/ordens-servico/ordens-servico-cad/ordens-servico-cad.component').then(m => m.OrdensServicoCadComponent) },
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-      { path: 'status', component: StatusListComponent },
-      { path: 'status/novo', component: StatusCadComponent },
-      { path: 'status/:statusId', component: StatusCadComponent },
+      { path: 'status', loadComponent: () => import('./pages/status/status-list/status-list.component').then(m => m.StatusListComponent) },
+      { path: 'status/novo', loadComponent: () => import('./pages/status/status-cad/status-cad.component').then(m => m.StatusCadComponent) },
+      { path: 'status/:statusId', loadComponent: () => import('./pages/status/status-cad/status-cad.component').then(m => m.StatusCadComponent) },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

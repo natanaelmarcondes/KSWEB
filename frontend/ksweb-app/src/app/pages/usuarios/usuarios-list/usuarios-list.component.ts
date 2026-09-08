@@ -1,3 +1,4 @@
+import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,7 +24,7 @@ export interface UsuarioFiltro {
 
 @Component({
   selector: 'app-usuarios-list',
-  imports: [KsButtonComponent, FormsModule],
+  imports: [KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
   templateUrl: './usuarios-list.component.html',
   styleUrl: './usuarios-list.component.css',
 })

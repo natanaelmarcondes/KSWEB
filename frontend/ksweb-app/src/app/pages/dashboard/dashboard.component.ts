@@ -1,3 +1,4 @@
+import { KsTableComponent, KsColumnDirective } from '../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from './dashboard.service';
@@ -21,7 +22,7 @@ interface UltimaOsVisitada {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [KsButtonComponent, KsCardComponent],
+  imports: [KsTableComponent, KsColumnDirective, KsButtonComponent, KsCardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })

@@ -1,5 +1,5 @@
 :host {
-  background: #f4f6f9;
+  background: transparent;
   display: block;
   min-height: calc(100vh - 60px);
   padding: 14px;

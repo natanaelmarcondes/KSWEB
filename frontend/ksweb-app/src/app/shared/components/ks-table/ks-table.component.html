@@ -1,5 +1,4 @@
-<div class="ks-table-wrap">
-  <table class="ks-table">
-    <ng-content />
-  </table>
-</div>
+<ag-grid-angular [style.height.px]="height" [modules]="modules" [theme]="theme" [rowData]="rows" [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef" [localeText]="localeText" [getRowClass]="getRowClass"
+  [overlayNoRowsTemplate]="'<span>' + emptyMessage + '</span>'"
+  (rowClicked)="onRowClicked($event)" (cellKeyDown)="onKeyDown($event)" />

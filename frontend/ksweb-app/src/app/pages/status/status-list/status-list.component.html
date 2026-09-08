@@ -69,58 +69,50 @@
       <div class="status-state">Carregando status...</div>
     } @else {
       <div class="status-table-wrapper">
-        <table class="status-table">
-          <thead>
-            <tr>
-              <th>Codigo</th>
-              <th>Nome do status</th>
-              <th class="text-center">Pendente</th>
-              <th class="text-center">Para relogio</th>
-              <th class="text-center">Excluido</th>
-              <th>Nome interno</th>
-              <th>Descricao</th>
-              <th>Acoes</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (item of items; track item.statusId) {
-              <tr>
-                <td class="status-codigo">
+        <app-ks-table [rows]="items" emptyMessage="Nenhum status encontrado.">
+  <ng-template ksColumn="Codigo" field="statusId" [minWidth]="120" let-item>
+    <div class="status-codigo">
                   {{ item.statusId }}
-                </td>
-
-                <td class="status-nome" [title]="item.statusName || '-'">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Nome do status" field="statusName" [minWidth]="120" let-item>
+    <div class="status-nome" [title]="item.statusName || '-'">
                   {{ item.statusName || '-' }}
-                </td>
-
-                <td class="text-center">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Pendente" field="isPending" [minWidth]="120" let-item>
+    <div class="text-center">
                   <span class="status-badge" [class]="booleanClasse(item.isPending)">
                     {{ booleanTexto(item.isPending) }}
                   </span>
-                </td>
-
-                <td class="text-center">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Para relogio" field="statusStopClock" [minWidth]="120" let-item>
+    <div class="text-center">
                   <span class="status-badge" [class]="booleanClasse(item.statusStopClock)">
                     {{ booleanTexto(item.statusStopClock) }}
                   </span>
-                </td>
-
-                <td class="text-center">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Excluido" field="isDeleted" [minWidth]="120" let-item>
+    <div class="text-center">
                   <span class="status-badge" [class]="booleanClasse(item.isDeleted)">
                     {{ booleanTexto(item.isDeleted) }}
                   </span>
-                </td>
-
-                <td class="status-interno" [title]="item.internalName || '-'">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Nome interno" field="internalName" [minWidth]="120" let-item>
+    <div class="status-interno" [title]="item.internalName || '-'">
                   {{ item.internalName || '-' }}
-                </td>
-
-                <td class="status-descricao" [title]="item.statusDescription || '-'">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Descricao" field="statusDescription" [minWidth]="120" let-item>
+    <div class="status-descricao" [title]="item.statusDescription || '-'">
                   {{ item.statusDescription || '-' }}
-                </td>
-
-                <td class="status-acoes">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-item>
+    <div class="status-acoes">
                   <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(item)">
                     Editar
                   </app-ks-button>
@@ -133,17 +125,9 @@
                   >
                     {{ excluindoId === item.statusId ? 'Excluindo...' : 'Excluir' }}
                   </app-ks-button>
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="8" class="status-empty">
-                  Nenhum status encontrado.
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+</app-ks-table>
       </div>
 
       <div class="status-pagination">

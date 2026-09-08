@@ -43,25 +43,21 @@
       <div class="state">Carregando dailies...</div>
     } @else {
       <div class="table-wrapper">
-        <table class="daily-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Numero</th>
-              <th>Data</th>
-              <th>Usuario</th>
-              <th>Acoes</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (item of items; track item.dailyId) {
-              <tr (click)="editar(item)" tabindex="0" (keyup.enter)="editar(item)">
-                <td class="daily-id">{{ item.dailyId }}</td>
-                <td class="daily-numero">{{ item.dailyNumero }}</td>
-                <td>{{ formatarData(item.dailyData) }}</td>
-                <td>{{ item.dailyUsuario || '-' }}</td>
-                <td class="acoes">
+        <app-ks-table [rows]="items" (rowAction)="editar($event)" emptyMessage="Nenhuma daily encontrada.">
+  <ng-template ksColumn="ID" field="dailyId" [minWidth]="120" let-item>
+    <div class="daily-id">{{ item.dailyId }}</div>
+  </ng-template>
+  <ng-template ksColumn="Numero" field="dailyNumero" [minWidth]="120" let-item>
+    <div class="daily-numero">{{ item.dailyNumero }}</div>
+  </ng-template>
+  <ng-template ksColumn="Data" field="dailyData" [minWidth]="120" let-item>
+    <div>{{ formatarData(item.dailyData) }}</div>
+  </ng-template>
+  <ng-template ksColumn="Usuario" field="dailyUsuario" [minWidth]="120" let-item>
+    <div>{{ item.dailyUsuario || '-' }}</div>
+  </ng-template>
+  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-item>
+    <div class="acoes">
                   <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(item)">Editar</app-ks-button>
                   <app-ks-button
                     tamanho="small"
@@ -72,15 +68,9 @@
                   >
                     {{ excluindoId === item.dailyId ? 'Excluindo...' : 'Excluir' }}
                   </app-ks-button>
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="5" class="empty">Nenhuma daily encontrada.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+</app-ks-table>
       </div>
 
       <div class="pagination">

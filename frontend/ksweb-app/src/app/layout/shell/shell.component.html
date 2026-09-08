@@ -1,25 +1,5 @@
-<div class="app-shell" [class.mobile-menu-open]="menuMobileAberto()">
-  <aside class="sidebar">
-    <div class="sidebar-top">
-      <div class="brand">
-        <div class="brand-mark">KS</div>
-
-        <div class="brand-text">
-          <strong>KEYSYSTEMS</strong>
-          <span>KeySolution</span>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        class="sidebar-close"
-        aria-label="Fechar menu"
-        (click)="fecharMenuMobile()"
-      >
-        ×
-      </button>
-    </div>
-
+<div class="app-shell" [class.mobile-menu-open]="menuMobileAberto()" [class.menu-collapsed]="menuRecolhido()">
+  <aside class="sidebar" id="menu-principal">
     <nav class="sidebar-nav" aria-label="Menu principal">
       <div class="menu-section">
         <a
@@ -55,7 +35,7 @@
           type="button"
           class="menu-parent"
           [class.active]="menuAtivo('operacional')"
-          [class.open]="submenuAberto() === 'operacional'"
+          [attr.aria-expanded]="submenuAberto() === 'operacional'" [class.open]="submenuAberto() === 'operacional'"
           (click)="alternarSubmenu('operacional')"
         >
           <span class="menu-icon">
@@ -84,7 +64,7 @@
           <span class="chevron"></span>
         </button>
 
-        <div class="submenu" [class.open]="submenuAberto() === 'operacional'">
+        <div class="submenu" [hidden]="submenuAberto() !== 'operacional'">
           <a
             routerLink="/ordens-servico"
             routerLinkActive="active"
@@ -111,7 +91,7 @@
         <button
           type="button"
           class="menu-parent"
-          [class.active]="menuAtivo('cadastros')"
+          [class.active]="menuAtivo('cadastros')" [attr.aria-expanded]="submenuAberto() === 'cadastros'"
           [class.open]="submenuAberto() === 'cadastros'"
           (click)="alternarSubmenu('cadastros')"
         >
@@ -143,11 +123,11 @@
             </svg>
           </span>
 
-          <span>Cadastros</span>
+          <span>Cadastro</span>
           <span class="chevron"></span>
         </button>
 
-        <div class="submenu" [class.open]="submenuAberto() === 'cadastros'">
+        <div class="submenu" [hidden]="submenuAberto() !== 'cadastros'">
           <a
             routerLink="/usuarios"
             routerLinkActive="active"
@@ -182,8 +162,9 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <span>Ambiente</span>
-      <strong>Produção</strong>
+      <span>Keysystems Informática</span>
+      <span>© {{ ano }} - Todos os direitos reservados</span>
+      <span>KeySolution</span>
     </div>
   </aside>
 
@@ -200,21 +181,20 @@
         <button
           type="button"
           class="mobile-menu-button"
-          aria-label="Abrir menu"
-          (click)="abrirMenuMobile()"
+          [attr.aria-label]="menuVisivel() ? 'Recolher menu' : 'Abrir menu'"
+          (click)="alternarMenu()" [attr.aria-expanded]="menuVisivel()" aria-controls="menu-principal"
         >
           <span></span>
           <span></span>
           <span></span>
         </button>
+        <a class="brand" routerLink="/dashboard" aria-label="KeySystems — início">
+          <span class="brand-mark">ϟ</span><strong>KEYSYSTEMS</strong>
+        </a>
       </div>
 
       <div class="topbar-right">
         <div class="topbar-user-card">
-          <div class="topbar-user-avatar">
-            {{ (usuario()?.nome || 'U').substring(0, 1).toUpperCase() }}
-          </div>
-
           <div class="topbar-user-info">
             <div class="topbar-user-name">
               {{ usuario()?.nome || 'Usuário' }}
@@ -226,8 +206,9 @@
           </div>
         </div>
 
-        <button type="button" class="topbar-logout" (click)="sair()">
-          <span class="topbar-logout-text">Sair</span>
+        <span class="topbar-clock" aria-label="Horário atual">◷ {{ horario() }}</span>
+        <button type="button" class="topbar-logout" (click)="sair()" aria-label="Sair" title="Sair">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4H4v16h5M13 7l5 5-5 5M8 12h12" /></svg>
         </button>
       </div>
     </header>

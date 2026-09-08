@@ -1,3 +1,4 @@
+import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,7 +9,7 @@ import { StatusService } from '../status.service';
 
 @Component({
   selector: 'app-status-list',
-  imports: [KsButtonComponent, FormsModule],
+  imports: [KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
   templateUrl: './status-list.component.html',
   styleUrl: './status-list.component.css',
 })

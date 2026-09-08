@@ -73,31 +73,28 @@
       </div>
 
       <div class="table-wrapper">
-        <table class="registros-table">
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>O.S.</th>
-              <th>Cliente</th>
-              <th>Descrição</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (registro of registros; track registro.regId) {
-              <tr>
-                <td>{{ formatarData(registro.regData) }}</td>
-                <td>{{ registro.osId || '-' }}</td>
-                <td>{{ registro.regCliente || '-' }}</td>
-                <td class="descricao-cell" [title]="registro.regDescricao || '-'">
+        <app-ks-table [rows]="registros" emptyMessage="Nenhum item cadastrado.">
+  <ng-template ksColumn="Data" field="regData" [minWidth]="120" let-registro>
+    <div>{{ formatarData(registro.regData) }}</div>
+  </ng-template>
+  <ng-template ksColumn="O.S." field="osId" [minWidth]="120" let-registro>
+    <div>{{ registro.osId || '-' }}</div>
+  </ng-template>
+  <ng-template ksColumn="Cliente" field="regCliente" [minWidth]="120" let-registro>
+    <div>{{ registro.regCliente || '-' }}</div>
+  </ng-template>
+  <ng-template ksColumn="Descrição" field="regDescricao" [minWidth]="210" let-registro>
+    <div class="descricao-cell" [title]="registro.regDescricao || '-'">
                   {{ registro.regDescricao || '-' }}
-                </td>
-                <td>
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Status" field="regStatus" [minWidth]="120" let-registro>
+    <div>
                   <span class="status-badge">{{ registro.regStatus || '-' }}</span>
-                </td>
-                <td class="acoes">
+                </div>
+  </ng-template>
+  <ng-template ksColumn="Ações" field="" [minWidth]="210" let-registro>
+    <div class="acoes">
                   <app-ks-button tamanho="small" tipo="secondary" (acao)="editarRegistro(registro)">Editar</app-ks-button>
                   <app-ks-button
                     tamanho="small"
@@ -107,15 +104,9 @@
                   >
                     {{ excluindoId === registro.regId ? 'Excluindo...' : 'Excluir' }}
                   </app-ks-button>
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="6" class="empty">Nenhum item cadastrado.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+  </ng-template>
+</app-ks-table>
       </div>
     </section>
   }
