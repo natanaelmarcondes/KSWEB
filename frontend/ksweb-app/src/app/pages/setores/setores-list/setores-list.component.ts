@@ -1,3 +1,4 @@
+import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,14 +9,12 @@ import { SetorListItem } from '../setores.models';
 import { SetoresService } from '../setores.service';
 
 export interface SetorFiltro {
-  page: number;
-  pageSize: number;
   termo: string;
 }
 
 @Component({
   selector: 'app-setores-list',
-  imports: [KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
+  imports: [KsGridActionComponent, KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
   templateUrl: './setores-list.component.html',
   styleUrl: './setores-list.component.css',
 })
@@ -30,8 +29,6 @@ export class SetoresListComponent {
   excluindoId: number | null = null;
 
   filtro: SetorFiltro = {
-    page: 1,
-    pageSize: 25,
     termo: '',
   };
 
@@ -40,21 +37,6 @@ export class SetoresListComponent {
     private readonly router: Router,
   ) {
     this.carregar();
-  }
-
-  get totalPaginas(): number {
-    return Math.max(1, Math.ceil(this.total / this.filtro.pageSize));
-  }
-
-  get intervalo(): string {
-    if (this.total === 0) {
-      return '0 de 0';
-    }
-
-    const inicio = (this.filtro.page - 1) * this.filtro.pageSize + 1;
-    const fim = Math.min(this.total, this.filtro.page * this.filtro.pageSize);
-
-    return `${inicio}-${fim} de ${this.total}`;
   }
 
   carregar(): void {
@@ -79,41 +61,15 @@ export class SetoresListComponent {
   }
 
   pesquisar(): void {
-    this.filtro.page = 1;
     this.aplicarFiltroLocal();
   }
 
   limparFiltros(): void {
     this.filtro = {
-      page: 1,
-      pageSize: 25,
       termo: '',
     };
 
     this.aplicarFiltroLocal();
-  }
-
-  paginaAnterior(): void {
-    if (this.filtro.page <= 1) {
-      return;
-    }
-
-    this.filtro.page -= 1;
-    this.atualizarPagina();
-  }
-
-  proximaPagina(): void {
-    if (this.filtro.page >= this.totalPaginas) {
-      return;
-    }
-
-    this.filtro.page += 1;
-    this.atualizarPagina();
-  }
-
-  alterarPageSize(): void {
-    this.filtro.page = 1;
-    this.atualizarPagina();
   }
 
   atualizar(): void {
@@ -167,22 +123,7 @@ export class SetoresListComponent {
     });
 
     this.total = this.setoresFiltrados.length;
-    this.atualizarPagina();
-  }
-
-  private atualizarPagina(): void {
-    if (this.filtro.page > this.totalPaginas) {
-      this.filtro.page = this.totalPaginas;
-    }
-
-    if (this.filtro.page < 1) {
-      this.filtro.page = 1;
-    }
-
-    const inicio = (this.filtro.page - 1) * this.filtro.pageSize;
-    const fim = inicio + this.filtro.pageSize;
-
-    this.items = this.setoresFiltrados.slice(inicio, fim);
+    this.items = this.setoresFiltrados;
   }
 
   private normalizarTexto(valor: string | number | null | undefined): string {

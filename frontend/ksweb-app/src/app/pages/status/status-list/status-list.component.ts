@@ -1,3 +1,4 @@
+import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +10,7 @@ import { StatusService } from '../status.service';
 
 @Component({
   selector: 'app-status-list',
-  imports: [KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
+  imports: [KsGridActionComponent, KsTableComponent, KsColumnDirective, KsButtonComponent, FormsModule],
   templateUrl: './status-list.component.html',
   styleUrl: './status-list.component.css',
 })
@@ -24,8 +25,6 @@ export class StatusListComponent {
   excluindoId: number | null = null;
 
   filtro: StatusFiltro = {
-    page: 1,
-    pageSize: 25,
     termo: '',
   };
 
@@ -34,21 +33,6 @@ export class StatusListComponent {
     private readonly router: Router,
   ) {
     this.carregar();
-  }
-
-  get totalPaginas(): number {
-    return Math.max(1, Math.ceil(this.total / this.filtro.pageSize));
-  }
-
-  get intervalo(): string {
-    if (this.total === 0) {
-      return '0 de 0';
-    }
-
-    const inicio = (this.filtro.page - 1) * this.filtro.pageSize + 1;
-    const fim = Math.min(this.total, this.filtro.page * this.filtro.pageSize);
-
-    return `${inicio}-${fim} de ${this.total}`;
   }
 
   carregar(): void {
@@ -73,41 +57,15 @@ export class StatusListComponent {
   }
 
   pesquisar(): void {
-    this.filtro.page = 1;
     this.aplicarFiltroLocal();
   }
 
   limparFiltros(): void {
     this.filtro = {
-      page: 1,
-      pageSize: 25,
       termo: '',
     };
 
     this.aplicarFiltroLocal();
-  }
-
-  paginaAnterior(): void {
-    if (this.filtro.page <= 1) {
-      return;
-    }
-
-    this.filtro.page -= 1;
-    this.atualizarPagina();
-  }
-
-  proximaPagina(): void {
-    if (this.filtro.page >= this.totalPaginas) {
-      return;
-    }
-
-    this.filtro.page += 1;
-    this.atualizarPagina();
-  }
-
-  alterarPageSize(): void {
-    this.filtro.page = 1;
-    this.atualizarPagina();
   }
 
   atualizar(): void {
@@ -182,22 +140,7 @@ export class StatusListComponent {
     });
 
     this.total = this.statusFiltrados.length;
-    this.atualizarPagina();
-  }
-
-  private atualizarPagina(): void {
-    if (this.filtro.page > this.totalPaginas) {
-      this.filtro.page = this.totalPaginas;
-    }
-
-    if (this.filtro.page < 1) {
-      this.filtro.page = 1;
-    }
-
-    const inicio = (this.filtro.page - 1) * this.filtro.pageSize;
-    const fim = inicio + this.filtro.pageSize;
-
-    this.items = this.statusFiltrados.slice(inicio, fim);
+    this.items = this.statusFiltrados;
   }
 
   private normalizarTexto(valor: string | number | boolean | null | undefined): string {

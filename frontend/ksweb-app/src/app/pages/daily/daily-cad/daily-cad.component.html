@@ -64,7 +64,6 @@
       </div>
     </form>
 
-    <section class="table-panel">
       <div class="panel-header">
         <div>
           <h2>Registros</h2>
@@ -72,8 +71,7 @@
         </div>
       </div>
 
-      <div class="table-wrapper">
-        <app-ks-table [rows]="registros" emptyMessage="Nenhum item cadastrado.">
+        <app-ks-table storageKey="daily-registros" [rows]="registros" emptyMessage="Nenhum item cadastrado.">
   <ng-template ksColumn="Data" field="regData" [minWidth]="120" let-registro>
     <div>{{ formatarData(registro.regData) }}</div>
   </ng-template>
@@ -93,21 +91,13 @@
                   <span class="status-badge">{{ registro.regStatus || '-' }}</span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Ações" field="" [minWidth]="210" let-registro>
-    <div class="acoes">
-                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editarRegistro(registro)">Editar</app-ks-button>
-                  <app-ks-button
-                    tamanho="small"
-                    tipo="danger"
-                    [disabled]="excluindoId === registro.regId"
-                    (acao)="excluirRegistro(registro)"
-                  >
-                    {{ excluindoId === registro.regId ? 'Excluindo...' : 'Excluir' }}
-                  </app-ks-button>
-                </div>
+  <ng-template ksColumn="Excluir" [width]="82" [minWidth]="76" let-registro>
+    <app-ks-grid-action tipo="excluir" [carregando]="excluindoId === registro.regId" (acao)="excluirRegistro(registro)"></app-ks-grid-action>
+  </ng-template>
+  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-registro>
+    <app-ks-grid-action tipo="editar" (acao)="editarRegistro(registro)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-      </div>
-    </section>
+
   }
 </section>

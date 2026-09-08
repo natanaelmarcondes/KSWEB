@@ -1,66 +1,14 @@
 <div class="dashboard-page">
   <div class="dashboard-header">
     <div class="dashboard-title">
-      <span class="dashboard-title-icon">▣</span>
-
-      <div>
-        <h1>O.S por status</h1>
-        <span>Resumo de {{ nomeUsuario }}</span>
-      </div>
+      <h1>Início</h1>
+      <span>{{ nomeUsuario }}</span>
     </div>
 
     <app-ks-button tipo="primary" (acao)="abrirMinhasOs()">Ver minhas O.S</app-ks-button>
   </div>
 
-  @if (erro) {
-    <div class="dashboard-alert">{{ erro }}</div>
-  }
-
-  <app-ks-card>
-    <div class="dashboard-card-content">
-      <div class="status-panel-header">
-        <div>
-          <h2>Status atuais</h2>
-          <p>Clique em um status para abrir a listagem filtrada</p>
-        </div>
-      </div>
-
-      @if (carregando) {
-        <div class="dashboard-loading">Carregando indicadores...</div>
-      } @else {
-        <div class="status-grid">
-          @for (item of statusResumo; track item.status) {
-            <button
-              type="button"
-              class="status-card"
-              [class.status-closed]="item.classe === 'status-closed'"
-              [class.status-open]="item.classe === 'status-open'"
-              [class.status-programacao]="item.classe === 'status-programacao'"
-              [class.status-descontinuado]="item.classe === 'status-descontinuado'"
-              (click)="abrirPorStatus(item.status)"
-            >
-              <span class="status-title">{{ item.titulo }}</span>
-              <strong>{{ item.total }}</strong>
-            </button>
-          } @empty {
-            <div class="dashboard-empty">Nenhum status encontrado.</div>
-          }
-        </div>
-      }
-    </div>
-  </app-ks-card>
-
-  <app-ks-card>
-    <div class="dashboard-card-content recent-card-content">
-      <div class="recent-header">
-        <div class="recent-title">
-          <span class="recent-title-icon">◷</span>
-          <h2>Últimas O.S visitadas</h2>
-        </div>
-      </div>
-
-      <div class="recent-table-wrapper">
-        <app-ks-table [rows]="ultimasOsVisitadas" emptyMessage="Nenhuma O.S. visitada.">
+        <app-ks-table storageKey="os-visitadas" [rows]="ultimasOsVisitadas" emptyMessage="Nenhuma O.S. visitada.">
   <ng-template ksColumn="O.S" field="numero" [minWidth]="120" let-os>
     <div class="recent-numero">{{ os.numero }}</div>
   </ng-template>
@@ -74,20 +22,9 @@
   <ng-template ksColumn="Data Visualização" field="dataVisualizacao" [minWidth]="120" let-os>
     <div class="recent-data">{{ os.dataVisualizacao }}</div>
   </ng-template>
-  <ng-template ksColumn="Ações" field="" [minWidth]="120" let-os>
-    <div class="recent-acoes">
-                  <button
-                    type="button"
-                    class="recent-action-btn visualizar"
-                    title="Visualizar"
-                    (click)="abrirOs(os.numero)"
-                  >
-                    ⊙
-                  </button>
-                </div>
+  <ng-template ksColumn="Visualizar" [width]="82" [minWidth]="76" let-os>
+    <app-ks-grid-action tipo="visualizar" (acao)="abrirOs(os.numero)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-      </div>
-    </div>
-  </app-ks-card>
+
 </div>

@@ -11,6 +11,7 @@ const PERSISTENCE_KEY = 'ksweb_auth_persistence';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  /*private readonly apiUrl = '/api/auth';*/
   private readonly apiUrl = '/api/auth';
   private readonly usuarioSignal = signal<AuthUsuario | null>(this.readUsuario());
 

@@ -51,16 +51,10 @@
 }
 
 .brand-logo {
-  align-items: center;
-  background: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  color: #0b2f64;
-  display: flex;
-  font-size: 30px;
-  font-weight: 900;
-  height: 82px;
-  justify-content: center;
-  width: 128px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 80px;
 }
 
 .brand-title {
@@ -103,19 +97,6 @@
   display: flex;
   gap: 14px;
   margin-bottom: 24px;
-}
-
-.login-icon {
-  align-items: center;
-  background: #1e293b;
-  border: 1px solid #0f172a;
-  color: #ffffff;
-  display: grid;
-  font-size: 14px;
-  font-weight: 700;
-  height: 46px;
-  justify-content: center;
-  width: 46px;
 }
 
 .login-header h1 {

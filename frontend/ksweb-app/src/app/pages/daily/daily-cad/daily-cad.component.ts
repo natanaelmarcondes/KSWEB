@@ -1,3 +1,4 @@
+import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +10,7 @@ import { DailyService } from '../daily.service';
 
 @Component({
   selector: 'app-daily-cad',
-  imports: [KsTableComponent, KsColumnDirective, FormsModule, KsButtonComponent],
+  imports: [KsGridActionComponent, KsTableComponent, KsColumnDirective, FormsModule, KsButtonComponent],
   templateUrl: './daily-cad.component.html',
   styleUrl: './daily-cad.component.css',
 })

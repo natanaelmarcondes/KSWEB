@@ -26,8 +26,7 @@
   margin-top: 3px;
 }
 
-.form-panel,
-.table-panel {
+.form-panel {
   background: #ffffff;
   border: 1px solid #cfd6df;
   display: grid;
@@ -36,9 +35,7 @@
   transition: border-color 0.18s, box-shadow 0.18s;
 }
 
-.form-panel:hover,
-.table-panel:hover,
-.table-wrapper:hover {
+.form-panel:hover {
   border-color: #1976d2;
   box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
 }
@@ -143,14 +140,6 @@ textarea:focus {
   font-size: 13px;
   padding: 18px 12px !important;
   text-align: center;
-}
-
-.table-wrapper {
-  background: #ffffff;
-  border: 1px solid #cfd6df;
-  overflow-x: auto;
-  transition: border-color 0.18s, box-shadow 0.18s;
-  width: 100%;
 }
 
 .registros-table {

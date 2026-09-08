@@ -46,30 +46,11 @@
     </div>
   </section>
 
-  <section class="status-panel">
-    <div class="status-panel-header">
-      <div>
-        <h2>Resultado</h2>
-        <p>{{ intervalo }}</p>
-      </div>
-
-      <label class="status-page-size">
-        <span>Linhas</span>
-
-        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
-          <option [ngValue]="10">10</option>
-          <option [ngValue]="25">25</option>
-          <option [ngValue]="50">50</option>
-          <option [ngValue]="100">100</option>
-        </select>
-      </label>
-    </div>
-
     @if (carregando) {
       <div class="status-state">Carregando status...</div>
     } @else {
-      <div class="status-table-wrapper">
-        <app-ks-table [rows]="items" emptyMessage="Nenhum status encontrado.">
+
+        <app-ks-table storageKey="status" [rows]="items" emptyMessage="Nenhum status encontrado.">
   <ng-template ksColumn="Codigo" field="statusId" [minWidth]="120" let-item>
     <div class="status-codigo">
                   {{ item.statusId }}
@@ -111,46 +92,14 @@
                   {{ item.statusDescription || '-' }}
                 </div>
   </ng-template>
-  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-item>
-    <div class="status-acoes">
-                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(item)">
-                    Editar
-                  </app-ks-button>
-
-                  <app-ks-button
-                    tamanho="small"
-                    tipo="danger"
-                    [disabled]="excluindoId === item.statusId"
-                    (acao)="excluir(item)"
-                  >
-                    {{ excluindoId === item.statusId ? 'Excluindo...' : 'Excluir' }}
-                  </app-ks-button>
-                </div>
+  <ng-template ksColumn="Excluir" [width]="82" [minWidth]="76" let-item>
+    <app-ks-grid-action tipo="excluir" [carregando]="excluindoId === item.statusId" (acao)="excluir(item)"></app-ks-grid-action>
+  </ng-template>
+  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-item>
+    <app-ks-grid-action tipo="editar" (acao)="editar(item)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-      </div>
 
-      <div class="status-pagination">
-        <app-ks-button
-          tamanho="small"
-          tipo="secondary"
-          [disabled]="filtro.page <= 1"
-          (acao)="paginaAnterior()"
-        >
-          Anterior
-        </app-ks-button>
-
-        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
-
-        <app-ks-button
-          tamanho="small"
-          tipo="secondary"
-          [disabled]="filtro.page >= totalPaginas"
-          (acao)="proximaPagina()"
-        >
-          Proxima
-        </app-ks-button>
-      </div>
     }
-  </section>
+
 </section>

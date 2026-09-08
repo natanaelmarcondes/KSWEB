@@ -7,6 +7,8 @@ import { AuthService } from '../../core/auth/auth.service';
 import { KsButtonComponent } from '../../shared/components/ks-button/ks-button.component';
 import { KsInputComponent } from '../../shared/components/ks-input/ks-input.component';
 
+const LAST_LOGIN_EMAIL_KEY = 'ksweb_last_login_email';
+
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, KsButtonComponent, KsInputComponent],
@@ -22,7 +24,7 @@ export class LoginComponent {
   readonly erro = signal('');
 
   readonly form = this.formBuilder.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: [this.readLastLoginEmail(), [Validators.required, Validators.email]],
     senha: ['', [Validators.required]],
     manterConectado: [true],
   });
@@ -39,12 +41,31 @@ export class LoginComponent {
     const payload = this.form.getRawValue();
 
     this.authService.login({ ...payload, email: payload.email.trim() }).subscribe({
-      next: () => void this.router.navigate(['/dashboard']),
+      next: () => {
+        this.saveLastLoginEmail(payload.email.trim());
+        void this.router.navigate(['/dashboard']);
+      },
       error: (error: unknown) => {
         this.erro.set(this.getLoginErrorMessage(error));
         this.carregando.set(false);
       },
     });
+  }
+
+  private readLastLoginEmail(): string {
+    try {
+      return localStorage.getItem(LAST_LOGIN_EMAIL_KEY) ?? '';
+    } catch {
+      return '';
+    }
+  }
+
+  private saveLastLoginEmail(email: string): void {
+    try {
+      localStorage.setItem(LAST_LOGIN_EMAIL_KEY, email);
+    } catch {
+      // O login continua mesmo quando o navegador bloqueia o armazenamento.
+    }
   }
 
   private getLoginErrorMessage(error: unknown): string {

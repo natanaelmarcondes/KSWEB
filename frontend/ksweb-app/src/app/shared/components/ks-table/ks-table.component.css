@@ -7,3 +7,7 @@ ag-grid-angular { display: block; width: 100%; height: 440px; }
 :host ::ng-deep .os-titulo button,
 :host ::ng-deep .recent-link { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; background: none; color: #0068b9; border: 0; padding: 0; min-height: 28px; font-size: 12px; text-align: left; font-weight: inherit; }
 :host ::ng-deep .ag-filter input { font-size: 12px; }
+:host ::ng-deep .ag-paging-panel { flex-wrap: wrap; gap: 8px 16px; height: auto; min-height: 48px; padding: 8px 12px; }
+:host ::ng-deep .ag-paging-panel > * { margin: 0; }
+:host ::ng-deep .grid-action-cell app-ks-cell { text-align: center; }
+:host ::ng-deep .grid-action-header .ag-header-cell-label { justify-content: center; }

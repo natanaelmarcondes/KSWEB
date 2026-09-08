@@ -1,4 +1,7 @@
-<ag-grid-angular [style.height.px]="height" [modules]="modules" [theme]="theme" [rowData]="rows" [columnDefs]="columnDefs"
+<ag-grid-angular [style.height.px]="height" [modules]="modules" [theme]="theme" [rowData]="loadPage ? undefined : rows" [columnDefs]="columnDefs"
+  [pagination]="true" [paginationPageSize]="paginationPageSize" [paginationPageSizeSelector]="paginationPageSizeSelector"
+  [rowModelType]="loadPage ? 'infinite' : 'clientSide'" [datasource]="datasource" [cacheBlockSize]="cacheBlockSize" [maxBlocksInCache]="5"
   [defaultColDef]="defaultColDef" [localeText]="localeText" [getRowClass]="getRowClass"
   [overlayNoRowsTemplate]="'<span>' + emptyMessage + '</span>'"
+  (gridReady)="restoreColumns($event)" (columnMoved)="saveColumns($event)" (columnResized)="saveColumns($event)"
   (rowClicked)="onRowClicked($event)" (cellKeyDown)="onKeyDown($event)" />

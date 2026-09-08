@@ -8,8 +8,10 @@ using System.Text;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// Controllers
 builder.Services.AddControllers();
 
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -40,6 +42,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Serviços
 builder.Services.AddScoped<DbConnectionFactory>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DashboardService>();
@@ -51,6 +54,7 @@ builder.Services.AddScoped<StatusService>();
 builder.Services.AddScoped<DailyService>();
 builder.Services.AddScoped<DailyRegistrosService>();
 
+// JWT
 IConfigurationSection jwtSection = builder.Configuration.GetSection("Jwt");
 
 string jwtKey = jwtSection["Key"]
@@ -81,6 +85,7 @@ builder.Services
         };
     });
 
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("KSWebCors", policy =>
@@ -88,21 +93,26 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins(
                 "http://localhost:4200",
-                "https://localhost:4200"
+                "https://localhost:4200",
+                "http://192.168.1.48:1515"
             )
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
 WebApplication app = builder.Build();
 
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// Arquivos estáticos da própria API
 app.UseStaticFiles();
 
-var inlineImagesPhysicalRoot =
+// Inline Images
+string? inlineImagesPhysicalRoot =
     builder.Configuration["InlineImages:PhysicalRootPath"];
 
 if (!string.IsNullOrWhiteSpace(inlineImagesPhysicalRoot))
@@ -118,11 +128,16 @@ if (!string.IsNullOrWhiteSpace(inlineImagesPhysicalRoot))
     });
 }
 
+// CORS deve vir antes da autenticação/autorização
 app.UseCors("KSWebCors");
 
+// Autenticação
 app.UseAuthentication();
+
+// Autorização
 app.UseAuthorization();
 
+// Controllers
 app.MapControllers();
 
 app.Run();

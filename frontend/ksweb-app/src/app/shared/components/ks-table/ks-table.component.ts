@@ -1,17 +1,20 @@
-import { Component, Directive, Input, Output, EventEmitter, TemplateRef, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { createKsDatasource, KsPageLoader } from './ks-table-datasource';
+import { Component, Directive, Input, Output, EventEmitter, TemplateRef, ContentChildren, QueryList, AfterContentInit, OnChanges, SimpleChanges } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { AgGridAngular, ICellRendererAngularComp } from 'ag-grid-angular';
-import { RowStyleModule, ClientSideRowModelModule, TextFilterModule, NumberFilterModule, DateFilterModule, ColDef, ICellRendererParams, themeQuartz, CellKeyDownEvent, FullWidthCellKeyDownEvent, RowClassParams, RowClickedEvent } from 'ag-grid-community';
+import { LocaleModule, ColumnApiModule, ColumnState, GridReadyEvent, ColumnMovedEvent, ColumnResizedEvent } from 'ag-grid-community';
+import { PaginationModule, InfiniteRowModelModule, IDatasource, RowStyleModule, ClientSideRowModelModule, TextFilterModule, NumberFilterModule, DateFilterModule, ColDef, ICellRendererParams, themeQuartz, CellKeyDownEvent, FullWidthCellKeyDownEvent, RowClassParams, RowClickedEvent } from 'ag-grid-community';
 
 @Directive({ selector: 'ng-template[ksColumn]', standalone: true })
 export class KsColumnDirective {
   @Input() ksColumn = '';
   @Input() field = '';
   @Input() minWidth = 120;
+  @Input() width?: number;
   constructor(readonly template: TemplateRef<unknown>) {}
 }
 @Component({ selector: 'app-ks-cell', standalone: true, imports: [NgTemplateOutlet],
-  template: '<ng-container *ngTemplateOutlet="params.template; context: { $implicit: params.data }" />' })
+  template: '@if (params.data) { <ng-container *ngTemplateOutlet="params.template; context: { $implicit: params.data }" /> }' })
 export class KsCellComponent implements ICellRendererAngularComp {
   params!: ICellRendererParams & { template: TemplateRef<unknown> };
   agInit(params: typeof this.params): void { this.params = params; }
@@ -19,30 +22,85 @@ export class KsCellComponent implements ICellRendererAngularComp {
 }
 @Component({ selector: 'app-ks-table', standalone: true, imports: [AgGridAngular],
   templateUrl: './ks-table.component.html', styleUrl: './ks-table.component.css' })
-export class KsTableComponent implements AfterContentInit {
+export class KsTableComponent implements AfterContentInit, OnChanges {
   @Input() rows: any[] = [];
+  @Input() storageKey = '';
+  private restoringColumns = false;
+  @Input() loadPage?: KsPageLoader;
+  @Output() loadError = new EventEmitter<void>();
+  datasource?: IDatasource;
+  readonly paginationPageSize = 25;
+  readonly paginationPageSizeSelector = [10, 25, 50, 100];
+  readonly cacheBlockSize = 100;
   @Input() emptyMessage = 'Nenhum registro encontrado.';
   @Output() rowAction = new EventEmitter<any>();
   @ContentChildren(KsColumnDirective) columns!: QueryList<KsColumnDirective>;
-  readonly modules = [RowStyleModule, ClientSideRowModelModule, TextFilterModule, NumberFilterModule, DateFilterModule];
+  readonly modules = [ColumnApiModule, LocaleModule, PaginationModule, InfiniteRowModelModule, RowStyleModule, ClientSideRowModelModule, TextFilterModule, NumberFilterModule, DateFilterModule];
   readonly theme = themeQuartz.withParams({ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 12, headerFontSize: 12, rowHeight: 38, headerHeight: 36, backgroundColor: '#ffffff', headerBackgroundColor: '#edf5fc', foregroundColor: '#263b50', accentColor: '#0784c4', borderColor: '#d4e1ed', borderRadius: 0, wrapperBorderRadius: 0, oddRowBackgroundColor: '#f8fbff' });
   readonly defaultColDef: ColDef = { flex: 1, resizable: true, sortable: true, filter: true };
-  readonly localeText = { noRowsToShow: 'Nenhum registro encontrado.', equals: 'Igual a', notEqual: 'Diferente de', contains: 'Contém', notContains: 'Não contém', startsWith: 'Começa com', endsWith: 'Termina com', blank: 'Em branco', notBlank: 'Preenchido', filterOoo: 'Filtrar...', andCondition: 'E', orCondition: 'OU', lessThan: 'Menor que', greaterThan: 'Maior que', inRange: 'Entre', applyFilter: 'Aplicar', resetFilter: 'Limpar' };
+  readonly localeText = { pageSizeSelectorLabel: 'Linhas:', ariaPageSizeSelectorLabel: 'Linhas por página', page: 'Página', of: 'de', to: 'a', firstPage: 'Primeira página', lastPage: 'Última página', nextPage: 'Próxima página', previousPage: 'Página anterior', more: 'mais',  noRowsToShow: 'Nenhum registro encontrado.', equals: 'Igual a', notEqual: 'Diferente de', contains: 'Contém', notContains: 'Não contém', startsWith: 'Começa com', endsWith: 'Termina com', blank: 'Em branco', notBlank: 'Preenchido', filterOoo: 'Filtrar...', andCondition: 'E', orCondition: 'OU', lessThan: 'Menor que', greaterThan: 'Maior que', inRange: 'Entre', applyFilter: 'Aplicar', resetFilter: 'Limpar' };
   readonly getRowClass = (params: RowClassParams) => params.data?.lida === false ? 'nao-lida' : '';
   columnDefs: ColDef[] = [];
-  get height(): number { return Math.min(440, Math.max(180, this.rows.length * 38 + 54)); }
+  get height(): number { return this.loadPage ? 440 : Math.min(440, Math.max(220, this.rows.length * 38 + 100)); }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['loadPage']) {
+      this.datasource = this.loadPage ? createKsDatasource(this.loadPage, () => this.loadError.emit()) : undefined;
+    }
+  }
   onRowClicked(event: RowClickedEvent): void {
     if (event.event?.target instanceof Element && event.event.target.closest('button, a, input, select')) return;
-    this.rowAction.emit(event.data);
+    if (event.data) this.rowAction.emit(event.data);
   }
   ngAfterContentInit(): void {
-    this.columnDefs = this.columns.map((column, index) => ({
-      colId: String(index), headerName: column.ksColumn, field: column.field || undefined,
-      minWidth: column.minWidth, sortable: !!column.field, filter: !!column.field,
+    // A API atual oferece filtros da tela, mas nao recebe ordenacao/filtros por coluna.
+    this.columnDefs = this.columns.map((column) => ({
+      colId: column.field || column.ksColumn, headerName: column.ksColumn, field: column.field || undefined,
+      minWidth: column.minWidth, sortable: !!column.field && !this.loadPage, filter: !!column.field && !this.loadPage,
+      width: column.width, flex: column.width ? 0 : 1,
+      cellClass: column.width ? 'grid-action-cell' : undefined,
+      headerClass: column.width ? 'grid-action-header' : undefined,
       cellRenderer: KsCellComponent, cellRendererParams: { template: column.template }
     }));
   }
   onKeyDown(event: CellKeyDownEvent | FullWidthCellKeyDownEvent): void {
-    if ((event.event as KeyboardEvent)?.key === 'Enter' && event.event?.target instanceof HTMLElement && event.event.target.classList.contains('ag-cell')) this.rowAction.emit(event.data);
+    if (event.data && (event.event as KeyboardEvent)?.key === 'Enter' && event.event?.target instanceof HTMLElement && event.event.target.classList.contains('ag-cell')) {
+      this.rowAction.emit(event.data);
+    }
+  }
+  restoreColumns(event: GridReadyEvent): void {
+    if (!this.storageKey) return;
+    try {
+      const saved: unknown = JSON.parse(localStorage.getItem(this.columnStorageKey) ?? 'null');
+      if (!Array.isArray(saved)) return;
+      const knownIds = new Set(this.columnDefs.map(column => column.colId));
+      const state: ColumnState[] = [];
+      for (const column of saved) {
+        if (!column || !knownIds.has(column.colId) || !Number.isFinite(column.width) || column.width < 40 || column.width > 10000) continue;
+        state.push({ colId: column.colId, width: column.width,
+          flex: Number.isFinite(column.flex) && column.flex > 0 ? column.flex : null });
+        knownIds.delete(column.colId);
+      }
+      this.restoringColumns = true;
+      event.api.applyColumnState({ state, applyOrder: true });
+    } catch {
+      // Configuracao invalida ou armazenamento bloqueado: usar o layout padrao.
+    } finally {
+      this.restoringColumns = false;
+    }
+  }
+
+  saveColumns(event: ColumnMovedEvent | ColumnResizedEvent): void {
+    if (!this.storageKey || this.restoringColumns || !event.finished) return;
+    if (!['uiColumnMoved', 'uiColumnResized', 'autosizeColumns', 'api'].includes(event.source)) return;
+    try {
+      const state = event.api.getColumnState().map(({ colId, width, flex }) => ({ colId, width, flex: flex ?? null }));
+      localStorage.setItem(this.columnStorageKey, JSON.stringify(state));
+    } catch {
+      // O grid continua funcionando quando o navegador bloqueia o armazenamento.
+    }
+  }
+
+  private get columnStorageKey(): string {
+    return `ksweb_grid_columns_v1:${this.storageKey}`;
   }
 }

@@ -2,7 +2,7 @@
   <div class="login-shell">
     <section class="login-brand">
       <div class="brand-box">
-        <div class="brand-logo" aria-label="KeySolution">KS</div>
+        <img class="brand-logo" src="logo_key.jpg" alt="KEY" />
         <div class="brand-title">KeySolution</div>
         <div class="brand-subtitle">Keysystems Informatica</div>
       </div>
@@ -15,8 +15,6 @@
 
     <section class="login-card" aria-label="Login KSWeb">
       <div class="login-header">
-        <div class="login-icon">KS</div>
-
         <div>
           <h1>Acessar sistema</h1>
           <p>Informe seus dados para continuar.</p>
@@ -47,7 +45,7 @@
 
         <label class="login-remember">
           <input type="checkbox" formControlName="manterConectado" />
-          <span>Lembrar usuario</span>
+          <span>Manter conectado</span>
         </label>
 
         <app-ks-button tipo="primary" (acao)="entrar()" [disabled]="carregando()">

@@ -30,29 +30,11 @@
     </div>
   </div>
 
-  <div class="table-panel">
-    <div class="panel-header">
-      <div>
-        <h2>Resultado</h2>
-        <p>{{ intervalo }}</p>
-      </div>
-
-      <div class="page-size">
-        <span>Linhas</span>
-        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
-          <option [ngValue]="10">10</option>
-          <option [ngValue]="25">25</option>
-          <option [ngValue]="50">50</option>
-          <option [ngValue]="100">100</option>
-        </select>
-      </div>
-    </div>
-
     @if (carregando) {
       <div class="state">Carregando usuarios...</div>
     } @else {
-      <div class="table-wrapper">
-        <app-ks-table [rows]="items" emptyMessage="Nenhum usuario encontrado.">
+
+        <app-ks-table storageKey="usuarios" [rows]="items" emptyMessage="Nenhum usuario encontrado.">
   <ng-template ksColumn="Codigo" field="usrCodigo" [minWidth]="120" let-usuario>
     <div class="usuario-codigo">
                   @if (usuario.usrCodigo) {
@@ -90,34 +72,11 @@
   <ng-template ksColumn="USER ID" field="userId" [minWidth]="120" let-usuario>
     <div class="usuario-user-id">{{ usuario.userId }}</div>
   </ng-template>
-  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-usuario>
-    <div class="acoes">
-                  @if (usuario.usrCodigo) {
-                    <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(usuario)">Editar</app-ks-button>
-                  } @else {
-                    <span class="sem-cadastro">Sem cadastro</span>
-                  }
-                </div>
+  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-usuario>
+    <app-ks-grid-action tipo="editar" [disabled]="!usuario.usrCodigo" (acao)="editar(usuario)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-      </div>
 
-      <div class="pagination">
-        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
-          Anterior
-        </app-ks-button>
-
-        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
-
-        <app-ks-button
-          tamanho="small"
-          tipo="secondary"
-          [disabled]="filtro.page >= totalPaginas"
-          (acao)="proximaPagina()"
-        >
-          Proxima
-        </app-ks-button>
-      </div>
     }
-  </div>
+
 </section>

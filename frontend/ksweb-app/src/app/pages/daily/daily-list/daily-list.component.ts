@@ -1,6 +1,7 @@
+import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
+import { KsPageLoader } from '../../../shared/components/ks-table/ks-table-datasource';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/auth/auth.service';
@@ -10,14 +11,11 @@ import { DailyService } from '../daily.service';
 
 @Component({
   selector: 'app-daily-list',
-  imports: [KsTableComponent, KsColumnDirective, FormsModule, KsButtonComponent],
+  imports: [KsGridActionComponent, KsTableComponent, KsColumnDirective, KsButtonComponent],
   templateUrl: './daily-list.component.html',
   styleUrl: './daily-list.component.css',
 })
 export class DailyListComponent {
-  items: DailyListItem[] = [];
-  total = 0;
-  totalPaginasApi = 1;
   carregando = true;
   erro = '';
   criando = false;
@@ -36,42 +34,13 @@ export class DailyListComponent {
     this.carregar();
   }
 
-  get totalPaginas(): number {
-    return Math.max(1, this.totalPaginasApi || Math.ceil(this.total / this.filtro.pageSize));
-  }
-
-  get intervalo(): string {
-    if (this.total === 0) {
-      return '0 de 0';
-    }
-
-    const inicio = (this.filtro.page - 1) * this.filtro.pageSize + 1;
-    const fim = Math.min(this.total, this.filtro.page * this.filtro.pageSize);
-
-    return `${inicio}-${fim} de ${this.total}`;
-  }
+  loadPage!: KsPageLoader;
 
   carregar(): void {
-    this.carregando = true;
     this.erro = '';
-
-    this.dailyService.listar(this.filtro).subscribe({
-      next: (response) => {
-        this.items = response.items ?? [];
-        this.total = response.total ?? 0;
-        this.filtro.page = response.page ?? this.filtro.page;
-        this.filtro.pageSize = response.pageSize ?? this.filtro.pageSize;
-        this.totalPaginasApi = response.totalPaginas ?? this.totalPaginas;
-        this.carregando = false;
-      },
-      error: () => {
-        this.erro = 'Nao foi possivel carregar as dailies.';
-        this.items = [];
-        this.total = 0;
-        this.totalPaginasApi = 1;
-        this.carregando = false;
-      },
-    });
+    const filtro = structuredClone(this.filtro);
+    this.loadPage = (page, pageSize) => this.dailyService.listar({ ...filtro, page, pageSize });
+    this.carregando = false;
   }
 
   pesquisar(): void {
@@ -80,29 +49,6 @@ export class DailyListComponent {
   }
 
   atualizar(): void {
-    this.carregar();
-  }
-
-  paginaAnterior(): void {
-    if (this.filtro.page <= 1) {
-      return;
-    }
-
-    this.filtro.page -= 1;
-    this.carregar();
-  }
-
-  proximaPagina(): void {
-    if (this.filtro.page >= this.totalPaginas) {
-      return;
-    }
-
-    this.filtro.page += 1;
-    this.carregar();
-  }
-
-  alterarPageSize(): void {
-    this.filtro.page = 1;
     this.carregar();
   }
 

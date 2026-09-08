@@ -21,29 +21,11 @@
     </div>
   </div>
 
-  <div class="table-panel">
-    <div class="panel-header">
-      <div>
-        <h2>Resultado</h2>
-        <p>{{ intervalo }}</p>
-      </div>
-
-      <div class="page-size">
-        <span>Linhas</span>
-        <select [(ngModel)]="filtro.pageSize" (change)="alterarPageSize()">
-          <option [ngValue]="10">10</option>
-          <option [ngValue]="25">25</option>
-          <option [ngValue]="50">50</option>
-          <option [ngValue]="100">100</option>
-        </select>
-      </div>
-    </div>
-
     @if (carregando) {
       <div class="state">Carregando dailies...</div>
     } @else {
-      <div class="table-wrapper">
-        <app-ks-table [rows]="items" (rowAction)="editar($event)" emptyMessage="Nenhuma daily encontrada.">
+
+        <app-ks-table storageKey="daily" [loadPage]="loadPage" (loadError)="erro = 'Nao foi possivel carregar os registros. Tente atualizar.'" (rowAction)="editar($event)" emptyMessage="Nenhuma daily encontrada.">
   <ng-template ksColumn="ID" field="dailyId" [minWidth]="120" let-item>
     <div class="daily-id">{{ item.dailyId }}</div>
   </ng-template>
@@ -56,39 +38,14 @@
   <ng-template ksColumn="Usuario" field="dailyUsuario" [minWidth]="120" let-item>
     <div>{{ item.dailyUsuario || '-' }}</div>
   </ng-template>
-  <ng-template ksColumn="Acoes" field="" [minWidth]="210" let-item>
-    <div class="acoes">
-                  <app-ks-button tamanho="small" tipo="secondary" (acao)="editar(item)">Editar</app-ks-button>
-                  <app-ks-button
-                    tamanho="small"
-                    tipo="danger"
-                    [disabled]="excluindoId === item.dailyId"
-                    (click)="$event.stopPropagation()"
-                    (acao)="excluir(item)"
-                  >
-                    {{ excluindoId === item.dailyId ? 'Excluindo...' : 'Excluir' }}
-                  </app-ks-button>
-                </div>
+  <ng-template ksColumn="Excluir" [width]="82" [minWidth]="76" let-item>
+    <app-ks-grid-action tipo="excluir" [carregando]="excluindoId === item.dailyId" (acao)="excluir(item)"></app-ks-grid-action>
+  </ng-template>
+  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-item>
+    <app-ks-grid-action tipo="editar" (acao)="editar(item)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-      </div>
 
-      <div class="pagination">
-        <app-ks-button tamanho="small" tipo="secondary" [disabled]="filtro.page <= 1" (acao)="paginaAnterior()">
-          Anterior
-        </app-ks-button>
-
-        <span>Pagina {{ filtro.page }} de {{ totalPaginas }}</span>
-
-        <app-ks-button
-          tamanho="small"
-          tipo="secondary"
-          [disabled]="filtro.page >= totalPaginas"
-          (acao)="proximaPagina()"
-        >
-          Proxima
-        </app-ks-button>
-      </div>
     }
-  </div>
+
 </section>

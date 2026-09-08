@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "H:\\KSWeb\\backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\services\\ordensservicoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\services\\ordensservicoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\controllers\\ordensservicoconsultacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\controllers\\ordensservicoconsultacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|solutionrelative:ksweb.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ACEFCD6B-33F2-F94C-5082-DBB94391CFDF}|KSWeb.Api\\KSWeb.Api.csproj|h:\\ksweb\\backend\\ksweb.api\\models\\statusrequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -110,7 +110,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -130,18 +130,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "KSWeb.Api\\appsettings.Development.json",
-              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.Development.json",
-              "RelativeToolTip": "KSWeb.Api\\appsettings.Development.json",
-              "ViewState": "AgIAAAIAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-05T17:25:38.029Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 23,
               "Title": "OrdensServicoController.cs",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoController.cs",
@@ -154,13 +142,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "OrdensServicoService.cs",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoService.cs",
               "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoService.cs",
               "RelativeToolTip": "KSWeb.Api\\Services\\OrdensServicoService.cs",
-              "ViewState": "AgIAAIgDAAAAAAAAAAAcwI4DAABZAAAAAAAAAA==",
+              "ViewState": "AgIAAIgDAAAAAAAAAAAcwJUDAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-05T11:15:34.781Z",
               "EditorCaption": ""
@@ -191,7 +179,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "OrdensServicoConsultaController.cs",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Controllers\\OrdensServicoConsultaController.cs",
@@ -212,6 +200,31 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-30T23:19:16.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
+              "RelativeDocumentMoniker": "KSWeb.Api\\Program.cs",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
+              "RelativeToolTip": "KSWeb.Api\\Program.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAgwGEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-02T11:42:16.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "KSWeb.Api\\appsettings.Development.json",
+              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.Development.json",
+              "RelativeToolTip": "KSWeb.Api\\appsettings.Development.json",
+              "ViewState": "AgIAAAIAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-05T17:25:38.029Z"
             },
             {
               "$type": "Document",
@@ -239,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "OrdensServicoConsultaService.cs",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\OrdensServicoConsultaService.cs",
@@ -251,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "UsuariosService.cs",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Services\\UsuariosService.cs",
               "RelativeDocumentMoniker": "KSWeb.Api\\Services\\UsuariosService.cs",
@@ -263,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\appsettings.json",
               "RelativeDocumentMoniker": "KSWeb.Api\\appsettings.json",
@@ -272,18 +285,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAxwBMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-06-03T21:18:33.465Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "H:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
-              "RelativeDocumentMoniker": "KSWeb.Api\\Program.cs",
-              "ToolTip": "H:\\KSWeb\\backend\\KSWeb.Api\\Program.cs",
-              "RelativeToolTip": "KSWeb.Api\\Program.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAIBJwGsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-02T11:42:16.121Z"
             },
             {
               "$type": "Document",

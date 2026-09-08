@@ -1,10 +1,10 @@
-import { Component, computed, signal, DestroyRef, inject } from '@angular/core';
+import { Component, computed, signal, DestroyRef, ElementRef, HostListener, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../core/auth/auth.service';
 
-type SubmenuKey = 'operacional' | 'cadastros' | 'sistema' | null;
+type SubmenuKey = 'cadastros' | 'sistema' | null;
 
 @Component({
   selector: 'app-shell',
@@ -21,6 +21,7 @@ export class ShellComponent {
   readonly ano = new Date().getFullYear();
   readonly horario = signal(new Date().toLocaleTimeString('pt-BR'));
   private readonly destroyRef = inject(DestroyRef);
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
   readonly menuMobileAberto = signal<boolean>(false);
 
   private rotaAtual = '';
@@ -36,16 +37,16 @@ export class ShellComponent {
     const timer = setInterval(() => this.horario.set(new Date().toLocaleTimeString('pt-BR')), 1000);
     this.destroyRef.onDestroy(() => clearInterval(timer));
     this.rotaAtual = this.router.url;
-    this.abrirSubmenuPorRota(this.rotaAtual);
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef))
       .subscribe((event) => {
         this.rotaAtual = event.urlAfterRedirects;
-        this.abrirSubmenuPorRota(this.rotaAtual);
+        this.fecharMenuMobile();
       });
   }
 
   alternarMenu(): void {
+    this.submenuAberto.set(null);
     if (this.telaMobile()) this.menuMobileAberto.update(value => !value);
     else this.menuRecolhido.update(value => !value);
   }
@@ -55,7 +56,21 @@ export class ShellComponent {
   }
 
   fecharMenuMobile(): void {
+    this.submenuAberto.set(null);
     this.menuMobileAberto.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  fecharSubmenuAoClicarFora(event: MouseEvent): void {
+    const sidebar = this.elementRef.nativeElement.querySelector('.sidebar');
+    if (event.target instanceof Node && !sidebar?.contains(event.target)) {
+      this.submenuAberto.set(null);
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  fecharMenus(): void {
+    this.fecharMenuMobile();
   }
 
   alternarSubmenu(menu: Exclude<SubmenuKey, null>): void {
@@ -76,8 +91,6 @@ export class ShellComponent {
 
   private rotaPertenceAoMenu(menu: Exclude<SubmenuKey, null>): boolean {
     switch (menu) {
-      case 'operacional':
-        return this.rotaAtual.startsWith('/ordens-servico') || this.rotaAtual.startsWith('/daily');
       case 'cadastros':
         return (
           this.rotaAtual.startsWith('/usuarios') ||
@@ -91,23 +104,4 @@ export class ShellComponent {
     }
   }
 
-  private abrirSubmenuPorRota(url: string): void {
-    if (url.startsWith('/ordens-servico') || url.startsWith('/daily')) {
-      this.submenuAberto.set('operacional');
-      return;
-    }
-    if (
-      url.startsWith('/usuarios') ||
-      url.startsWith('/setores') ||
-      url.startsWith('/status')
-    ) {
-      this.submenuAberto.set('cadastros');
-      return;
-    }
-    this.submenuAberto.set(null);
-    if (url.startsWith('/modelo-padrao')) {
-      this.submenuAberto.set('sistema');
-      return;
-    }
-  }
 }

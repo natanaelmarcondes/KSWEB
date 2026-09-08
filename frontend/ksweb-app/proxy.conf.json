@@ -1,12 +1,12 @@
 {
   "/api": {
-    "target": "http://localhost:5226",
+    "target": "http://192.168.1.48:1516",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   },
   "/inlineimages": {
-    "target": "http://localhost:5226",
+    "target": "http://192.168.1.48:1516",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

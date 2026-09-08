@@ -17,7 +17,5 @@ export interface StatusForm {
 }
 
 export interface StatusFiltro {
-  page: number;
-  pageSize: number;
   termo: string;
 }
