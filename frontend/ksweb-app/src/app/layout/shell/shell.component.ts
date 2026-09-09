@@ -19,7 +19,6 @@ export class ShellComponent {
   readonly telaMobile = signal(window.matchMedia('(max-width: 920px)').matches);
   readonly menuVisivel = computed(() => this.telaMobile() ? this.menuMobileAberto() : !this.menuRecolhido());
   readonly ano = new Date().getFullYear();
-  readonly horario = signal(new Date().toLocaleTimeString('pt-BR'));
   private readonly destroyRef = inject(DestroyRef);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   readonly menuMobileAberto = signal<boolean>(false);
@@ -34,8 +33,6 @@ export class ShellComponent {
     const atualizarTela = (event: MediaQueryListEvent) => this.telaMobile.set(event.matches);
     media.addEventListener('change', atualizarTela);
     this.destroyRef.onDestroy(() => media.removeEventListener('change', atualizarTela));
-    const timer = setInterval(() => this.horario.set(new Date().toLocaleTimeString('pt-BR')), 1000);
-    this.destroyRef.onDestroy(() => clearInterval(timer));
     this.rotaAtual = this.router.url;
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef))

@@ -13,7 +13,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6" />
           }
           @case ('editar') {
-            <path d="m14 5 5 5M4 20l4-1L20 7a2.1 2.1 0 0 0-3-3L5 16l-1 4ZM12 21h8" />
+            <path d="M16 3a2.83 2.83 0 0 1 4 4L7 20l-5 1 1-5Z" />
+            <path d="m14 5 4 4M3 16l4 4" />
           }
           @case ('visualizar') {
             <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />

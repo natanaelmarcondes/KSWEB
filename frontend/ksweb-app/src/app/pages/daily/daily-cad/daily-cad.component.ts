@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { KsConfirmService } from '../../../shared/components/ks-confirm/ks-confirm.service';
 import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
@@ -15,6 +17,7 @@ import { DailyService } from '../daily.service';
   styleUrl: './daily-cad.component.css',
 })
 export class DailyCadComponent {
+  private readonly confirmacao = inject(KsConfirmService);
   daily: DailyForm | null = null;
   registros: DailyRegistro[] = [];
   form: DailyRegistroForm = this.criarRegistroForm();
@@ -115,8 +118,8 @@ export class DailyCadComponent {
     };
   }
 
-  excluirRegistro(registro: DailyRegistro): void {
-    const confirmar = window.confirm('Excluir este item da daily?');
+  async excluirRegistro(registro: DailyRegistro): Promise<void> {
+    const confirmar = await this.confirmacao.confirmar('Excluir este item da daily?');
 
     if (!confirmar) {
       return;

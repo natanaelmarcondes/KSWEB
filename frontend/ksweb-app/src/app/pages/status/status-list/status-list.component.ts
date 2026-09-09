@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { KsConfirmService } from '../../../shared/components/ks-confirm/ks-confirm.service';
 import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
@@ -15,6 +17,7 @@ import { StatusService } from '../status.service';
   styleUrl: './status-list.component.css',
 })
 export class StatusListComponent {
+  private readonly confirmacao = inject(KsConfirmService);
   items: StatusListItem[] = [];
   status: StatusListItem[] = [];
   statusFiltrados: StatusListItem[] = [];
@@ -82,8 +85,8 @@ export class StatusListComponent {
     });
   }
 
-  excluir(item: StatusListItem): void {
-    const confirmar = window.confirm(`Excluir o status ${item.statusName}?`);
+  async excluir(item: StatusListItem): Promise<void> {
+    const confirmar = await this.confirmacao.confirmar(`Excluir o status ${item.statusName}?`);
 
     if (!confirmar) {
       return;

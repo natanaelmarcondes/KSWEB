@@ -9,20 +9,20 @@
   </div>
 
         <app-ks-table storageKey="os-visitadas" [rows]="ultimasOsVisitadas" emptyMessage="Nenhuma O.S. visitada.">
-  <ng-template ksColumn="O.S" field="numero" [minWidth]="120" let-os>
+  <ng-template ksColumn="O.S" field="numero" let-os>
     <div class="recent-numero">{{ os.numero }}</div>
   </ng-template>
-  <ng-template ksColumn="Título" field="titulo" [minWidth]="210" let-os>
+  <ng-template ksColumn="Título" field="titulo" let-os>
     <div class="recent-titulo">
                   <button type="button" class="recent-link" (click)="abrirOs(os.numero)">
                     {{ os.titulo }}
                   </button>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Data Visualização" field="dataVisualizacao" [minWidth]="120" let-os>
+  <ng-template ksColumn="Data Visualização" field="dataVisualizacao" let-os>
     <div class="recent-data">{{ os.dataVisualizacao }}</div>
   </ng-template>
-  <ng-template ksColumn="Visualizar" [width]="82" [minWidth]="76" let-os>
+  <ng-template ksColumn="Visualizar" [width]="82" let-os>
     <app-ks-grid-action tipo="visualizar" (acao)="abrirOs(os.numero)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>

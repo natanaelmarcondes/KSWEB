@@ -1,17 +1,15 @@
 <section class="setores-page">
-  <header class="page-header">
-    <div>
-      <h1>Setores</h1>
-    </div>
-
-    <app-ks-button  tamanho="small"  tipo="primary"  largura="140px"  (acao)="novo()">Novo</app-ks-button>
-  </header>
-
   @if (erro) {
     <div class="alert">{{ erro }}</div>
   }
 
   <div class="filters-panel">
+    <header class="page-header ks-section-title">
+      <div>
+        <h1>Setores</h1>
+      </div>
+    </header>
+
     <div class="filters-grid">
       <label>
         <span>Texto</span>
@@ -24,32 +22,31 @@
       </label>
     </div>
 
-    <div class="filters-actions">
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
-      <app-ks-button tamanho="small" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    <div class="filters-actions ks-search-actions">
+      <app-ks-button class="ks-create-button"  tamanho="small"  tipo="success"  (acao)="novo()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>Adicionar</app-ks-button>
+      <div class="ks-search-buttons">
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
+        <app-ks-button tamanho="small" (acao)="pesquisar()">Pesquisar</app-ks-button>
+      </div>
     </div>
   </div>
 
-    @if (carregando) {
-      <div class="state">Carregando setores...</div>
-    } @else {
 
-        <app-ks-table storageKey="setores" [rows]="items" emptyMessage="Nenhum setor encontrado.">
-  <ng-template ksColumn="Codigo" field="queueId" [minWidth]="120" let-setor>
+        <app-ks-table [loading]="carregando" storageKey="setores" [rows]="items" emptyMessage="Nenhum setor encontrado.">
+  <ng-template ksColumn="Codigo" field="queueId" let-setor>
     <div class="setor-codigo">{{ setor.queueId }}</div>
   </ng-template>
-  <ng-template ksColumn="Nome do setor" field="queueName" [minWidth]="120" let-setor>
+  <ng-template ksColumn="Nome do setor" field="queueName" let-setor>
     <div class="setor-nome">{{ setor.queueName }}</div>
   </ng-template>
-  <ng-template ksColumn="Excluir" [width]="82" [minWidth]="76" let-setor>
+  <ng-template ksColumn="Excluir" [width]="82" let-setor>
     <app-ks-grid-action tipo="excluir" [carregando]="excluindoId === setor.queueId" (acao)="excluir(setor)"></app-ks-grid-action>
   </ng-template>
-  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-setor>
+  <ng-template ksColumn="Editar" [width]="82" let-setor>
     <app-ks-grid-action tipo="editar" (acao)="editar(setor)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-
-    }
 
 </section>

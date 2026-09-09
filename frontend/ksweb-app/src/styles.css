@@ -89,3 +89,49 @@ input:disabled, select:disabled, textarea:disabled, .ks-input:disabled, .ks-sele
   color: #94a3b8;
   cursor: not-allowed;
 }
+
+/* Barra de titulo dos paineis de pesquisa. */
+.filters-panel > .ks-section-title,
+.status-panel > .ks-section-title {
+  background: #087bb5;
+  margin: -16px -18px 4px;
+  padding: 6px 18px;
+  min-height: 34px;
+}
+.filters-panel > .ks-section-title h1,
+.status-panel > .ks-section-title h1 {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.filters-panel > .ks-search-actions,
+.status-panel > .ks-search-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.ks-search-buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+.ks-create-button button.ks-button.success {
+  background: #13805e;
+  border-color: #13805e;
+  border-radius: 6px;
+  padding: 0 12px;
+  gap: 6px;
+  box-shadow: 0 2px 4px #13805e24;
+}
+.ks-create-button button.ks-button.success:hover:not(:disabled) {
+  background: #0d694c;
+  border-color: #0d694c;
+}
+.ks-create-button svg { flex-shrink: 0; }

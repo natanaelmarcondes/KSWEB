@@ -1,8 +1,10 @@
-<section class="ordem-view-page">
+<section class="ordem-view-page" [attr.aria-busy]="carregando">
   <header class="page-header">
     <div>
       <h1>{{ novaOrdem ? 'Nova O.S' : 'O.S ' + (ordem?.workorderId || codigo) }}</h1>
-      <span>{{ novaOrdem ? 'Cadastro de ordem de servico' : (ordem?.title || 'Visualizacao da ordem de servico') }}</span>
+      @if (!novaOrdem && ordem?.title) {
+        <span>{{ ordem?.title }}</span>
+      }
     </div>
 
     <div class="page-actions">
@@ -33,8 +35,9 @@
   }
 
   @if (carregando) {
-    <section class="view-panel">
-      <div class="state">Carregando ordem de servico...</div>
+    <section class="view-panel order-loading" role="status" aria-live="polite">
+      <span class="order-loading-spinner" aria-hidden="true"></span>
+      <span>Carregando ordem de serviço...</span>
     </section>
   } @else if (ordem || novaOrdem) {
     <section class="view-panel">

@@ -1,7 +1,7 @@
 .daily-page {
   color: #111827;
   display: grid;
-  gap: 14px;
+  gap: 8px;
 }
 
 .page-header {
@@ -12,8 +12,8 @@
 }
 
 .page-header h1 {
-  color: #1f2937;
-  font-size: 18px;
+  color: #ffffff;
+  font-size: 16px;
   font-weight: 700;
   margin: 0;
 }
@@ -30,7 +30,7 @@
   background: #ffffff;
   border: 1px solid #cfd6df;
   display: grid;
-  gap: 14px;
+  gap: 8px;
   padding: 16px 18px 18px;
 }
 

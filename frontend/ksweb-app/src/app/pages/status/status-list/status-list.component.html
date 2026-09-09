@@ -1,23 +1,17 @@
 <section class="status-page">
-  <header class="status-page-header">
-    <div class="status-page-title">
-      <div>
-        <h1>Status</h1>
-      </div>
-    </div>
-
-    <div class="status-header-actions">
-      <app-ks-button tipo="primary" tamanho="small" largura="140px" (acao)="novo()">
-        Novo
-      </app-ks-button>
-    </div>
-  </header>
-
   @if (erro) {
     <div class="status-alert">{{ erro }}</div>
   }
 
   <section class="status-panel">
+    <header class="status-page-header ks-section-title">
+      <div class="status-page-title">
+        <div>
+          <h1>Status</h1>
+        </div>
+      </div>
+    </header>
+
     <div class="status-filter-grid">
       <label class="status-field">
         <span>Texto</span>
@@ -31,75 +25,76 @@
       </label>
     </div>
 
-    <div class="status-filter-actions">
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">
-        Limpar
-      </app-ks-button>
+    <div class="status-filter-actions ks-search-actions">
+      <app-ks-button class="ks-create-button" tipo="success" tamanho="small" (acao)="novo()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+          Adicionar
+        </app-ks-button>
+      <div class="ks-search-buttons">
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">
+          Limpar
+        </app-ks-button>
 
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">
-        Atualizar
-      </app-ks-button>
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">
+          Atualizar
+        </app-ks-button>
 
-      <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">
-        Pesquisar
-      </app-ks-button>
+        <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">
+          Pesquisar
+        </app-ks-button>
+      </div>
     </div>
   </section>
 
-    @if (carregando) {
-      <div class="status-state">Carregando status...</div>
-    } @else {
 
-        <app-ks-table storageKey="status" [rows]="items" emptyMessage="Nenhum status encontrado.">
-  <ng-template ksColumn="Codigo" field="statusId" [minWidth]="120" let-item>
+        <app-ks-table [loading]="carregando" storageKey="status" [rows]="items" emptyMessage="Nenhum status encontrado.">
+  <ng-template ksColumn="Codigo" field="statusId" let-item>
     <div class="status-codigo">
                   {{ item.statusId }}
                 </div>
   </ng-template>
-  <ng-template ksColumn="Nome do status" field="statusName" [minWidth]="120" let-item>
+  <ng-template ksColumn="Nome do status" field="statusName" let-item>
     <div class="status-nome" [title]="item.statusName || '-'">
                   {{ item.statusName || '-' }}
                 </div>
   </ng-template>
-  <ng-template ksColumn="Pendente" field="isPending" [minWidth]="120" let-item>
+  <ng-template ksColumn="Pendente" field="isPending" let-item>
     <div class="text-center">
                   <span class="status-badge" [class]="booleanClasse(item.isPending)">
                     {{ booleanTexto(item.isPending) }}
                   </span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Para relogio" field="statusStopClock" [minWidth]="120" let-item>
+  <ng-template ksColumn="Para relogio" field="statusStopClock" let-item>
     <div class="text-center">
                   <span class="status-badge" [class]="booleanClasse(item.statusStopClock)">
                     {{ booleanTexto(item.statusStopClock) }}
                   </span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Excluido" field="isDeleted" [minWidth]="120" let-item>
+  <ng-template ksColumn="Excluido" field="isDeleted" let-item>
     <div class="text-center">
                   <span class="status-badge" [class]="booleanClasse(item.isDeleted)">
                     {{ booleanTexto(item.isDeleted) }}
                   </span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Nome interno" field="internalName" [minWidth]="120" let-item>
+  <ng-template ksColumn="Nome interno" field="internalName" let-item>
     <div class="status-interno" [title]="item.internalName || '-'">
                   {{ item.internalName || '-' }}
                 </div>
   </ng-template>
-  <ng-template ksColumn="Descricao" field="statusDescription" [minWidth]="120" let-item>
+  <ng-template ksColumn="Descricao" field="statusDescription" let-item>
     <div class="status-descricao" [title]="item.statusDescription || '-'">
                   {{ item.statusDescription || '-' }}
                 </div>
   </ng-template>
-  <ng-template ksColumn="Excluir" [width]="82" [minWidth]="76" let-item>
+  <ng-template ksColumn="Excluir" [width]="82" let-item>
     <app-ks-grid-action tipo="excluir" [carregando]="excluindoId === item.statusId" (acao)="excluir(item)"></app-ks-grid-action>
   </ng-template>
-  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-item>
+  <ng-template ksColumn="Editar" [width]="82" let-item>
     <app-ks-grid-action tipo="editar" (acao)="editar(item)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-
-    }
 
 </section>

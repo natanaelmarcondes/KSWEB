@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { KsConfirmService } from '../../../shared/components/ks-confirm/ks-confirm.service';
 import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsPageLoader } from '../../../shared/components/ks-table/ks-table-datasource';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
@@ -16,6 +18,7 @@ import { DailyService } from '../daily.service';
   styleUrl: './daily-list.component.css',
 })
 export class DailyListComponent {
+  private readonly confirmacao = inject(KsConfirmService);
   carregando = true;
   erro = '';
   criando = false;
@@ -80,10 +83,10 @@ export class DailyListComponent {
     void this.router.navigate(['/daily', item.dailyId, 'registros']);
   }
 
-  excluir(item: DailyListItem, event?: Event): void {
+  async excluir(item: DailyListItem, event?: Event): Promise<void> {
     event?.stopPropagation();
 
-    const confirmar = window.confirm(`Excluir a Daily Nº ${item.dailyNumero}?`);
+    const confirmar = await this.confirmacao.confirmar(`Excluir a Daily Nº ${item.dailyNumero}?`);
 
     if (!confirmar) {
       return;

@@ -42,19 +42,19 @@ describe('KsTable native pagination', () => {
   it('restores resized columns and their order after reopening, separately for each grid', async () => {
     fixture.componentInstance.storageKey = 'test-layout';
     await settle();
-    grid().api.setColumnWidths([{ key: 'numero', newWidth: 275 }], true, 'uiColumnResized');
+    grid().api.setColumnWidths([{ key: 'numero', newWidth: 60 }], true, 'uiColumnResized');
     grid().api.moveColumns(['outra'], 0);
     await settle();
     const saved = JSON.parse(localStorage.getItem('ksweb_grid_columns_v1:test-layout')!);
     expect(saved.map((column: any) => column.colId)).toEqual(['outra', 'numero']);
-    expect(saved.find((column: any) => column.colId === 'numero').width).toBe(275);
+    expect(saved.find((column: any) => column.colId === 'numero').width).toBe(60);
     fixture.destroy();
     fixture = TestBed.createComponent(TableHost);
     fixture.componentInstance.storageKey = 'test-layout';
     await settle();
     const restored = grid().api.getColumnState();
     expect(restored.map(column => column.colId)).toEqual(['outra', 'numero']);
-    expect(restored.find(column => column.colId === 'numero')?.width).toBe(275);
+    expect(restored.find(column => column.colId === 'numero')?.width).toBe(60);
     fixture.destroy();
     fixture = TestBed.createComponent(TableHost);
     fixture.componentInstance.storageKey = 'test-other-layout';
@@ -95,6 +95,12 @@ describe('KsTable native pagination', () => {
     expect(api.paginationGetRowCount()).toBe(0);
   });
 
+  it('uses the available viewport height so the grid reaches the bottom of the screen', () => {
+    spyOnProperty(window, 'innerHeight').and.returnValue(820);
+    const table = new KsTableComponent();
+    expect(table.height).toBeGreaterThan(440);
+  });
+
   it('loads remote blocks through native navigation and resets on a new search', async () => {
     const rows = Array.from({ length: 237 }, (_, index) => ({ numero: index + 1 }));
     const loader = jasmine.createSpy('loader').and.callFake((page: number, pageSize: number) =>
@@ -113,6 +119,38 @@ describe('KsTable native pagination', () => {
     expect(api.paginationGetCurrentPage()).toBe(0);
     expect(api.paginationGetRowCount()).toBe(1);
     expect(fixture.nativeElement.querySelector('[row-index="0"] .ag-cell')?.textContent).toContain('999');
+  });
+
+  it('shows loading while fetching and removes it on success and error', async () => {
+    const pending = new Subject<{ items: any[]; total: number }>();
+    fixture.componentInstance.loadPage = () => pending;
+    await settle();
+    expect(fixture.nativeElement.querySelector('[role="status"]')?.textContent).toContain('Carregando dados');
+    pending.next({ items: [{ numero: 1 }], total: 1 });
+    pending.complete();
+    await settle();
+    expect(fixture.nativeElement.querySelector('.grid-loading')).toBeNull();
+    const failed = new Subject<{ items: any[]; total: number }>();
+    fixture.componentInstance.loadPage = () => failed;
+    await settle();
+    expect(fixture.nativeElement.querySelector('.grid-loading')).not.toBeNull();
+    failed.error(new Error('API unavailable'));
+    await settle();
+    expect(fixture.nativeElement.querySelector('.grid-loading')).toBeNull();
+  });
+
+  it('keeps loading until all pending requests finish and clears it on cancellation', () => {
+    const first = new Subject<{ items: any[]; total: number }>();
+    const second = new Subject<{ items: any[]; total: number }>();
+    const loading = jasmine.createSpy('loading');
+    const source = createKsDatasource(page => page === 1 ? first : second, () => {}, loading);
+    const request = { startRow: 0, endRow: 100, successCallback: () => {}, failCallback: () => {}, sortModel: [], filterModel: {}, context: {}, api: {} as GridApi };
+    source.getRows(request);
+    source.getRows({ ...request, startRow: 100, endRow: 200 });
+    first.complete();
+    expect(loading.calls.mostRecent().args).toEqual([true]);
+    source.destroy?.();
+    expect(loading.calls.mostRecent().args).toEqual([false]);
   });
 
   it('cancels obsolete API requests and reports failures to the grid', () => {

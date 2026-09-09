@@ -30,6 +30,10 @@ export class LoginComponent {
   });
 
   entrar(): void {
+    if (this.carregando()) {
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

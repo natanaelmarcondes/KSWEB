@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { KsConfirmService } from '../../../shared/components/ks-confirm/ks-confirm.service';
 import { KsGridActionComponent } from '../../../shared/components/ks-grid-action/ks-grid-action.component';
 import { KsTableComponent, KsColumnDirective } from '../../../shared/components/ks-table/ks-table.component';
 import { Component } from '@angular/core';
@@ -19,6 +21,7 @@ export interface SetorFiltro {
   styleUrl: './setores-list.component.css',
 })
 export class SetoresListComponent {
+  private readonly confirmacao = inject(KsConfirmService);
   items: SetorListItem[] = [];
   setores: SetorListItem[] = [];
   setoresFiltrados: SetorListItem[] = [];
@@ -86,8 +89,8 @@ export class SetoresListComponent {
     });
   }
 
-  excluir(setor: SetorListItem): void {
-    const confirmar = window.confirm(`Excluir o setor ${setor.queueName}?`);
+  async excluir(setor: SetorListItem): Promise<void> {
+    const confirmar = await this.confirmacao.confirmar(`Excluir o setor ${setor.queueName}?`);
 
     if (!confirmar) {
       return;

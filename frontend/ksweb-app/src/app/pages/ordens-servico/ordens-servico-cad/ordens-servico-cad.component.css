@@ -44,12 +44,6 @@
   transition: border-color 0.18s, box-shadow 0.18s;
 }
 
-.view-panel:hover,
-.tabs-panel:hover {
-  border-color: #1976d2;
-  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
-}
-
 .summary-grid {
   display: grid;
   gap: 12px;
@@ -84,27 +78,6 @@
   white-space: nowrap;
 }
 
-.summary-field select,
-.order-edit-form input,
-.order-edit-form textarea {
-  background: #ffffff;
-  border: 1px solid #b9c2cf;
-  color: #263241;
-  font: inherit;
-  font-size: 12px;
-  min-height: 29px;
-  outline: none;
-  padding: 6px 8px;
-  width: 100%;
-}
-
-.summary-field select:focus,
-.order-edit-form input:focus,
-.order-edit-form textarea:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
-}
-
 .summary-grid.editing {
   grid-template-columns: 120px 150px minmax(150px, 1fr) minmax(180px, 1.2fr);
 }
@@ -122,8 +95,9 @@
   box-sizing: border-box;
 }
 
-.summary-field input {
-  background: #ffffff;
+.summary-field input,
+.summary-field select {
+  background: #fff;
   border: 1px solid #b9c2cf;
   color: #263241;
   font: inherit;
@@ -134,11 +108,11 @@
   width: 100%;
 }
 
-.summary-field select {
-  min-height: 34px;
-}
+.summary-field select { min-height: 34px; }
 
-.summary-field input:focus {
+.summary-field input:focus,
+.order-edit-form input:focus,
+.order-edit-form textarea:focus {
   border-color: #1976d2;
   box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
 }
@@ -298,6 +272,35 @@
   width: 100%;
 }
 
+.view-panel.order-loading {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #263b50;
+  font-size: 13px;
+  cursor: progress;
+}
+
+.order-loading-spinner {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 3px solid #d4e1ed;
+  border-top-color: #0784c4;
+  border-radius: 50%;
+  animation: order-spin .8s linear infinite;
+}
+
+@keyframes order-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-loading-spinner { animation: none; }
+}
+
 :is(.description-editor, .resolution-editor):focus-within {
   border-color: #1976d2;
   box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
@@ -444,26 +447,6 @@
   color: #e2e8f0;
   overflow-x: auto;
   padding: 10px 12px;
-}
-
-.ql-content :where(.ql-align-center) {
-  text-align: center;
-}
-
-.ql-content :where(.ql-align-right) {
-  text-align: right;
-}
-
-.ql-content :where(.ql-align-justify) {
-  text-align: justify;
-}
-
-.ql-content :where(.ql-indent-1) {
-  padding-left: 3em;
-}
-
-.ql-content :where(.ql-indent-2) {
-  padding-left: 6em;
 }
 
 .timeline {

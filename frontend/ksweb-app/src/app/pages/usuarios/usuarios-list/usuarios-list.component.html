@@ -1,16 +1,15 @@
 <section class="usuarios-page">
-  <header class="page-header">
-    <div>
-      <h1>Usuarios</h1>
-    </div>
-    <app-ks-button  tamanho="small"  tipo="primary"  largura="140px"  (acao)="novo()">Novo</app-ks-button>
-  </header>
-
   @if (erro) {
     <div class="alert">{{ erro }}</div>
   }
 
   <div class="filters-panel">
+    <header class="page-header ks-section-title">
+      <div>
+        <h1>Usuarios</h1>
+      </div>
+    </header>
+
     <div class="filters-grid">
       <label>
         <span>Texto</span>
@@ -23,19 +22,20 @@
       </label>
     </div>
 
-    <div class="filters-actions">
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
-      <app-ks-button tamanho="small" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    <div class="filters-actions ks-search-actions">
+      <app-ks-button class="ks-create-button"  tamanho="small"  tipo="success"  (acao)="novo()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>Adicionar</app-ks-button>
+      <div class="ks-search-buttons">
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="atualizar()">Atualizar</app-ks-button>
+        <app-ks-button tamanho="small" (acao)="pesquisar()">Pesquisar</app-ks-button>
+      </div>
     </div>
   </div>
 
-    @if (carregando) {
-      <div class="state">Carregando usuarios...</div>
-    } @else {
 
-        <app-ks-table storageKey="usuarios" [rows]="items" emptyMessage="Nenhum usuario encontrado.">
-  <ng-template ksColumn="Codigo" field="usrCodigo" [minWidth]="120" let-usuario>
+        <app-ks-table [loading]="carregando" storageKey="usuarios" [rows]="items" emptyMessage="Nenhum usuario encontrado.">
+  <ng-template ksColumn="Codigo" field="usrCodigo" let-usuario>
     <div class="usuario-codigo">
                   @if (usuario.usrCodigo) {
                     {{ usuario.usrCodigo }}
@@ -44,23 +44,23 @@
                   }
                 </div>
   </ng-template>
-  <ng-template ksColumn="Nome" field="usrNome" [minWidth]="120" let-usuario>
+  <ng-template ksColumn="Nome" field="usrNome" let-usuario>
     <div class="usuario-nome">{{ usuario.usrNome || '-' }}</div>
   </ng-template>
-  <ng-template ksColumn="E-mail" field="usrEmail" [minWidth]="210" let-usuario>
+  <ng-template ksColumn="E-mail" field="usrEmail" let-usuario>
     <div class="usuario-email">{{ usuario.usrEmail || '-' }}</div>
   </ng-template>
-  <ng-template ksColumn="Nivel" field="usrNivel" [minWidth]="120" let-usuario>
+  <ng-template ksColumn="Nivel" field="usrNivel" let-usuario>
     <div>
                   <span class="nivel" [class]="nivelClasse(usuario.usrNivel)">
                     {{ usuario.usrNivel || '-' }}
                   </span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Setor/Fila" field="setor" [minWidth]="120" let-usuario>
+  <ng-template ksColumn="Setor/Fila" field="setor" let-usuario>
     <div class="usuario-setor">{{ usuario.setor || '-' }}</div>
   </ng-template>
-  <ng-template ksColumn="Queue ID" field="queueId" [minWidth]="120" let-usuario>
+  <ng-template ksColumn="Queue ID" field="queueId" let-usuario>
     <div class="usuario-queue">
                   @if (usuario.queueId) {
                     {{ usuario.queueId }}
@@ -69,14 +69,12 @@
                   }
                 </div>
   </ng-template>
-  <ng-template ksColumn="USER ID" field="userId" [minWidth]="120" let-usuario>
+  <ng-template ksColumn="USER ID" field="userId" let-usuario>
     <div class="usuario-user-id">{{ usuario.userId }}</div>
   </ng-template>
-  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-usuario>
+  <ng-template ksColumn="Editar" [width]="82" let-usuario>
     <app-ks-grid-action tipo="editar" [disabled]="!usuario.usrCodigo" (acao)="editar(usuario)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-
-    }
 
 </section>

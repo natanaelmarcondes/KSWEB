@@ -22,7 +22,6 @@
       <div class="panel-header">
         <div>
           <h2>{{ modoEdicao ? 'Editar item' : 'Adicionar item' }}</h2>
-          <p>Itens da daily</p>
         </div>
       </div>
 
@@ -72,29 +71,29 @@
       </div>
 
         <app-ks-table storageKey="daily-registros" [rows]="registros" emptyMessage="Nenhum item cadastrado.">
-  <ng-template ksColumn="Data" field="regData" [minWidth]="120" let-registro>
+  <ng-template ksColumn="Data" field="regData" let-registro>
     <div>{{ formatarData(registro.regData) }}</div>
   </ng-template>
-  <ng-template ksColumn="O.S." field="osId" [minWidth]="120" let-registro>
+  <ng-template ksColumn="O.S." field="osId" let-registro>
     <div>{{ registro.osId || '-' }}</div>
   </ng-template>
-  <ng-template ksColumn="Cliente" field="regCliente" [minWidth]="120" let-registro>
+  <ng-template ksColumn="Cliente" field="regCliente" let-registro>
     <div>{{ registro.regCliente || '-' }}</div>
   </ng-template>
-  <ng-template ksColumn="Descrição" field="regDescricao" [minWidth]="210" let-registro>
+  <ng-template ksColumn="Descrição" field="regDescricao" let-registro>
     <div class="descricao-cell" [title]="registro.regDescricao || '-'">
                   {{ registro.regDescricao || '-' }}
                 </div>
   </ng-template>
-  <ng-template ksColumn="Status" field="regStatus" [minWidth]="120" let-registro>
+  <ng-template ksColumn="Status" field="regStatus" let-registro>
     <div>
                   <span class="status-badge">{{ registro.regStatus || '-' }}</span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Excluir" [width]="82" [minWidth]="76" let-registro>
+  <ng-template ksColumn="Excluir" [width]="82" let-registro>
     <app-ks-grid-action tipo="excluir" [carregando]="excluindoId === registro.regId" (acao)="excluirRegistro(registro)"></app-ks-grid-action>
   </ng-template>
-  <ng-template ksColumn="Editar" [width]="82" [minWidth]="76" let-registro>
+  <ng-template ksColumn="Editar" [width]="82" let-registro>
     <app-ks-grid-action tipo="editar" (acao)="editarRegistro(registro)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>

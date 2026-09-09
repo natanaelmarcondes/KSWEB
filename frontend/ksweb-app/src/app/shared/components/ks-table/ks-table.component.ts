@@ -1,5 +1,5 @@
 import { createKsDatasource, KsPageLoader } from './ks-table-datasource';
-import { Component, Directive, Input, Output, EventEmitter, TemplateRef, ContentChildren, QueryList, AfterContentInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Directive, Input, Output, EventEmitter, TemplateRef, ContentChildren, QueryList, AfterContentInit, OnChanges, OnDestroy, signal, SimpleChanges } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { AgGridAngular, ICellRendererAngularComp } from 'ag-grid-angular';
 import { LocaleModule, ColumnApiModule, ColumnState, GridReadyEvent, ColumnMovedEvent, ColumnResizedEvent } from 'ag-grid-community';
@@ -9,7 +9,7 @@ import { PaginationModule, InfiniteRowModelModule, IDatasource, RowStyleModule, 
 export class KsColumnDirective {
   @Input() ksColumn = '';
   @Input() field = '';
-  @Input() minWidth = 120;
+  @Input() minWidth = 40;
   @Input() width?: number;
   constructor(readonly template: TemplateRef<unknown>) {}
 }
@@ -22,7 +22,9 @@ export class KsCellComponent implements ICellRendererAngularComp {
 }
 @Component({ selector: 'app-ks-table', standalone: true, imports: [AgGridAngular],
   templateUrl: './ks-table.component.html', styleUrl: './ks-table.component.css' })
-export class KsTableComponent implements AfterContentInit, OnChanges {
+export class KsTableComponent implements AfterContentInit, OnChanges, OnDestroy {
+  @Input() loading = false;
+  readonly remoteLoading = signal(false);
   @Input() rows: any[] = [];
   @Input() storageKey = '';
   private restoringColumns = false;
@@ -41,11 +43,20 @@ export class KsTableComponent implements AfterContentInit, OnChanges {
   readonly localeText = { pageSizeSelectorLabel: 'Linhas:', ariaPageSizeSelectorLabel: 'Linhas por página', page: 'Página', of: 'de', to: 'a', firstPage: 'Primeira página', lastPage: 'Última página', nextPage: 'Próxima página', previousPage: 'Página anterior', more: 'mais',  noRowsToShow: 'Nenhum registro encontrado.', equals: 'Igual a', notEqual: 'Diferente de', contains: 'Contém', notContains: 'Não contém', startsWith: 'Começa com', endsWith: 'Termina com', blank: 'Em branco', notBlank: 'Preenchido', filterOoo: 'Filtrar...', andCondition: 'E', orCondition: 'OU', lessThan: 'Menor que', greaterThan: 'Maior que', inRange: 'Entre', applyFilter: 'Aplicar', resetFilter: 'Limpar' };
   readonly getRowClass = (params: RowClassParams) => params.data?.lida === false ? 'nao-lida' : '';
   columnDefs: ColDef[] = [];
-  get height(): number { return this.loadPage ? 440 : Math.min(440, Math.max(220, this.rows.length * 38 + 100)); }
+  get height(): number {
+    const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 720;
+    const targetHeight = viewportHeight - 220;
+    return Math.max(320, Math.min(targetHeight, 560));
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['loadPage']) {
-      this.datasource = this.loadPage ? createKsDatasource(this.loadPage, () => this.loadError.emit()) : undefined;
+      this.datasource?.destroy?.();
+      this.remoteLoading.set(false);
+      this.datasource = this.loadPage ? createKsDatasource(this.loadPage, () => this.loadError.emit(), loading => this.remoteLoading.set(loading)) : undefined;
     }
+  }
+  ngOnDestroy(): void {
+    this.datasource?.destroy?.();
   }
   onRowClicked(event: RowClickedEvent): void {
     if (event.event?.target instanceof Element && event.event.target.closest('button, a, input, select')) return;

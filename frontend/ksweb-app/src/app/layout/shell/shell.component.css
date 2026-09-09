@@ -1,22 +1,21 @@
 :host { display: block; min-height: 100vh; font-family: Arial, Helvetica, sans-serif; }
 .app-shell { min-height: 100vh; background: #dceaff; }
-.topbar { height: 47px; position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(100deg,#007bb5,#51aae3); color: white; padding: 0 8px; }
+.topbar { height: 43px; position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(100deg,#007bb5,#51aae3); color: white; padding: 0 8px; }
 .topbar { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.4; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 .topbar-left,.topbar-right,.brand { display: flex; align-items: center; }
 .topbar-left { gap: 8px; }
 .brand { gap: 8px; color: white; text-decoration: none; font-size: 18px; }
 .brand strong { font-weight: 600; }
-.brand-mark { display: block; width: 34px; height: auto; flex-shrink: 0; border-radius: 7px; }
+.brand-mark { display: block; width: 28px; height: auto; flex-shrink: 0; border-radius: 7px; }
 .mobile-menu-button { display: flex; flex-direction: column; gap: 3px; background: transparent; border: 0; width: 31px; min-height: 32px; padding: 6px; }
 .mobile-menu-button span { width: 16px; height: 2px; background: white; }
 .topbar-user-card { padding: 0 12px; text-align: right; }
 .topbar-user-name { font-size: 14px; font-weight: 600; }
 .topbar-user-level { font-size: 12px; }
 .topbar-user-level strong { font-weight: normal; }
-.topbar-clock { font-size: 12px; font-variant-numeric: tabular-nums; padding: 8px 16px; border-left: 1px solid #ffffff40; }
 .topbar-logout { background: transparent; color: white; border: 0; border-left: 1px solid #ffffff40; border-radius: 0; min-height: 28px; padding: 0 13px; }
 .topbar-logout:hover,.mobile-menu-button:hover { background: #ffffff20; }
-.sidebar { position: fixed; top: 47px; bottom: 0; left: 0; width: 225px; z-index: 40; display: flex; flex-direction: column; background: white; border-right: 1px solid #e2ebf5; transition: transform .2s; }
+.sidebar { position: fixed; top: 43px; bottom: 0; left: 0; width: 225px; z-index: 40; display: flex; flex-direction: column; background: white; border-right: 1px solid #e2ebf5; transition: transform .2s; }
 .sidebar-nav { flex: 1; overflow: visible; padding: 0; }
 .menu-section { position: relative; }
 .menu-link,.menu-parent { display: flex; align-items: center; width: 100%; min-height: 46px; gap: 14px; padding: 10px 18px 10px 16px; background: transparent; border: 0; border-radius: 0; color: #0059c7; font-family: inherit; font-size: 14px; font-weight: normal; text-decoration: none; text-align: left; justify-content: flex-start; }
@@ -33,8 +32,8 @@
 .submenu-link { display: block; padding: 13px 18px; color: #356aab; font-size: 14px; text-decoration: none; overflow-wrap: anywhere; }
 .submenu-link.active { color: #0059c7; background: #e3f0ff; box-shadow: inset 3px 0 #0784c4; }
 .sidebar-bottom { border-top: 1px solid #dedede; display: grid; gap: 5px; text-align: center; padding: 7px 4px 5px; color: #305781; font-size: 10px; line-height: 1.3; }
-.content { padding-top: 47px; margin-left: 225px; min-width: 0; transition: margin-left .2s; }
-.main-content { padding: 18px; min-width: 0; }
+.content { padding-top: 43px; margin-left: 225px; min-width: 0; transition: margin-left .2s; }
+.main-content { padding: 18px 12px; min-width: 0; }
 .mobile-backdrop { display: none; }
 .menu-collapsed .sidebar { transform: translateX(-100%); }
 .menu-collapsed .content { margin-left: 0; }
@@ -42,15 +41,14 @@
  .sidebar { transform: translateX(-100%); }
  .content { margin-left: 0; }
  .mobile-menu-open .sidebar { transform: translateX(0); }
- .mobile-menu-open .mobile-backdrop { display: block; position: fixed; inset: 47px 0 0; width: 100%; height: calc(100vh - 47px); z-index: 35; background: #16365055; border: 0; border-radius: 0; }
- .main-content { padding: 12px; }
+ .mobile-menu-open .mobile-backdrop { display: block; position: fixed; inset: 43px 0 0; width: 100%; height: calc(100vh - 43px); z-index: 35; background: #16365055; border: 0; border-radius: 0; }
+ .main-content { padding: 12px 8px; }
 }
 @media(max-width: 520px) {
  .sidebar { width: 48vw; }
  .submenu { width: calc(52vw - 8px); }
  .menu-link,.menu-parent { gap: 8px; padding-left: 10px; padding-right: 12px; }
  .brand { font-size: 14px; gap: 4px; }
- .topbar-clock { display: none; }
  .topbar-user-card { padding: 0 6px; max-width: 140px; }
  .topbar-user-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
 }

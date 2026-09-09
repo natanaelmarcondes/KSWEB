@@ -1,3 +1,4 @@
+<div class="grid-container" [attr.aria-busy]="loading || remoteLoading()">
 <ag-grid-angular [style.height.px]="height" [modules]="modules" [theme]="theme" [rowData]="loadPage ? undefined : rows" [columnDefs]="columnDefs"
   [pagination]="true" [paginationPageSize]="paginationPageSize" [paginationPageSizeSelector]="paginationPageSizeSelector"
   [rowModelType]="loadPage ? 'infinite' : 'clientSide'" [datasource]="datasource" [cacheBlockSize]="cacheBlockSize" [maxBlocksInCache]="5"
@@ -5,3 +6,10 @@
   [overlayNoRowsTemplate]="'<span>' + emptyMessage + '</span>'"
   (gridReady)="restoreColumns($event)" (columnMoved)="saveColumns($event)" (columnResized)="saveColumns($event)"
   (rowClicked)="onRowClicked($event)" (cellKeyDown)="onKeyDown($event)" />
+@if (loading || remoteLoading()) {
+  <div class="grid-loading" role="status" aria-live="polite">
+    <span class="grid-spinner" aria-hidden="true"></span>
+    <span>Carregando dados...</span>
+  </div>
+}
+</div>

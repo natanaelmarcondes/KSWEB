@@ -1,18 +1,15 @@
 <section class="ordens-page">
-  <header class="page-header">
-    <div>
-      <h1>Ordens de servico</h1>
-      <span>Listagem operacional de O.S com filtros por status, pessoa e conteudo</span>
-    </div>
-
-    <app-ks-button tipo="primary" (acao)="novo()">Novo</app-ks-button>
-  </header>
-
   @if (erro) {
     <div class="alert">{{ erro }}</div>
   }
 
   <div class="filters-panel">
+    <header class="page-header ks-section-title">
+      <div>
+        <h1>Ordens de servico</h1>
+      </div>
+    </header>
+
     <div class="filters-grid">
       <label>
         <span>Numero</span>
@@ -88,55 +85,54 @@
       </label>
     </div>
 
-    <div class="filters-actions">
-      <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
-      <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">Pesquisar</app-ks-button>
+    <div class="filters-actions ks-search-actions">
+      <app-ks-button class="ks-create-button" tamanho="small" tipo="success" (acao)="novo()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>Adicionar</app-ks-button>
+      <div class="ks-search-buttons">
+        <app-ks-button tamanho="small" tipo="secondary" (acao)="limparFiltros()">Limpar</app-ks-button>
+        <app-ks-button tamanho="small" tipo="primary" (acao)="pesquisar()">Pesquisar</app-ks-button>
+      </div>
     </div>
   </div>
 
-    @if (carregando) {
-      <div class="state">Carregando ordens de servico...</div>
-    } @else {
 
-        <app-ks-table storageKey="ordens-servico" [loadPage]="loadPage" (loadError)="erro = 'Nao foi possivel carregar os registros. Tente atualizar.'" (rowAction)="abrir($event)" emptyMessage="Nenhuma O.S encontrada.">
-  <ng-template ksColumn="O.S" field="numeroOs" [minWidth]="120" let-ordem>
+        <app-ks-table [loading]="carregando" storageKey="ordens-servico" [loadPage]="loadPage" (loadError)="erro = 'Nao foi possivel carregar os registros. Tente atualizar.'" (rowAction)="abrir($event)" emptyMessage="Nenhuma O.S encontrada.">
+  <ng-template ksColumn="O.S" field="numeroOs" let-ordem>
     <div class="os-numero">{{ ordem.numeroOs }}</div>
   </ng-template>
-  <ng-template ksColumn="Título" field="titulo" [minWidth]="210" let-ordem>
+  <ng-template ksColumn="Título" field="titulo" let-ordem>
     <div class="os-titulo">
                   <button type="button" (click)="abrir(ordem); $event.stopPropagation()">
                     {{ ordem.titulo }}
                   </button>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Solicitante" field="solicitante" [minWidth]="120" let-ordem>
+  <ng-template ksColumn="Solicitante" field="solicitante" let-ordem>
     <div>{{ ordem.solicitante }}</div>
   </ng-template>
-  <ng-template ksColumn="Criado por" field="criadoPor" [minWidth]="120" let-ordem>
+  <ng-template ksColumn="Criado por" field="criadoPor" let-ordem>
     <div>{{ ordem.criadoPor }}</div>
   </ng-template>
-  <ng-template ksColumn="Responsável" field="responsavel" [minWidth]="120" let-ordem>
+  <ng-template ksColumn="Responsável" field="responsavel" let-ordem>
     <div>{{ ordem.responsavel }}</div>
   </ng-template>
-  <ng-template ksColumn="Setor" field="setor" [minWidth]="120" let-ordem>
+  <ng-template ksColumn="Setor" field="setor" let-ordem>
     <div>{{ ordem.setor }}</div>
   </ng-template>
-  <ng-template ksColumn="Status" field="statusNome" [minWidth]="120" let-ordem>
+  <ng-template ksColumn="Status" field="statusNome" let-ordem>
     <div>
                   <span class="status" [class]="statusClasse(ordem.statusNome)">
                     {{ ordem.statusNome || 'SEM STATUS' }}
                   </span>
                 </div>
   </ng-template>
-  <ng-template ksColumn="Criada em" field="criadoEmMs" [minWidth]="120" let-ordem>
+  <ng-template ksColumn="Criada em" field="criadoEmMs" let-ordem>
     <div class="os-data">{{ formatarData(ordem.criadoEmMs) }}</div>
   </ng-template>
-  <ng-template ksColumn="Visualizar" [width]="82" [minWidth]="76" let-ordem>
+  <ng-template ksColumn="Visualizar" [width]="82" let-ordem>
     <app-ks-grid-action tipo="visualizar" (acao)="abrir(ordem)"></app-ks-grid-action>
   </ng-template>
 </app-ks-table>
-
-    }
 
 </section>
 
